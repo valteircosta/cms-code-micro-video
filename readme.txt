@@ -4,6 +4,9 @@ iniciar e fechar o projeto
 docker-compose up -d
 docker-compose down
 =======================
+Ajuda
+php artisan  make:model --help
+
 Cria model, factory, migration, seeder e controller
 php artisan make:model Models/Category --all
 
