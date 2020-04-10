@@ -9,7 +9,8 @@ php artisan make:model Models/Category --all
 
 Roda seeder
 php artisan migrate --seed
+php artisan migrate:refresh --seed
 
 Usando tinker para consultas
 php artisan tinker
-
+\App\Models\Category::all();
