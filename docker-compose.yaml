@@ -9,6 +9,7 @@ services:
     container_name: micro-videos-app
     # Passando params para dockerize copy tamplate, aguarda conexão db e rodar script entrypoint.sh
     entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 60s ./.docker/entrypoint.sh
+    user: "${UID}:${GID}"
     ports:
       - "9000"
 
