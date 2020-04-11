@@ -32,5 +32,5 @@ class Genre extends Model
     protected $dates = ['deleted_at'];
     //Propriedade que faz o cast dos campos informado
     protected $casts = ['id' => 'string'];
-    protected $incrementing = false;
+    public $incrementing = false;
 }

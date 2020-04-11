@@ -42,5 +42,5 @@ class Category extends Model
     //Propriedade que faz o cast dos campos informado
     protected $casts = ['id' => 'string'];
     //Evita incremento do id
-    protected $incrementing = false;
+    public $incrementing = false;
 }

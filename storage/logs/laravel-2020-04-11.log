@@ -268,3 +268,7 @@ Did you mean one of these?
 #22 /var/www/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #23 {main}
 "} 
+[2020-04-11 02:21:01] local.ERROR: Access level to App\Models\Genre::$incrementing must be public (as in class Illuminate\Database\Eloquent\Model) {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Access level to App\\Models\\Genre::$incrementing must be public (as in class Illuminate\\Database\\Eloquent\\Model) at /var/www/app/Models/Genre.php:27)
+[stacktrace]
+#0 {main}
+"} 
