@@ -17,3 +17,25 @@ php artisan migrate:refresh --seed
 Usando tinker para consultas
 php artisan tinker
 \App\Models\Category::all();
+
+- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
+
+Test com PHP Unit
+Test unit => Testes focados em itens e comportamento da classe, sem levar em consideração sua interação com objetos do mundo exterior a ela.
+Test feature => Testes focados na interação da classe com outras classes.
+Criar
+php artisan make:test --help
+php artisan make:test CategoryTest --unit  => Teste Unit
+php artisan make:test CategoryTest         => Teste Feature
+
+Executanto testes
+vendor/bin/phpunit
+vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest
+vendor/bin/phpunit --filter CategoryTest::testExample => Testa apenas o método testExample da class CategoryTest
+vendor/bin/phpunit tests/Unit/CategoryTest.php => Passa path da classe
+vendor/bin/phpunit "tests\\Unit\\CategoryTest.php"  => Passa namespace
+
+Anotações sobre teste
+a) Sempre manter independência entre os ambiente (teste/develop/Produção), arquivos de variáveis, banco de dados , etc.
+    - Criando dbs vide arquivo inidb.sql
+- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
