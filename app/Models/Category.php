@@ -41,4 +41,6 @@ class Category extends Model
     protected $dates = ['deleted_at'];
     //Propriedade que faz o cast dos campos informado
     protected $casts = ['id' => 'string'];
+    //Evita incremento do id
+    protected $incrementing = false;
 }
