@@ -72,7 +72,6 @@ services:
       - ./.docker/database/config:/etc/mysql/conf.d:rw,cached
       - ./.docker/database/config:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_DATABASE=code_micro_videos
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=root
     networks:
