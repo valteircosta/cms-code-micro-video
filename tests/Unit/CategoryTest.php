@@ -3,8 +3,10 @@
 namespace Tests\Unit;
 
 use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\TestCase;
 use Route;
 
@@ -16,6 +18,7 @@ use Route;
 
 class CategoryTest extends TestCase
 {
+    use DatabaseMigrations;
     /**
      * A basic unit test example.
      *
@@ -39,6 +42,7 @@ class CategoryTest extends TestCase
     }
     public function testIfUseTraits()
     {
+        Genre::create(['name' => 'teste creating']);
         $traits = [
             SoftDeletes::class, Uuid::class
         ];

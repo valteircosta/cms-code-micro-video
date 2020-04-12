@@ -37,5 +37,7 @@ vendor/bin/phpunit "tests\\Unit\\CategoryTest.php"  => Passa namespace
 
 Anotações sobre teste
 a) Sempre manter independência entre os ambiente (teste/develop/Produção), arquivos de variáveis, banco de dados , etc.
-    - Criando dbs vide arquivo inidb.sql
+    - Criar dbs teste e produção com arquivo inidb.sql
+    - Criar variáveis no docker-compose.yaml para path BD e arquivo .env.testing " -template ./.docker/app/.env.testing:.env.testing"
+    - Comando "printenv" mostra as variaveis criadas no container
 - * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
