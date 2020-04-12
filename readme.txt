@@ -32,6 +32,7 @@ Executanto testes
 vendor/bin/phpunit
 vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest
 vendor/bin/phpunit --filter CategoryTest::testExample => Testa apenas o método testExample da class CategoryTest
+vendor/bin/phpunit --filter testExample tests/Unit/CategoryTest => Testa apenas o método testExample da class CategoryTest
 vendor/bin/phpunit tests/Unit/CategoryTest.php => Passa path da classe
 vendor/bin/phpunit "tests\\Unit\\CategoryTest.php"  => Passa namespace
 

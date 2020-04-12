@@ -19,6 +19,14 @@ use Route;
 class CategoryTest extends TestCase
 {
     use DatabaseMigrations;
+
+    private $category;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->category = new Category();
+    }
     /**
      * A basic unit test example.
      *
@@ -26,23 +34,22 @@ class CategoryTest extends TestCase
      */
     public function testIncrementing()
     {
-        $category = new Category();
-        $this->assertEquals(false, $category->incrementing);
+        $this->assertEquals(false, $this->category->incrementing);
     }
     public function testDates()
     {
         $dates = ['deleted_at', 'created_at', 'updated_at'];
-        $category = new Category();
         /**Testa item por item */
         foreach ($dates as $date) {
-            $this->assertContains($date, $category->getDates());
+            $this->assertContains($date, $this->category->getDates());
         }
         // Teste de quantidade de itens
-        $this->assertCount(count($dates), $category->getDates());
+        $this->assertCount(count($dates), $this->category->getDates());
     }
     public function testIfUseTraits()
     {
-        Genre::create(['name' => 'teste creating']);
+
+
         $traits = [
             SoftDeletes::class, Uuid::class
         ];
@@ -53,19 +60,18 @@ class CategoryTest extends TestCase
     public function testCasts()
     {
         $Casts = ['id' => 'string'];
-        $category = new Category();
         $this->assertEquals(
             $Casts,
-            $category->getCasts()
+            $this->category->getCasts()
         );
     }
     public function testFillable()
     {
+        Category::create(['name' => 'teste']);
         $fillable = ['name', 'description', 'is_active'];
-        $category = new Category();
         $this->assertEquals(
             $fillable,
-            $category->getfillable()
+            $this->category->getfillable()
         );
     }
 }
