@@ -1,12 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Category;
-use App\Models\Genre;
 use App\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use PHPUnit\Framework\TestCase;
 use Route;
 
@@ -18,15 +16,33 @@ use Route;
 
 class CategoryTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $category;
 
+    //Executado somente na criação da classe de teste
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+    }
     protected function setUp(): void
     {
         parent::setUp();
         $this->category = new Category();
     }
+
+    protected function tearDown(): void
+    {
+        // Executar operações antes dele acontecer
+        parent::tearDown();
+        // Executar operações após ele, já pode haver ocorrido erros
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+    }
+
+
+
     /**
      * A basic unit test example.
      *
@@ -67,7 +83,6 @@ class CategoryTest extends TestCase
     }
     public function testFillable()
     {
-        Category::create(['name' => 'teste']);
         $fillable = ['name', 'description', 'is_active'];
         $this->assertEquals(
             $fillable,

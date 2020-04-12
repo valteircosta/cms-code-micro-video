@@ -41,4 +41,9 @@ a) Sempre manter independência entre os ambiente (teste/develop/Produção), ar
     - Criar dbs teste e produção com arquivo inidb.sql
     - Criar variáveis no docker-compose.yaml para path BD e arquivo .env.testing " -template ./.docker/app/.env.testing:.env.testing"
     - Comando "printenv" mostra as variaveis criadas no container
+b) Methods uteis da classe TestCase
+    - setUp => Executado antes de cada method de teste ideal para configurar variáveis
+    - tearDown => Executado após cada teste ideal para limpar
+    - setUpBeforeClass => Executado na criação da classe um unica vez
+    - tearDownAfterClass => Executado na finalização da classe um unica vez
 - * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
