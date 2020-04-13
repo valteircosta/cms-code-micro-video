@@ -1,39 +1,43 @@
 Anotações referente ao projeto/estudos
-
-iniciar e fechar o projeto
-docker-compose up -d
+pumvisible() ? "
+" : "
+inici"pumvisible() ? "ar e fechar o projeto
+docker-compose up -d" : "
 docker-compose down
-=======================
-Ajuda
-php artisan  make:model --help
+docker-compose exec --user=1000 app bash         
 
-Cria model, factory, migration, seeder e controller
-php artisan make:model Models/Category --all
-
-Roda seeder
-php artisan migrate --seed
-php artisan migrate:refresh --seed
-
-Usando tinker para consultas
-php artisan tinker
-\App\Models\Category::all();
-
-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
-
-Test com PHP Unit
-Test unit => Testes focados em itens e comportamento da classe, sem levar em consideração sua interação com objetos do mundo exterior a ela.
-Test feature => Testes focados na interação da classe com outras classes.
-Criar
-php artisan make:test --help
-php artisan make:test CategoryTest --unit  => Teste Unit
-php artisan make:test CategoryTest         => Teste Feature
-
-Executanto testes
-vendor/bin/phpunit
-vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest
-vendor/bin/phpunit --filter CategoryTest::testExample => Testa apenas o método testExample da class CategoryTest
-vendor/bin/phpunit --filter testExample tests/Unit/CategoryTest => Testa apenas o método testExample da class CategoryTest
-vendor/bin/phpunit tests/Unit/CategoryTest.php => Passa path da classe
+====================== 
+pumvisible() ? "
+Ajuda"pumvisible()" : " ? "
+php artisan  make:model"pumvisible() ? " --help
+" : "
+Cria "pumvisible() ? "model, factory, migration, seeder e controller
+php artisan make:model" : " Models/Category --all
+"pumvisible() ? "
+Roda seeder" : "
+php artisan migr"pumvisible() ? "ate --seed
+php artisan migrate:refresh --see" : "d
+"pumvisible() ? ""
+Usando tinker par" : "a consultas" : "
+php artisan tinker"pumvisible() ? ""pumvisible() ? "
+\App\Models\Category::all();" : "" : "
+"pumvisible() ? ""pumvisible() ? "
+- * -- * -- * -- " : "* -- * -- * " : "-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
+"pumvisible() ? ""pumvisible() ? "
+Test com PHP Unit" : "" : "
+Test unit => Testes fo"pumvisible() ? "cados"pumvisible() ? " em itens e comportamento da classe, sem levar em consideração sua interação com objetos do mundo exterior a ela.
+Test feature => Testes focados na inter" : "" : "ação da classe com outras classes.
+Criar"pumvisible() ? ""pumvisible() ? "
+php artisan make:test " : "--help" : "
+php artisan make:test Categ"pumvisible("pumvisible() ? ") ? "oryTest --unit  => Teste Unit
+php artisan make:test CategoryTest" : "         =" : "> Teste Feature
+"pumvisible() ? ""pumvisible() ? "
+Executanto testes" : "" : "
+vendor/bin/phpunit"pumvisible() ? ""pumvisible() ? "
+vendor/bin/phpunit --filter Categor" : "yTest => Testa apenas CategoryTest" : "
+vendor/bin/phpunit --filter CategoryTest"pumvisible() ? "::testExample => Testa apen"pumvisible() ? "as o método testExample da class CategoryTest
+vendor/bin/phpunit --filter testExample tests/Unit/Catego" : "ryTest => Testa a" : "penas o método testExample da class CategoryTest
+vendor/bin/phpunit tests/Unit/CategoryTest.php => Passa path d"pumvisible() ? "a classe
 vendor/bin/phpunit "tests\\Unit\\CategoryTest.php"  => Passa namespace
 
 Anotações sobre teste
