@@ -33,8 +33,16 @@ class CategoryTest extends TestCase
     /** @test */
     public function testCreate()
     {
+
+        /**
+         *  Devolve somente registro
+         *
+         */
+
         $category = Category::create(['name' => 'teste1']);
         $category->refresh();
+
+        $this->assertEquals(36, strlen($category->id));
         $this->assertEquals('teste1', $category->name);
         $this->assertNull($category->description);
         $this->assertTrue($category->is_active);
@@ -50,5 +58,37 @@ class CategoryTest extends TestCase
 
         $category = Category::create(['name' => 'teste1', 'is_active' => false]);
         $this->assertFalse($category->is_active);
+    }
+
+    public function testUpdate()
+    {
+        /** @var Category $category */
+        $category = factory(Category::class)->create(
+            [
+                'description' => 'test_descripition',
+                'is_active' => true
+            ]
+        )->first();
+        $data = [
+            'name' => 'test_name_updated',
+            'description' => 'test_description_updated',
+            'is_active' => false
+        ];
+        $category->update($data);
+
+        foreach ($data as $key => $value) {
+            $this->assertEquals($value, $category->{$key});
+        }
+    }
+    /** @test */
+    public function testDelete()
+    {
+
+        /** @var Category $category */
+        $category = factory(Category::class)->create();
+        $category->delete();
+        $this->assertNull($category->find($category->id));
+        $category->restore();
+        $this->assertNotNull($category->find($category->id));
     }
 }
