@@ -1,4 +1,12 @@
 Anotações referente ao projeto/estudos
+-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
+GPC - Google Plataform Cloud
+1) Adicionar as imagens que não são disponibilizadas por padrão no container registry
+Exemplo execução do trigger default-push-trigger-docker-compose.
+Repositório valteircosta/cloud-build-docker-compose   onde tem um Dockerfile
+As imagens ficam no Container registry do GCP
+
+-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
 iniciar e fechar o projeto
 docker-compose up -d
 docker-compose down
@@ -18,8 +26,8 @@ php artisan migrate:refresh --seed
 Usando tinker para consultas
 php artisan tinker
 \App\Models\Category::all();
--- * -- " : "* -- * -- * " : "-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
-Test com PHP Unit" : "" : "
+-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
+Test com PHP Unit
 Test unit => Testes focados em itens e comportamento da classe, sem levar em consideração sua interação com objetos do mundo exterior a ela.
 Test feature => Testes focados na interação da classe com outras classes.
 Criar
@@ -28,7 +36,7 @@ php artisan make:test CategoryTest --unit  => Teste Unit
 php artisan make:test CategoryTest Teste Feature
 Executanto testes
 vendor/bin/phpunit
-vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest" : "
+vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest
 vendor/bin/phpunit --filter CategoryTest::testExample => Testa apenas o método testExample da class CategoryTest
 vendor/bin/phpunit --filter testExample tests/Unit/CategoryTest => Testa apenas o método testExample da class CategoryTest
 vendor/bin/phpunit tests/Unit/CategoryTest.php => Passa path da classe
