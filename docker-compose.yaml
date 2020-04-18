@@ -7,18 +7,19 @@ services:
     # Indica ao caminho do arquivo de construção Dockerfile
     build: .
     container_name: micro-videos-app
-    # Passando params para dockerize copy tamplate, aguarda conexão db e rodar script entrypoint.sh
-    entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 60s ./.docker/entrypoint.sh
     user: "${UID}:${GID}"
+    # Passando params para dockerize rodar script entrypoint.sh
+    entrypoint: ./.docker/entrypoint.sh
     ports:
       - "9000"
 
     # valor da variáveis p/ template
     environment:
-      - DB_HOST=db
-      - DB_DATABASE=code_micro_videos
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
+      - _DB_HOST=db
+      - _DB_DATABASE=code_micro_videos
+      - _DB_USERNAME=root
+      - _DB_PASSWORD=root
+      - _TEST_DB_DATABASE=code_micro_videos_test
     volumes:
       - .:/var/www:rw,cached
       - ./.docker/app/log:/var/log:rw,cached
@@ -35,6 +36,7 @@ services:
     build: .docker/nginx
     # Nome do container
     container_name: micro-videos-nginx
+    user: "${UID}:${GID}"
     # Passa configuração  e faz teste de conexão para com o app
     entrypoint: dockerize -template ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf  -wait tcp://app:9000 nginx -g "daemon off;"
     # Reiniciar caso o container cair
@@ -61,6 +63,7 @@ services:
     # Comando que evita erros (Se não usar é muito choro e ranger de dentes para o programador)
     command: --innodb-use-native-aio=0
     container_name: micro-videos-db
+    user: "${UID}:${GID}"
     restart: always
     tty: true
     ports:
@@ -70,8 +73,8 @@ services:
       - ./.docker/database/dumps:/dumps:rw,cached
       - ./.docker/database/data:/var/lib/mysql:rw,cached
       - ./.docker/database/config:/etc/mysql/conf.d:rw,cached
+      - ./.docker/database/config:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_DATABASE=code_micro_videos
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=root
     networks:

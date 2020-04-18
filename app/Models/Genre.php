@@ -31,6 +31,6 @@ class Genre extends Model
     protected $fillable = ['name', 'is_active'];
     protected $dates = ['deleted_at'];
     //Propriedade que faz o cast dos campos informado
-    protected $casts = ['id' => 'string'];
+    protected $casts = ['id' => 'string', 'is_active' => 'boolean'];
     public $incrementing = false;
 }

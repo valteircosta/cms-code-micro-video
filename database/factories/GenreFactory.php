@@ -7,7 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Genre::class, function (Faker $faker) {
     return [
-        'name' => $faker->country,
-        'description' => rand(1, 10) % 2 == 0 ? $faker->sentence() : null
+        'name' => $faker->country
     ];
 });
