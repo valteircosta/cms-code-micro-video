@@ -6,10 +6,10 @@ composer install
 echo "Instalando dependencias node....."
 npm install
 
-echo "Copiando .env da aplicacao..."
-dockerize -template ./.docker/app/.env:.env
-dockerize -template ./.docker/app/.env.testing:.env.testing
-echo "Aguardando conexao com o banco de dados..."
+echo "copiando .env da aplicacao..."
+cp .env.example .env
+cp .env.testing.example .env.testing
+
 dockerize -wait tcp://db:3306 -timeout 60
 
 echo "Concede permissão na pasta....."
