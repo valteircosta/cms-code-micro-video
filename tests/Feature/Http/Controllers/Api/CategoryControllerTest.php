@@ -48,6 +48,7 @@ class CategoryControllerTest extends TestCase
             ]
         );
         $this->assertInvalidationMax($response);
+        $this->assertInvalidationBoolean($response);
 
         //Make request for put
         $category = factory(Category::class)->create();
@@ -68,6 +69,7 @@ class CategoryControllerTest extends TestCase
 
         );
         $this->assertInvalidationMax($response);
+        $this->assertInvalidationBoolean($response);
     }
     //Not use prefix test in helper methods
     private function assertInvalidationRequired(TestResponse $response)
@@ -87,7 +89,14 @@ class CategoryControllerTest extends TestCase
             ->assertJsonValidationErrors(['name'])
             ->assertJsonFragment([
                 \Lang::get('validation.max.string', ['attribute' => 'name', 'max' => 255])
-            ])
+            ]);
+    }
+
+    private function assertInvalidationBoolean(TestResponse $response)
+    {
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['is_active'])
             ->assertJsonFragment([
                 //O char undescore _ volta # is_active => is active
                 \Lang::get('validation.boolean', ['attribute' => 'is active'])
