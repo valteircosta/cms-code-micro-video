@@ -51,8 +51,7 @@ services:
     # Volume do banco de dados
     volumes:
       - ./.docker/db/mysql:/var/lib/mysql
-      - ./.docker/db/mysql:/var/lib/mysql
-      - ./.docker/database/config:/docker-entrypoint-initdb.d
+      - ./.docker/db/mysql:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=root
