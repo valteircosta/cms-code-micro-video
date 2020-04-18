@@ -20,10 +20,16 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        /** Faz validaçã */
+        /** Faz validação */
         $this->validate($request, $this->rules);
         /** Deve liberar inclusão em massa */
-        return Category::create($request->all());
+        $category =       Category::create($request->all());
+        /**
+         * Faz o refresh para pegar todos campos pois o eloquent traz apenas os que
+         * foram utilizado na operação
+         */
+        $category->refresh();
+        return $category;
     }
 
     public function show(Category $category)
