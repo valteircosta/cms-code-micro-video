@@ -5,7 +5,9 @@ namespace Tests\Feature\Http\Controllers\Api;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\WithFaker;
+use phpDocumentor\Reflection\Types\This;
 use Route;
 use Tests\TestCase;
 
@@ -34,41 +36,23 @@ class CategoryControllerTest extends TestCase
     public function testInvalidationData()
     {
 
+        //Make request POST
         $response = $this->json('POST', route('categories.store'), []);
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['name'])
-            ->assertJsonMissingValidationErrors(['is_active']) // Field is_active não está presente
-            ->assertJsonFragment([
-                \Lang::get('validation.required', ['attribute' => 'name'])
-            ]);
-
-        //Make request
-        $response = $this->json('POST', route('categories.store'), [
-            'name' => str_repeat('a', 266),
-            'is_active' => 'a'
-        ]);
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['name'])
-            ->assertJsonFragment([
-                \Lang::get('validation.max.string', ['attribute' => 'name', 'max' => 255])
-            ])
-            ->assertJsonFragment([
-                //O char undescore _ volta # is_active => is active
-                \Lang::get('validation.boolean', ['attribute' => 'is active'])
-            ]);
+        $this->assertInvalidationRequired($response);
+        $response = $this->json(
+            'POST',
+            route('categories.store'),
+            [
+                'name' => str_repeat('a', 266),
+                'is_active' => 'a'
+            ]
+        );
+        $this->assertInvalidationMax($response);
 
         //Make request for put
         $category = factory(Category::class)->create();
         $response = $this->json('PUT', route('categories.update', ['category' => $category->id], []));
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['name'])
-            ->assertJsonMissingValidationErrors(['is_active']) // Field is_active não está presente
-            ->assertJsonFragment([
-                \Lang::get('validation.required', ['attribute' => 'name'])
-            ]);
+        $this->assertInvalidationRequired($response);
 
         //Params for PUT
         $response = $this->json(
@@ -83,11 +67,24 @@ class CategoryControllerTest extends TestCase
             ]
 
         );
-
+        $this->assertInvalidationMax($response);
+    }
+    //Not use prefix test in helper methods
+    private function assertInvalidationRequired(TestResponse $response)
+    {
         $response
             ->assertStatus(422)
             ->assertJsonValidationErrors(['name'])
-            ->assertJsonMissingValidationErrors(['is active']) // Field is_active não está presente
+            ->assertJsonMissingValidationErrors(['is_active']) // Field is_active não está presente
+            ->assertJsonFragment([
+                \Lang::get('validation.required', ['attribute' => 'name'])
+            ]);
+    }
+    private function assertInvalidationMax(TestResponse $response)
+    {
+        $response
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['name'])
             ->assertJsonFragment([
                 \Lang::get('validation.max.string', ['attribute' => 'name', 'max' => 255])
             ])
