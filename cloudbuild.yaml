@@ -8,14 +8,14 @@ steps:
     # docker-compose-cloudbuild.yam -> nome do arquivo
     # up -> comando para subir container
     # -d -> container em modo daemon
-    args: ["-f", "docker-compose.cloudbuild.yaml", "up", "-d"]
+    args: ["-f", "docker-compose.prod.yaml", "up", "-d"]
 
-  - id: "Rodando docker ps"
-    # Informa o comando que será executado.
-    # Atenção para para o nome da imagem utilizada
-    name: "gcr.io/cloud-builders/docker"
-    # Passa os argumentos para execução do docker
-    args: ["ps"]
+  # - id: "Rodando docker ps"
+  #   # Informa o comando que será executado.
+  #   # Atenção para para o nome da imagem utilizada
+  #   name: "gcr.io/cloud-builders/docker"
+  #   # Passa os argumentos para execução do docker
+  #   args: ["ps"]
 
   - id: "Rodando composer"
     # Arquitetura de um comando usado
@@ -32,6 +32,10 @@ steps:
   - id: "Copiando arquivo .env"
     name: "gcr.io/cloud-builders/docker"
     args: ["exec", "-t", "app", "cp", ".env.example", ".env"]
+
+  - id: "Copiando arquivo .env.testing"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["exec", "-t", "app", "cp", ".env.testing.example", ".env.testing"]
 
   - id: "Rodando key:generate"
     name: "gcr.io/cloud-builders/docker"
