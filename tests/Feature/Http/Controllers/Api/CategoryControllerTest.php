@@ -102,7 +102,7 @@ class CategoryControllerTest extends TestCase
                 \Lang::get('validation.boolean', ['attribute' => 'is active'])
             ]);
     }
-    /** @test */
+    /** @testStore */
     public function testStore()
     {
 
@@ -139,5 +139,72 @@ class CategoryControllerTest extends TestCase
                     'is_active' => false
                 ]
             );
+    }
+
+    public function testUpdate()
+    {
+
+        $category = factory(Category::class)->create(
+            [
+                'description' => 'description',
+                'is_active' => false
+            ]
+        );
+
+        $response = $this->json(
+            'PUT',
+            route('categories.update', ['category' => $category->id]),
+            [
+                'name' => 'test',
+                'description' => 'test',
+                'is_active' => true,
+            ]
+        );
+
+        $id = $response->json('id');
+        $category = Category::find($id);
+        $response
+            ->assertStatus(200)
+            ->assertJson($category->toArray());
+        $response->assertJsonFragment(
+            [
+                'description' => 'test',
+                'is_active' => true,
+            ]
+        );
+
+        $response = $this->json(
+            'PUT',
+            route('categories.update', ['category' => $category->id]),
+            [
+                'name' => 'test',
+                'description' => '',
+            ]
+        );
+        $response->assertJsonFragment(
+
+            [
+                'description' => null,
+            ]
+        );
+
+        // test null
+        $category->description = 'test';
+        $category->save();
+
+        $response = $this->json(
+            'PUT',
+            route('categories.update', ['category' => $category->id]),
+            [
+                'name' => 'test',
+                'description' => null,
+            ]
+        );
+        $response->assertJsonFragment(
+
+            [
+                'description' => null,
+            ]
+        );
     }
 }
