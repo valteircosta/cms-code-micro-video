@@ -43,7 +43,7 @@ steps:
 
   - id: "Rodando migrate e artisan"
     name: "gcr.io/cloud-builders/docker"
-    args: ["exec", "-t", "app", "php", "/var/www/artisan", "migrate"]
+    args: ["exec", "-t", "app", "php", "/var/www/artisan", "migrate", "-v"]
 
   - id: "Rodando PhpUnit"
     name: "gcr.io/cloud-builders/docker"
