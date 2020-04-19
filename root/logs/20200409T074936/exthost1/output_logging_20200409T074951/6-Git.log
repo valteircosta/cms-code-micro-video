@@ -1,0 +1,50 @@
+Looking for git in: git
+Using git 2.20.1 from git
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+Open repository: /home/valteir/code/estudo/code-education/curso-microservices/sources/cms-code-micro-video
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse develop
+> git rev-parse --symbolic-full-name develop@{u}
+> git rev-list --left-right develop...refs/remotes/origin/develop
+> git check-ignore -v -z --stdin
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git config --global user.email
+> git config --global user.name
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse develop
+> git rev-parse --symbolic-full-name develop@{u}
+> git rev-list --left-right develop...refs/remotes/origin/develop
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git show -s --format=%an <%ae> [%ai] cab4515063fc6afef56cea3db37dabf7a96ef52c
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git show -s --format=%H%n%aN%n%aE%n%at%n%ct%n%P%n%B -z cab4515063fc6afef56cea3db37dabf7a96ef52c
+> git rev-parse develop
+> git show -s --format=%an <%ae> [%ai] 8d6afb0313d676ff02dafc27132a44ac65b7871e
+> git rev-parse --symbolic-full-name develop@{u}
+> git show -s --format=%H%n%aN%n%aE%n%at%n%ct%n%P%n%B -z 8d6afb0313d676ff02dafc27132a44ac65b7871e
+> git rev-list --left-right develop...refs/remotes/origin/develop
+> git show -s --format=%an <%ae> [%ai] 88cc2aa61f066e073e437c1fd024afa870858c36
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show -s --format=%H%n%aN%n%aE%n%at%n%ct%n%P%n%B -z 88cc2aa61f066e073e437c1fd024afa870858c36
+> git config --get commit.template
+> git show -s --format=%an <%ae> [%ai] 26164947ac4d12a0df9260f24c934c1a2a309f58
+> git show -s --format=%H%n%aN%n%aE%n%at%n%ct%n%P%n%B -z 26164947ac4d12a0df9260f24c934c1a2a309f58
+> git show -s --format=%an <%ae> [%ai] 99dca9f6068c845fe46df90400d79fcb2a2eaebd
+> git show -s --format=%H%n%aN%n%aE%n%at%n%ct%n%P%n%B -z 99dca9f6068c845fe46df90400d79fcb2a2eaebd
+> git check-ignore -v -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse develop
+> git rev-parse --symbolic-full-name develop@{u}
+> git rev-list --left-right develop...refs/remotes/origin/develop
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
