@@ -8,7 +8,7 @@ steps:
     # docker-compose-cloudbuild.yam -> nome do arquivo
     # up -> comando para subir container
     # -d -> container em modo daemon
-    args: ["-f", "docker-compose.yaml", "up", "-d"]
+    args: ["-f", "docker-compose-prod.yaml", "up", "-d"]
 
   # - id: "Rodando docker ps"
   #   # Informa o comando que será executado.
