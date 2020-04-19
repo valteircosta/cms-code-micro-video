@@ -7,7 +7,7 @@ services:
     build: .
     container_name: app
     # Passando params para dockerize copy tamplate, aguarda conexão db e rodar script entrupoint.sh
-    entrypoint: ./.docker/entrypoint.sh
+    # entrypoint: ./.docker/entrypoint.sh
     # valor da variáveis p/ template
     # environment:
     #   - DB_HOST=db
