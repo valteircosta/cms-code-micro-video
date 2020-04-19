@@ -10,7 +10,7 @@ echo "copiando .env da aplicacao..."
 cp .env.example .env
 cp .env.testing.example .env.testing
 
-dockerize -wait tcp://db:3306 -timeout 60
+dockerize -wait tcp://db:3306 -timeout 60s
 
 echo "Concede permissão na pasta....."
 find storage bootstrap/cache public -type f -exec chmod o+w {} \;
