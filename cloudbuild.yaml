@@ -10,12 +10,12 @@ steps:
     # -d -> container em modo daemon
     args: ["-f", "docker-compose-prod.yaml", "up", "-d"]
 
-  # - id: "Rodando docker ps"
-  #   # Informa o comando que será executado.
-  #   # Atenção para para o nome da imagem utilizada
-  #   name: "gcr.io/cloud-builders/docker"
-  #   # Passa os argumentos para execução do docker
-  #   args: ["ps"]
+  - id: "Rodando docker ps"
+    # Informa o comando que será executado.
+    # Atenção para para o nome da imagem utilizada
+    name: "gcr.io/cloud-builders/docker"
+    # Passa os argumentos para execução do docker
+    args: ["ps"]
 
   - id: "Rodando composer"
     # Arquitetura de um comando usado
