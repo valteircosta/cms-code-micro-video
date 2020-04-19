@@ -5,7 +5,7 @@ steps:
     name: "gcr.io/$PROJECT_ID/docker-compose:1.24.0"
     # Passa os argumentos para execução do docker
     # -f -> vai inforar nome do arquivo docker-compos.yaml
-    # docker-compose-cloudbuild.yam -> nome do arquivo
+    # docker-compose-prod.yam -> nome do arquivo
     # up -> comando para subir container
     # -d -> container em modo daemon
     args: ["-f", "docker-compose-prod.yaml", "up", "-d"]
