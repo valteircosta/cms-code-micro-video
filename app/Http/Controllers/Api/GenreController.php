@@ -23,7 +23,9 @@ class GenreController extends Controller
         /** Faz validaçã */
         $this->validate($request, $this->rules);
         /** Deve liberar inclusão em massa */
-        return Genre::create($request->all());
+        $genre = Genre::create($request->all());
+        $genre->refresh();
+        return $genre;
     }
 
     public function show(Genre $genre)
