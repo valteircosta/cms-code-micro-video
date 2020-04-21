@@ -16,6 +16,10 @@ trait TestSaves
         }
         $model = $this->model();
         $table = (new $model)->getTable();
-        $this->assertDatabaseHas($table, $testData);
+        $this->assertDatabaseHas(
+            $table,
+            $testData +
+                ['id' => $response->json('id')]
+        );
     }
 }
