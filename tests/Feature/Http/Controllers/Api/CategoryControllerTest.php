@@ -10,12 +10,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use phpDocumentor\Reflection\Types\This;
 use Route;
 use Tests\TestCase;
+use Tests\Traits\TestValidations;
 
 class CategoryControllerTest extends TestCase
 
 {
     //Sempre usar esta trait em teste com banco de dados
-    use DatabaseMigrations;
+    use DatabaseMigrations, TestValidations;
     public function testIndex()
     {
         $category = factory(Category::class)->create();
@@ -74,13 +75,9 @@ class CategoryControllerTest extends TestCase
     //Not use prefix test in helper methods
     private function assertInvalidationRequired(TestResponse $response)
     {
-        $response
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['name'])
-            ->assertJsonMissingValidationErrors(['is_active']) // Field is_active não está presente
-            ->assertJsonFragment([
-                \Lang::get('validation.required', ['attribute' => 'name'])
-            ]);
+        // Chama a traits de validação
+        $this->assertValidationFields($response, ['name'], 'required', []);
+        $response->assertJsonMissingValidationErrors(['is_active']); // Field is_active não está presente
     }
     private function assertInvalidationMax(TestResponse $response)
     {
