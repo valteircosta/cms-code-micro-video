@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\TestResponse;
 
 trait TestSaves
 {
-    protected  function assertStore($sendData, $testData)
+    protected  function assertStore(array $sendData, array $testDatabase, array $testJsonData = null)
     {
         /** @var TestResponse $response */
 
@@ -18,8 +18,12 @@ trait TestSaves
         $table = (new $model)->getTable();
         $this->assertDatabaseHas(
             $table,
-            $testData +
-                ['id' => $response->json('id')]
+            $testDatabase + ['id' => $response->json('id')]
         );
+        $testResponse = $testJsonData ?? $testDatabase;
+        $response->assertJsonFragment(
+            $testResponse + ['id' => $response->json('id')]
+        );
+        return $response;
     }
 }

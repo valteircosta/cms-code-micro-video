@@ -64,45 +64,26 @@ class CategoryControllerTest extends TestCase
             'name' => 'test'
         ];
 
-        $testData = $data + [
+        $testDatabase = $data + [
             'description' => null,
             'is_active' => true,
+            'deleted_at' => null,
         ];
 
-        $this->assertStore($data, $testData);
-        // $response = $this->json(
-        //     'POST',
-        //     route('categories.store'),
-        //     [
-        //         'name' => 'test'
-        //     ]
-        // );
-        // $id = $response->json('id');
-        // $category = Category::find($id);
-        // $response
-        //     ->assertStatus(201)
-        //     ->assertJson($category->toArray());
-
-        // $this->assertTrue($response->json('is_active'));
-        // $this->assertNull($response->json('description'));
-
-        // $response = $this->json(
-        //     'POST',
-        //     route('categories.store'),
-        //     [
-        //         'name' => 'test',
-        //         'description' => 'description',
-        //         'is_active' => false
-        //     ]
-        // );
-
-        // $response
-        //     ->assertJsonFragment(
-        //         [
-        //             'description' => 'description',
-        //             'is_active' => false
-        //         ]
-        //     );
+        $testJsonData = $data + [
+            'description' => null,
+            'is_active' => true,
+            'deleted_at' => null,
+        ];
+        $response = $this->assertStore($data, $testDatabase, $testJsonData);
+        $response->assertJsonStructure(['deleted_at', 'created_at']);
+        $data =    [
+            'name' => 'test',
+            'description' => 'description',
+            'is_active' => false,
+        ];
+        $testDatabase = $data;
+        $this->assertStore($data, $testDatabase);
     }
 
     public function testUpdate()
