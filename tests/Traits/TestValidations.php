@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Tests\Traits;
 
 use Illuminate\Foundation\Testing\TestResponse;
+use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 
 trait TestValidations
 {
+    protected abstract function model();
+    protected abstract function routeStore();
+    protected abstract function routeUpdate();
+
     protected  function assertInvalidationInStoreAction(
         array $data,
         string $rule,
