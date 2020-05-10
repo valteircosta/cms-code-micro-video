@@ -17,8 +17,14 @@ abstract class BasicCrudController extends Controller
     public function store(Request $request)
     {
         /** Faz validação */
-        $this->validate($request, $this->rulesStore());
+        /** Faz filtro para somente usar campos fillAble */
+        $validatedData =  $this->validate($request, $this->rulesStore());
+        $obj = $this->model()::create($validatedData);
+        /** Refresh pega todos campos usados na operação */
+        $obj->refresh();
+        return $obj;
     }
+
     // public function store(Request $request)
     // {
     //     /** Faz validação */
