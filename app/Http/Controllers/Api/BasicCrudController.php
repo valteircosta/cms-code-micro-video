@@ -24,6 +24,13 @@ abstract class BasicCrudController extends Controller
         $obj->refresh();
         return $obj;
     }
+    protected function findOrFail($id)
+    {
+        $model = $this->model();
+        /** Obtem a coluna usada no where */
+        $keyName = (new $model)->getRouteKeyName();
+        return $this->model()::where($keyName, $id)->firstOrFail();
+    }
 
     // public function store(Request $request)
     // {
