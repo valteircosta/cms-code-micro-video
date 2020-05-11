@@ -9,6 +9,7 @@ abstract class BasicCrudController extends Controller
 {
     protected abstract function model();
     protected abstract function rulesStore();
+    protected abstract function rulesUpdate();
 
     public function index()
     {
@@ -32,36 +33,25 @@ abstract class BasicCrudController extends Controller
         return $this->model()::where($keyName, $id)->firstOrFail();
     }
 
-    // public function store(Request $request)
-    // {
-    //     /** Faz validação */
-    //     $this->validate($request, $this->rules);
-    //     /** Deve liberar inclusão em massa */
-    //     $category =       Category::create($request->all());
-    //     /**
-    //      * Faz o refresh para pegar todos campos pois o eloquent traz apenas os que
-    //      * foram utilizado na operação
-    //      */
-    //     $category->refresh();
-    //     return $category;
-    // }
+    public function show($id)
+    {
+        $obj = $this->findOrFail($id);
+        return $obj;
+    }
 
-    // public function show(Category $category)
-    // {
-    //     return $category;
-    // }
+    public function update(Request $request, $id)
+    {
 
-    // public function update(Request $request, Category $category)
-    // {
+        $obj = $this->findOrFail($id);
+        $validatedData =  $this->validate($request, $this->rulesStore());
+        $obj->update($validatedData);
+        return $obj;
+    }
 
-    //     $this->validate($request, $this->rules);
-    //     $category->update($request->all());
-    //     return $category;
-    // }
-
-    // public function destroy(Category $category)
-    // {
-    //     $category->delete();
-    //     return response()->noContent(); //204
-    // }
+    public function destroy($id)
+    {
+        $obj = $this->findOrFail($id);
+        $obj->delete();
+        return response()->noContent(); //204
+    }
 }

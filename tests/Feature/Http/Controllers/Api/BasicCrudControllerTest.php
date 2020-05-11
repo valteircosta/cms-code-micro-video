@@ -73,4 +73,11 @@ class BasicCrudControllerTest extends TestCase
         $result = $reflectionMethod->invokeArgs($this->controller, [0]);
         $this->assertInstanceOf(CategoryStub::class, $result);
     }
+    public function testShow()
+    {
+        /** @var CategoryStub $category */
+        $category = CategoryStub::create(['name' => 'test_name', 'description' => 'test_description']);
+        $result = $this->controller->show($category->id);
+        $this->assertEquals($result->toArray(), CategoryStub::find(1)->toArray());
+    }
 }
