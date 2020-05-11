@@ -80,4 +80,19 @@ class BasicCrudControllerTest extends TestCase
         $result = $this->controller->show($category->id);
         $this->assertEquals($result->toArray(), CategoryStub::find(1)->toArray());
     }
+    public function testUpdate()
+    {
+        /** @var CategoryStub $category */
+        $category = CategoryStub::create(['name' => 'test_name', 'description' => 'test_description']);
+        $request = \Mockery::mock(Request::class);
+        $request
+            ->shouldReceive('all')
+            ->once()
+            ->andReturn(['name' => 'test_name_changed', 'description' => 'test_description_changed']);
+        $result = $this->controller->update($request, $category->id);
+        $this->assertEquals(
+            $result->toArray(),
+            CategoryStub::find(1)->toArray()
+        );
+    }
 }
