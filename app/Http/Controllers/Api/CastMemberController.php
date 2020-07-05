@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 
 class CastMemberController extends BasicCrudController
 {
-    private $rules = [
- Parrei no 9 minuto
-        "name" => "required|max:255",
-        "is_active" => 'boolean'
-    ];
+    private $rules;
+    public function __construct()
+    {
+        $this->rules = [
+            "name" => "required|max:255",
+            "type" => "required|in:" . implode(',', [CastMember::TYPE_ACTOR, CastMember::TYPE_DIRECTOR])
+        ];
+    }
     protected function model()
     {
         return Genre::class;

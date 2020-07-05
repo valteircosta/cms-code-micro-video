@@ -1,4 +1,7 @@
 Anotações referente ao projeto/estudos
+
+Local que estou := Video Abstract Crud e CastMember no 13:00 minuto
+:
 -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
 GPC - Google Plataform Cloud
 1) Adicionar as imagens que não são disponibilizadas por padrão no container registry
