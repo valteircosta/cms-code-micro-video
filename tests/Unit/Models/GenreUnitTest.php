@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PHPUnit\Framework\TestCase;
@@ -14,34 +14,16 @@ use Route;
  * Esta mudanças serão testadas em feature
  */
 
-class CategoryTest extends TestCase
+class genreUnitTest extends TestCase
 {
-    private $category;
+    private $genre;
 
-    //Executado somente na criação da classe de teste
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-    }
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->category = new Category();
+        $this->genre = new Genre();
     }
-
-    protected function tearDown(): void
-    {
-        // Executar operações antes dele acontecer
-        parent::tearDown();
-        // Executar operações após ele, já pode haver ocorrido erros
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        parent::tearDownAfterClass();
-    }
-
-
 
     /**
      * A basic unit test example.
@@ -50,17 +32,17 @@ class CategoryTest extends TestCase
      */
     public function testIncrementing()
     {
-        $this->assertEquals(false, $this->category->incrementing);
+        $this->assertEquals(false, $this->genre->incrementing);
     }
     public function testDates()
     {
         $dates = ['deleted_at', 'created_at', 'updated_at'];
         /**Testa item por item */
         foreach ($dates as $date) {
-            $this->assertContains($date, $this->category->getDates());
+            $this->assertContains($date, $this->genre->getDates());
         }
         // Teste de quantidade de itens
-        $this->assertCount(count($dates), $this->category->getDates());
+        $this->assertCount(count($dates), $this->genre->getDates());
     }
     public function testIfUseTraits()
     {
@@ -69,24 +51,24 @@ class CategoryTest extends TestCase
         $traits = [
             SoftDeletes::class, Uuid::class
         ];
-        //print_r(class_uses(Category::class));
-        $categoryTraits = array_keys(class_uses(Category::class));
-        $this->assertEquals($traits, $categoryTraits);
+        //print_r(class_uses(Genre::class));
+        $genreTraits = array_keys(class_uses(Genre::class));
+        $this->assertEquals($traits, $genreTraits);
     }
     public function testCasts()
     {
         $Casts = ['id' => 'string', 'is_active' => 'boolean'];
         $this->assertEquals(
             $Casts,
-            $this->category->getCasts()
+            $this->genre->getCasts()
         );
     }
     public function testFillable()
     {
-        $fillable = ['name', 'description', 'is_active'];
+        $fillable = ['name', 'is_active'];
         $this->assertEquals(
             $fillable,
-            $this->category->getfillable()
+            $this->genre->getfillable()
         );
     }
 }
