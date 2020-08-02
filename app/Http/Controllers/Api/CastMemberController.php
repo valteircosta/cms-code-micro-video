@@ -17,7 +17,7 @@ class CastMemberController extends BasicCrudController
     }
     protected function model()
     {
-        return Genre::class;
+        return CastMember::class;
     }
     protected function rulesStore()
     {

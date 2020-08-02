@@ -1,4 +1,0 @@
-[2020-05-11 01:29:41] testing.ERROR: Class Tests\Stubs\Controllers\CategoryControllerStub contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (App\Http\Controllers\Api\BasicCrudController::rulesUpdate) {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Class Tests\\Stubs\\Controllers\\CategoryControllerStub contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (App\\Http\\Controllers\\Api\\BasicCrudController::rulesUpdate) at /var/www/tests/Stubs/Controllers/CategoryControllerStub.php:8)
-[stacktrace]
-#0 {main}
-"} 

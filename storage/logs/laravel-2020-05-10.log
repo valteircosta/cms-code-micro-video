@@ -1,8 +1,0 @@
-[2020-05-10 13:58:21] testing.ERROR: Cannot redeclare Mockery_0_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_0_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
-[stacktrace]
-#0 {main}
-"} 
-[2020-05-10 14:03:29] testing.ERROR: Cannot redeclare Mockery_0_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_0_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
-[stacktrace]
-#0 {main}
-"} 
