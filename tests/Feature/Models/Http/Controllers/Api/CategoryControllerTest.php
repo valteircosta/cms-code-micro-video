@@ -94,9 +94,9 @@ class CategoryControllerTest extends TestCase
             'description' => 'description',
             'is_active' => false
         ];
-        $this->category = factory(Category::class)->create(
-            $data
-        );
+        // $this->category = factory(Category::class)->create(
+        //     $data
+        // );
 
         $testDatabase = $data + [
             'name' => 'test',
