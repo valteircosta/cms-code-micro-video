@@ -38,7 +38,7 @@ class CastMemberControllerTest extends TestCase
     }
     public function testShow()
     {
-        $response = $this->get(route('cast_members.show', ['castMember' => $this->castMember->id]));
+        $response = $this->get(route('cast_members.show', ['cast_member' => $this->castMember->id]));
         $response
             ->assertStatus(200)
             ->assertJson($this->castMember->toArray());
@@ -100,7 +100,7 @@ class CastMemberControllerTest extends TestCase
             ['name' => 'test', 'type' => CastMember::TYPE_DIRECTOR]
         ];
         foreach ($data as $key => $value) {
-            $response = $this->assertStore($value, $value + ['delete_at' => null]);
+            $response = $this->assertStore($value, $value + ['deleted_at' => null]);
             $response->assertJsonStructure(['updated_at', 'created_at']);
         }
     }
@@ -115,7 +115,7 @@ class CastMemberControllerTest extends TestCase
 
 
         $testDatabase = array_merge($data, [
-            'is_active' => false,
+            'type' => CastMember::TYPE_ACTOR,
             'deleted_at' => null,
         ]);
 
