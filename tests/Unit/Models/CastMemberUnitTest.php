@@ -14,7 +14,7 @@ use Route;
  * Esta mudanças serão testadas em feature
  */
 
-class CastMemberTest extends TestCase
+class CastMemberUnitTest extends TestCase
 {
     private $cast_member;
 
