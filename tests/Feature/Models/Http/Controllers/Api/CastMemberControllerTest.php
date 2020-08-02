@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
-use App\Models\Genre;
+use App\Models\CastMember;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
@@ -13,33 +13,35 @@ use Tests\TestCase;
 use Tests\Traits\TestSaves;
 use Tests\Traits\TestValidations;
 
-class GenreControllerTest extends TestCase
+class CastMemberControllerTest extends TestCase
 
 {
     //Sempre usar esta trait em teste com banco de dados
     use DatabaseMigrations, TestValidations, TestSaves;
 
-    private $genre;
+    private $castMember;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->genre = factory(Genre::class)->create();
+        $this->castMember = factory(CastMember::class)->create([
+            'type' => CastMember::TYPE_DIRECTOR
+        ]);
     }
 
     public function testIndex()
     {
-        $response = $this->get(route('genres.index'));
+        $response = $this->get(route('cast_members.index'));
         $response
             ->assertStatus(200)
-            ->assertJson([$this->genre->toArray()]);
+            ->assertJson([$this->castMember->toArray()]);
     }
     public function testShow()
     {
-        $response = $this->get(route('genres.show', ['genre' => $this->genre->id]));
+        $response = $this->get(route('cast_members.show', ['castMember' => $this->castMember->id]));
         $response
             ->assertStatus(200)
-            ->assertJson($this->genre->toArray());
+            ->assertJson($this->castMember->toArray());
     }
     /** @test */
     public function testInvalidationData()
@@ -47,20 +49,17 @@ class GenreControllerTest extends TestCase
 
         $data = [
             'name' => '',
+            'type' => ''
         ];
         $this->assertInvalidationInStoreAction($data, 'required');
         $this->assertInvalidationInUpdateAction($data, 'required');
+
         $data = [
-            'name' => str_repeat('a', 266),
+            'type' => 's',
         ];
 
-        $this->assertInvalidationInStoreAction($data, 'max.string', ['max' => 255]);
-        $this->assertInvalidationInUpdateAction($data, 'max.string', ['max' => 255]);
-        $data = [
-            'is_active' => 'a',
-        ];
-        $this->assertInvalidationInStoreAction($data, 'boolean');
-        $this->assertInvalidationInUpdateAction($data, 'boolean');
+        $this->assertInvalidationInStoreAction($data, 'in');
+        $this->assertInvalidationInUpdateAction($data, 'in');
     }
     //Not use prefix test in helper methods
     private function assertInvalidationRequired(TestResponse $response)
@@ -97,39 +96,23 @@ class GenreControllerTest extends TestCase
     public function testStore()
     {
         $data =    [
-            'name' => 'test'
+            ['name' => 'test', 'type' => CastMember::TYPE_ACTOR],
+            ['name' => 'test', 'type' => CastMember::TYPE_DIRECTOR]
         ];
-
-        $testDatabase = $data + [
-            'is_active' => true,
-            'deleted_at' => null,
-        ];
-
-        $testJsonData = $data + [
-            'is_active' => true,
-            'deleted_at' => null,
-        ];
-        $response = $this->assertStore($data, $testDatabase, $testJsonData);
-        $response->assertJsonStructure(['deleted_at', 'created_at']);
-        $data =    [
-            'name' => 'test',
-            'is_active' => false,
-        ];
-        $testDatabase = $data;
-        $this->assertStore($data, $testDatabase);
+        foreach ($data as $key => $value) {
+            $response = $this->assertStore($value, $value + ['delete_at' => null]);
+            $response->assertJsonStructure(['updated_at', 'created_at']);
+        }
     }
-
     public function testUpdate()
     {
         $data =    [
             'name' => 'name',
+            'type' => CastMember::TYPE_ACTOR
         ];
-        $this->category = factory(Genre::class)->create(
-            $data
-        );
 
         $data['name'] = 'test';
-        $data['is_active'] = false;
+
 
         $testDatabase = array_merge($data, [
             'is_active' => false,
@@ -137,24 +120,9 @@ class GenreControllerTest extends TestCase
         ]);
 
         $testJsonData = array_merge($data, [
-            'is_active' => false,
             'deleted_at' => null,
         ]);
 
-        $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
-        $response->assertJsonStructure(
-            ['deleted_at', 'created_at']
-        );
-        $data['is_active'] = false;
-        $testDatabase = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $testJsonData = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
         $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
         $response->assertJsonFragment(
             $testJsonData
@@ -165,23 +133,23 @@ class GenreControllerTest extends TestCase
     {
         $response = $this->json(
             'DELETE',
-            route('genres.destroy', ['genre' => $this->genre->id])
+            route('cast_members.destroy', ['cast_member' => $this->castMember->id])
         );
         $response->assertStatus(204);
-        $this->assertNull(Genre::find($this->genre->id));
-        $this->assertNotNull(Genre::withTrashed()->find($this->genre->id));
+        $this->assertNull(CastMember::find($this->castMember->id));
+        $this->assertNotNull(CastMember::withTrashed()->find($this->castMember->id));
     }
 
     protected  function routeStore()
     {
-        return route('genres.store');
+        return route('cast_members.store');
     }
     protected  function routeUpdate()
     {
-        return route('genres.update', ['genre' => $this->genre->id]);
+        return route('cast_members.update', ['cast_member' => $this->castMember]);
     }
     protected function model()
     {
-        return Genre::class;
+        return CastMember::class;
     }
 }
