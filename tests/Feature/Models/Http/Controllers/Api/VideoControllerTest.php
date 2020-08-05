@@ -29,39 +29,75 @@ class VideoControllerTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->get(route('video.index'));
+        $response = $this->get(route('videos.index'));
         $response
             ->assertStatus(200)
             ->assertJson([$this->video->toArray()]);
     }
     public function testShow()
     {
-        $response = $this->get(route('video.show', ['video' => $this->video->id]));
+        $response = $this->get(route('videos.show', ['video' => $this->video->id]));
         $response
             ->assertStatus(200)
             ->assertJson($this->video->toArray());
     }
-    /** @test */
     public function testInvalidationData()
     {
 
         $data = [
-            'name' => '',
+            'title' => '',
+            'description' => '',
+            'year_launched' => '',
+            'duration' => '',
+            'rating' => ''
         ];
+
         $this->assertInvalidationInStoreAction($data, 'required');
         $this->assertInvalidationInUpdateAction($data, 'required');
+    }
+    public function testInvalidationMax()
+    {
         $data = [
-            'name' => str_repeat('a', 266),
+            'title' => str_repeat('a', 266),
         ];
 
         $this->assertInvalidationInStoreAction($data, 'max.string', ['max' => 255]);
         $this->assertInvalidationInUpdateAction($data, 'max.string', ['max' => 255]);
+    }
+    public function testInvalidationInteger()
+    {
         $data = [
-            'is_active' => 'a',
+            'duration' => 's',
+        ];
+        $this->assertInvalidationInStoreAction($data, 'integer');
+        $this->assertInvalidationInUpdateAction($data, 'integer');
+    }
+    public function testInvalidationYearLaunchedField()
+    {
+        $data = [
+            'year_launched' => 'a',
+        ];
+        $this->assertInvalidationInStoreAction($data, 'date_format', ['format' => 'Y']);
+        $this->assertInvalidationInUpdateAction($data, 'date_format', ['format' => 'Y']);
+    }
+    public function testInvalidationOpenedField()
+    {
+        $data = [
+            'opened' => 's',
         ];
         $this->assertInvalidationInStoreAction($data, 'boolean');
         $this->assertInvalidationInUpdateAction($data, 'boolean');
     }
+
+    public function testInvalidationRatingField()
+    {
+        $data = [
+            'rating' => 0,
+        ];
+        $this->assertInvalidationInStoreAction($data, 'in');
+        $this->assertInvalidationInUpdateAction($data, 'in');
+    }
+
     //Not use prefix test in helper methods
     private function assertInvalidationRequired(TestResponse $response)
     {
@@ -160,7 +196,6 @@ class VideoControllerTest extends TestCase
             $testJsonData
         );
     }
-    /** @test */
     public function testDestroy()
     {
         $response = $this->json(
