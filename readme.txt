@@ -25,6 +25,16 @@ php artisan  make:model --help
 
 Cria model, factory, migration, seeder e controller
 php artisan make:model Models/Category --all
+Faz na ordem abaixo:
+- migration
+- model
+- controller
+- factory
+- seeder
+- add DatabaseSeeder.php
+- add route api.php
+
+
 
 Roda seeder
 php artisan migrate --seed
