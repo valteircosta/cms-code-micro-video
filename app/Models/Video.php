@@ -25,9 +25,8 @@ class Video extends Model
     //Propriedade que faz o cast dos campos informado
     protected $casts = [
         'id' => 'string',
-        'year_launched' => 'integer',
         'opened' => 'boolean',
-        'rating' => 'string',
+        'year_launched' => 'integer',
         'duration' => 'integer'
     ];
 

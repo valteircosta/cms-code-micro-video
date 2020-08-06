@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Local que estou := Video Abstract Crud e CastMember no 13:00 minuto
+Parei Teste Crud Video 5:30 minutos
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container

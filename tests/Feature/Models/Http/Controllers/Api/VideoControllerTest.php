@@ -158,45 +158,22 @@ class VideoControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $data =    [
-            'name' => 'name',
-        ];
-        // $this->category = factory(Video::class)->create(
-        //     $data
-        // );
 
-        $data['name'] = 'test';
-        $data['is_active'] = false;
-
-        $testDatabase = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $testJsonData = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
+        $response =  $this->assertUpdate($this->sendData, $this->sendData);
         $response->assertJsonStructure(
             ['deleted_at', 'created_at']
         );
-        $data['is_active'] = false;
-        $testDatabase = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
 
-        $testJsonData = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-        $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
-        $response->assertJsonFragment(
-            $testJsonData
+        $this->assertUpdate(
+            $this->sendData + ['opened' => true],
+            $this->sendData + ['opened' => true]
+        );
+        $this->assertUpdate(
+            $this->sendData + ['rating' => Video::RATING_LIST[1]],
+            $this->sendData + ['rating' => Video::RATING_LIST[1]]
         );
     }
+
     public function testDestroy()
     {
         $response = $this->json(
