@@ -27,7 +27,7 @@ class Video extends Model
         'id' => 'string',
         'year_launched' => 'integer',
         'opened' => 'boolean',
-        'rating' => 'integer',
+        'rating' => 'string',
         'duration' => 'integer'
     ];
 

@@ -20,11 +20,20 @@ class VideoControllerTest extends TestCase
     use DatabaseMigrations, TestValidations, TestSaves;
 
     private $video;
+    private $sendData;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->video = factory(Video::class)->create();
+        $this->sendData = [
+            'title' => 'title',
+            'description' => 'description',
+            'year_launched' => 2010,
+            'rating' => Video::RATING_LIST[0],
+            'duration' => 90,
+
+        ];
     }
 
     public function testIndex()
@@ -132,27 +141,19 @@ class VideoControllerTest extends TestCase
     /** @testStore */
     public function testStore()
     {
-        $data =    [
-            'name' => 'test'
-        ];
+        $response =  $this->assertStore($this->sendData, $this->sendData + ['opened' => false]);
+        $response->assertJsonStructure(
+            ['deleted_at', 'created_at']
+        );
 
-        $testDatabase = $data + [
-            'is_active' => true,
-            'deleted_at' => null,
-        ];
-
-        $testJsonData = $data + [
-            'is_active' => true,
-            'deleted_at' => null,
-        ];
-        $response = $this->assertStore($data, $testDatabase, $testJsonData);
-        $response->assertJsonStructure(['deleted_at', 'created_at']);
-        $data =    [
-            'name' => 'test',
-            'is_active' => false,
-        ];
-        $testDatabase = $data;
-        $this->assertStore($data, $testDatabase);
+        $this->assertStore(
+            $this->sendData + ['opened' => true],
+            $this->sendData + ['opened' => true]
+        );
+        $this->assertStore(
+            $this->sendData + ['rating' => Video::RATING_LIST[1]],
+            $this->sendData + ['rating' => Video::RATING_LIST[1]]
+        );
     }
 
     public function testUpdate()
