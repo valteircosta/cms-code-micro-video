@@ -138,42 +138,41 @@ class VideoControllerTest extends TestCase
                 \Lang::get('validation.boolean', ['attribute' => 'is active'])
             ]);
     }
-    /** @testStore */
-    public function testStore()
+
+    public  function testSaves()
     {
-        $response =  $this->assertStore($this->sendData, $this->sendData + ['opened' => false]);
-        $response->assertJsonStructure(
-            ['deleted_at', 'created_at']
-        );
+        $data = [
+            [
+                'send_data' => $this->sendData,
+                'test_data' => $this->sendData + ['opened' => false]
+            ],
+            [
+                'send_data' => $this->sendData + ['opened' => true],
+                'test_data' => $this->sendData + ['opened' => true]
+            ],
+            [
+                'send_data' => $this->sendData + ['rating' => Video::RATING_LIST[1]],
+                'test_data' => $this->sendData + ['rating' => Video::RATING_LIST[1]]
+            ],
 
-        $this->assertStore(
-            $this->sendData + ['opened' => true],
-            $this->sendData + ['opened' => true]
-        );
-        $this->assertStore(
-            $this->sendData + ['rating' => Video::RATING_LIST[1]],
-            $this->sendData + ['rating' => Video::RATING_LIST[1]]
-        );
+        ];
+
+        foreach ($data as $key => $value) {
+            $response = $this->assertStore(
+                $value['send_data'],
+                $value['test_data'] + ['deleted_at' => null]
+            );
+            $response->assertJsonStructure(
+                ['updated_at', 'created_at']
+            );
+
+
+            $response = $this->assertUpdate(
+                $value['send_data'],
+                $value['test_data'] + ['deleted_at' => null]
+            );
+        }
     }
-
-    public function testUpdate()
-    {
-
-        $response =  $this->assertUpdate($this->sendData, $this->sendData);
-        $response->assertJsonStructure(
-            ['deleted_at', 'created_at']
-        );
-
-        $this->assertUpdate(
-            $this->sendData + ['opened' => true],
-            $this->sendData + ['opened' => true]
-        );
-        $this->assertUpdate(
-            $this->sendData + ['rating' => Video::RATING_LIST[1]],
-            $this->sendData + ['rating' => Video::RATING_LIST[1]]
-        );
-    }
-
     public function testDestroy()
     {
         $response = $this->json(
