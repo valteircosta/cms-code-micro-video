@@ -25,6 +25,13 @@ php artisan  make:model --help
 
 Cria model, factory, migration, seeder e controller
 php artisan make:model Models/Category --all
+
+Para criar um relacionamento deve se respeitar a ordem alfabetica pois o laravel e rigoroso
+Exemplo: veja que category está antes de video em ordem alfabetica no singular
+1.1) Criar a migrate  php artisan make:migration create_category_video_table
+1.2) Criar a migrate  php artisan make:migration create_genre_video_table
+
+Adicionando Model ao sistema em desenvolvimento
 Faz na ordem abaixo:
 - migration
 - model
