@@ -45,7 +45,7 @@ class VideoControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([$this->video->toArray()]);
     }
-    /** @test */
+
     public function testRollbackStore()
     {
         $controller = \Mockery::mock(VideoController::class)
