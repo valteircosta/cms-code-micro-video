@@ -1,0 +1,20 @@
+[2020-08-12 00:07:36] testing.ERROR: Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
+[stacktrace]
+#0 {main}
+"} 
+[2020-08-12 00:09:27] testing.ERROR: Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
+[stacktrace]
+#0 {main}
+"} 
+[2020-08-12 00:12:45] testing.ERROR: Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
+[stacktrace]
+#0 {main}
+"} 
+[2020-08-12 00:17:59] testing.ERROR: Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
+[stacktrace]
+#0 {main}
+"} 
+[2020-08-12 00:52:19] testing.ERROR: Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 64): Cannot redeclare Mockery_3_Illuminate_Support_Facades_Request::shouldReceive() at /var/www/vendor/mockery/mockery/library/Mockery/Loader/EvalLoader.php(34) : eval()'d code:993)
+[stacktrace]
+#0 {main}
+"} 

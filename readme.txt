@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei Teste Crud Video 5:30 minutos
+Parei Teste Transação 4:00 minutos
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
