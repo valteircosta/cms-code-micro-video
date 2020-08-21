@@ -33,4 +33,9 @@ class Genre extends Model
     //Propriedade que faz o cast dos campos informado
     protected $casts = ['id' => 'string', 'is_active' => 'boolean'];
     public $incrementing = false;
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

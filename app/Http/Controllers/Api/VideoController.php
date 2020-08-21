@@ -18,8 +18,8 @@ class VideoController extends BasicCrudController
             'opened' => 'boolean',
             'rating' => 'required|in:' . implode(',', Video::RATING_LIST),
             'duration' => 'required|integer',
-            'categories_id' => 'required|array|exists:categories,id',
-            'genres_id' => 'required|array|exists:genres,id',
+            'categories_id' => 'required|array|exists:categories,id,deleted_at,NULL',
+            'genres_id' => 'required|array|exists:genres,id,deleted_at,NULL',
         ];
     }
     /** Override method para poder fazer os relacionamentos */
@@ -69,7 +69,6 @@ class VideoController extends BasicCrudController
         $validatedData =  $this->validate($request, $this->rulesStore());
         $self = $this;
         /** @var Video $obj */
-        /** Esta closure faz a transação mais simples efetuando o rollback caso ocorra erro */
         $obj = \DB::transaction(function () use ($request, $validatedData, $self, $obj) {
             $obj->update($validatedData);
             $self->handleRelations($obj, $request);

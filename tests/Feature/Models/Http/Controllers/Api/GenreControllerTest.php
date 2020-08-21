@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\Category;
 use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -47,20 +48,42 @@ class GenreControllerTest extends TestCase
 
         $data = [
             'name' => '',
+            'categories_id' => '',
         ];
         $this->assertInvalidationInStoreAction($data, 'required');
         $this->assertInvalidationInUpdateAction($data, 'required');
+
         $data = [
             'name' => str_repeat('a', 266),
         ];
-
         $this->assertInvalidationInStoreAction($data, 'max.string', ['max' => 255]);
         $this->assertInvalidationInUpdateAction($data, 'max.string', ['max' => 255]);
+
         $data = [
             'is_active' => 'a',
         ];
         $this->assertInvalidationInStoreAction($data, 'boolean');
         $this->assertInvalidationInUpdateAction($data, 'boolean');
+
+        $data = [
+            'categories_id' => 'a',
+        ];
+        $this->assertInvalidationInStoreAction($data, 'array');
+        $this->assertInvalidationInUpdateAction($data, 'array');
+
+        $data = [
+            'categories_id' => [100],
+        ];
+        $this->assertInvalidationInStoreAction($data, 'exists');
+        $this->assertInvalidationInUpdateAction($data, 'exists');
+
+        $category = factory(Category::class)->create();
+        $category->delete();
+        $data = [
+            'categories_id' => [$category->id],
+        ];
+        $this->assertInvalidationInStoreAction($data, 'exists');
+        $this->assertInvalidationInUpdateAction($data, 'exists');
     }
     //Not use prefix test in helper methods
     private function assertInvalidationRequired(TestResponse $response)
@@ -96,21 +119,26 @@ class GenreControllerTest extends TestCase
     /** @testStore */
     public function testStore()
     {
+        $categoryId = factory(Category::class)->create()->id;
         $data =    [
-            'name' => 'test'
+            'name' => 'test',
+            'categories_id' => [$categoryId],
         ];
-
-        $testDatabase = $data + [
+        $testDatabase = array_merge($data, [
             'is_active' => true,
             'deleted_at' => null,
-        ];
+        ]);
 
-        $testJsonData = $data + [
+        $testJsonData = array_merge($data, [
             'is_active' => true,
             'deleted_at' => null,
-        ];
+            'categories_id' => [$categoryId],
+        ]);
+
         $response = $this->assertStore($data, $testDatabase, $testJsonData);
         $response->assertJsonStructure(['deleted_at', 'created_at']);
+        $this->assertHasCategory($response->json('id'), $categoryId);
+
         $data =    [
             'name' => 'test',
             'is_active' => false,
@@ -159,6 +187,13 @@ class GenreControllerTest extends TestCase
         $response->assertJsonFragment(
             $testJsonData
         );
+    }
+    protected  function assertHasCategory($genreId, $categoryiId)
+    {
+        $this->assertDatabaseHas('category_genre', [
+            'genre_id' => $genreId,
+            'category_id' => $categoryiId
+        ]);
     }
     /** @test */
     public function testDestroy()
