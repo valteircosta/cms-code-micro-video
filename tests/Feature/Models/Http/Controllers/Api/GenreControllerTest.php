@@ -122,29 +122,24 @@ class GenreControllerTest extends TestCase
         $categoryId = factory(Category::class)->create()->id;
         $data =    [
             'name' => 'test',
-            'categories_id' => [$categoryId],
         ];
-        $testDatabase = array_merge($data, [
-            'is_active' => true,
-            'deleted_at' => null,
-        ]);
 
-        $testJsonData = array_merge($data, [
-            'is_active' => true,
-            'deleted_at' => null,
-            'categories_id' => [$categoryId],
-        ]);
-
-        $response = $this->assertStore($data, $testDatabase, $testJsonData);
+        $response = $this->assertStore(
+            $data + ['categories_id' => [$categoryId]],
+            $data + ['is_active' => true, 'deleted_at' => null]
+        );
         $response->assertJsonStructure(['deleted_at', 'created_at']);
+
         $this->assertHasCategory($response->json('id'), $categoryId);
 
         $data =    [
             'name' => 'test',
             'is_active' => false,
         ];
-        $testDatabase = $data;
-        $this->assertStore($data, $testDatabase);
+        $this->assertStore(
+            $data + ['categories_id' => [$categoryId]],
+            $data + ['is_active' => false]
+        );
     }
 
     public function testUpdate()
@@ -152,9 +147,9 @@ class GenreControllerTest extends TestCase
         $data =    [
             'name' => 'name',
         ];
-        // $this->category = factory(Genre::class)->create(
-        //     $data
-        // );
+        $this->category = factory(Genre::class)->create(
+            $data
+        );
 
         $data['name'] = 'test';
         $data['is_active'] = false;
