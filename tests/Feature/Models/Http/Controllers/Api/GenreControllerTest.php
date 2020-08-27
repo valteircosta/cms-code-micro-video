@@ -144,43 +144,29 @@ class GenreControllerTest extends TestCase
 
     public function testUpdate()
     {
+
+        $categoryId = factory(Category::class)->create()->id;
+
         $data =    [
-            'name' => 'name',
+            'name' => 'test',
+            'is_active' => true,
         ];
-        $this->category = factory(Genre::class)->create(
-            $data
+
+        $response = $this->assertStore(
+            $data + ['categories_id' => [$categoryId]],
+            $data + ['is_active' => true, 'deleted_at' => null]
         );
+        $response->assertJsonStructure(['updated_at', 'deleted_at', 'created_at']);
 
-        $data['name'] = 'test';
-        $data['is_active'] = false;
+        $this->assertHasCategory($response->json('id'), $categoryId);
 
-        $testDatabase = array_merge($data, [
+        $data =    [
+            'name' => 'test',
             'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $testJsonData = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
-        $response->assertJsonStructure(
-            ['deleted_at', 'created_at']
-        );
-        $data['is_active'] = false;
-        $testDatabase = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-
-        $testJsonData = array_merge($data, [
-            'is_active' => false,
-            'deleted_at' => null,
-        ]);
-        $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
-        $response->assertJsonFragment(
-            $testJsonData
+        ];
+        $this->assertStore(
+            $data + ['categories_id' => [$categoryId]],
+            $data + ['is_active' => false]
         );
     }
     protected  function assertHasCategory($genreId, $categoryiId)
