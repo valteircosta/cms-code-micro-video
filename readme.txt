@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei Teste Relacionamento video 7:20 minuto
+Parei Teste Relacionamento video 8:30 minuto
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
