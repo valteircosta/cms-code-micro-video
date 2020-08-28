@@ -2,14 +2,17 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\GenreController;
 use App\Models\Category;
 use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\This;
 use Route;
+use Tests\Exceptions\TestException;
 use Tests\TestCase;
 use Tests\Traits\TestSaves;
 use Tests\Traits\TestValidations;
@@ -176,6 +179,42 @@ class GenreControllerTest extends TestCase
             'category_id' => $categoryiId
         ]);
     }
+
+    public function testRollbackStore()
+    {
+        $controller = \Mockery::mock(GenreController::class)
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
+
+        $controller
+            ->shouldReceive('validate')
+            ->withAnyArgs()
+            ->andReturn([
+                'name' => 'test',
+            ]);
+
+        $controller
+            ->shouldReceive('rulesStore')
+            ->withAnyArgs()
+            ->andReturn([]);
+
+        $controller
+            ->shouldReceive('handleRelations')
+            ->once()
+            ->andThrow(new TestException());
+
+        $request = \Mockery::mock(Request::class);
+        $hasErro = false;
+        try {
+            $controller->store($request);
+        } catch (TestException $exception) {
+            $this->assertCount(1, Genre::all());
+            $hasErro = true;
+        }
+        $this->assertTrue($hasErro);
+    }
+
+
     /** @test */
     public function testDestroy()
     {
