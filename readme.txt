@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei Teste Relacionamento video 8:30 minuto
+Parei no inicio do video Testando sincronização de relacionamentos
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
