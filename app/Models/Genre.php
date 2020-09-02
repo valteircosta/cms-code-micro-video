@@ -36,6 +36,7 @@ class Genre extends Model
 
     public function categories()
     {
+        //Traz os que foram excluídos logicamente
         return $this->belongsToMany(Category::class)->withTrashed();
     }
 }

@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei no video Testando sincronização de relacionamentos  => Tempo 5:20
+Parei no video Exclusão lógica => Tempo 4:25
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
