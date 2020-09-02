@@ -19,7 +19,7 @@ class GenreSeeder extends Seeder
             ->create()
             ->each(function (Genre $genre) use ($categories) {
                 $categoriesId = $categories->random(5)->pluck('id')->toArray();
-                $genre->$categories()->attach($categoriesId);
+                $genre->categories()->attach($categoriesId);
             });
     }
 }
