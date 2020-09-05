@@ -33,7 +33,20 @@
 		"kokororin.vscode-phpfmt",
 		"recca0120.vscode-phpunit",
 		"hbenl.vscode-test-explorer",
-		"github.vscode-pull-request-github"
+		"github.vscode-pull-request-github",
+		"ms-azuretools.vscode-docker",
+		"naumovs.color-highlight",
+		"alexdima.copy-relative-path",
+		"mrmlnc.vscode-duplicate",
+		"editorconfig.editorconfig",
+		"dbaeumer.vscode-eslint",
+		"tombonnike.vscode-status-bar-format-toggle",
+		"esbenp.prettier-vscode",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-mysql",
+		"gruntfuggly.todo-tree",
+		"visualstudioexptteam.vscodeintellicode",
+		"redhat.vscode-yaml"
 	]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
