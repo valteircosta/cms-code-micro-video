@@ -56,8 +56,9 @@ Test unit => Testes focados em itens e comportamento da classe, sem levar em con
 Test feature => Testes focados na interação da classe com outras classes.
 Criar
 php artisan make:test --help
-php artisan make:test CategoryTest --unit  => Teste Unit
-php artisan make:test CategoryTest Teste Feature
+php artisan make:test CategoryTest --unit  => Teste Unit => cria testes unitários dentro da pasta Unit
+php artisan make:test CategoryTest --unit  => \\Models\\CategoryUnitTest => teste com endereço da pasta
+php artisan make:test CategoryTest  => Teste Feature => cria testes dentro da pasta Feature
 Executanto testes
 vendor/bin/phpunit
 vendor/bin/phpunit --filter CategoryTest => Testa apenas CategoryTest

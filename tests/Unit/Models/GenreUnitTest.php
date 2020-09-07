@@ -14,7 +14,7 @@ use Route;
  * Esta mudanças serão testadas em feature
  */
 
-class genreUnitTest extends TestCase
+class GenreUnitTest extends TestCase
 {
     private $genre;
 
