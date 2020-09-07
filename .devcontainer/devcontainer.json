@@ -46,8 +46,7 @@
         "gruntfuggly.todo-tree",
         "visualstudioexptteam.vscodeintellicode",
         "redhat.vscode-yaml",
-        "felixfbecker.php-debug",
-        "calebporzio.better-phpunit"
+        "felixfbecker.php-debug"
     ]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.

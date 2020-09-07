@@ -61,6 +61,12 @@ class GenresHasCategoriesRuleUnitTest extends TestCase
     /** @test */
     public function testPassesReturnFalseWhenGetRowsIsEmpty()
     {
+        $rules = $this->createRuleMock([]);
+        $rules
+            ->shouldReceive('getRows')
+            ->withAnyArgs()
+            ->andReturn(collect());
+        $this->assertFalse($rules->passes('', [1]));
     }
 
     protected function createRuleMock(array $categoriesId): MockInterface
