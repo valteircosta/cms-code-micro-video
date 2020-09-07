@@ -61,12 +61,36 @@ class GenresHasCategoriesRuleUnitTest extends TestCase
     /** @test */
     public function testPassesReturnFalseWhenGetRowsIsEmpty()
     {
-        $rules = $this->createRuleMock([]);
+        $rules = $this->createRuleMock([1]);
         $rules
             ->shouldReceive('getRows')
             ->withAnyArgs()
             ->andReturn(collect());
         $this->assertFalse($rules->passes('', [1]));
+    }
+    /** @test */
+    public function testPassesReturnFalseWhenHasCategoriesWhitOutGenres()
+    {
+        $rules = $this->createRuleMock([1, 2]);
+        $rules
+            ->shouldReceive('getRows')
+            ->withAnyArgs()
+            ->andReturn(collect(['category_id' => 1]));
+        $this->assertFalse($rules->passes('', [1]));
+    }
+
+    /** @test */
+    public function testPassesIsValid()
+    {
+        $rules = $this->createRuleMock([1, 2]);
+        $rules
+            ->shouldReceive('getRows')
+            ->withAnyArgs()
+            ->andReturn(collect([
+                ['category_id' => 1],
+                ['category_id' => 2]
+            ]));
+        $this->assertTrue($rules->passes('', [1, 2]));
     }
 
     protected function createRuleMock(array $categoriesId): MockInterface

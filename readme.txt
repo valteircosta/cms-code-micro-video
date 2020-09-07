@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei no video Exclusão lógica => Tempo 4:25
+Parei no video  xx => Tempo 17:22
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
