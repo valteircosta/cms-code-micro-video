@@ -1,6 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei no video  xx => Tempo 17:22
+Parei no video  Usando Regra Validação => Tempo 00:00
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
