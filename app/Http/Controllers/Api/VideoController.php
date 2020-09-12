@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Video;
+use App\Rules\GenresHasCategoriesRule;
 use Illuminate\Http\Request;
 
 class VideoController extends BasicCrudController
@@ -18,8 +19,12 @@ class VideoController extends BasicCrudController
             'opened' => 'boolean',
             'rating' => 'required|in:' . implode(',', Video::RATING_LIST),
             'duration' => 'required|integer',
-            'categories_id' => 'required|array|exists:categories,id',
-            'genres_id' => 'required|array|exists:genres,id',
+            'categories_id' => 'required|array|exists:categories,id,deleted_at,NULL',
+            'genres_id' => [
+                'required',
+                'array',
+                'exists:genres,id,deleted_at,NULL',
+            ]
         ];
     }
     /** Override method para poder fazer os relacionamentos */
@@ -39,7 +44,8 @@ class VideoController extends BasicCrudController
          *     \DB::rollBack();
          * }
          * */
-
+        //Set rule belfore validation
+        $this->addRuleIfGenresHasCategories($request);
         /** Faz validação */
         /** Faz filtro para somente usar campos fillAble */
         $validatedData =  $this->validate($request, $this->rulesStore());
@@ -55,6 +61,14 @@ class VideoController extends BasicCrudController
         $obj->refresh();
         return $obj;
     }
+    protected function addRuleIfGenresHasCategories(Request $request)
+    {
+        $categoriesId = $request->get('categories_id');
+        $categoriesId = is_array($categoriesId) ? $categoriesId : [];
+        $this->rules['genres_id'][] = new GenresHasCategoriesRule(
+            $categoriesId
+        );
+    }
     protected function handleRelations($video, Request $request)
     {
         /** sync = Faz o relacionamente removendo o antigo relacionamento e incluindo o novo array  */
@@ -66,10 +80,10 @@ class VideoController extends BasicCrudController
     {
 
         $obj = $this->findOrFail($id);
+        $this->addRuleIfGenresHasCategories($request);
         $validatedData =  $this->validate($request, $this->rulesStore());
         $self = $this;
         /** @var Video $obj */
-        /** Esta closure faz a transação mais simples efetuando o rollback caso ocorra erro */
         $obj = \DB::transaction(function () use ($request, $validatedData, $self, $obj) {
             $obj->update($validatedData);
             $self->handleRelations($obj, $request);

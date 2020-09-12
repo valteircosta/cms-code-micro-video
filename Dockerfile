@@ -1,6 +1,6 @@
 FROM php:7.3.6-fpm-alpine3.9
 # Install open ssl, bash e client mysql
-RUN apk add --no-cache openssl bash mysql-client nodejs npm
+RUN apk add --no-cache openssl bash mysql-client nodejs npm git
 RUN docker-php-ext-install pdo pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 # Add dockerize na imagem, para fazer testes de validção

@@ -71,7 +71,7 @@ class CategoryTest extends TestCase
         )->first();
         $data = [
             'name' => 'test_name_updated',
-            'description' => 'test_description_updated',
+            'description' => 'test_description_update',
             'is_active' => false
         ];
         $category->update($data);
