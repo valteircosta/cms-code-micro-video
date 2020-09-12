@@ -91,6 +91,19 @@ class GenresHasCategoriesRuleUnitTest extends TestCase
                 ['category_id' => 2]
             ]));
         $this->assertTrue($rules->passes('', [1, 2]));
+
+        $rules = $this->createRuleMock([1, 2]);
+        $rules
+            ->shouldReceive('getRows')
+            ->withAnyArgs()
+            ->andReturn(collect([
+                ['category_id' => 1],
+                ['category_id' => 2],
+                ['category_id' => 1],
+                ['category_id' => 2],
+                ['category_id' => 2],
+            ]));
+        $this->assertTrue($rules->passes('', [1, 2]));
     }
 
     protected function createRuleMock(array $categoriesId): MockInterface

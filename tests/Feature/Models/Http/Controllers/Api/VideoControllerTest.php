@@ -65,15 +65,22 @@ class VideoControllerTest extends TestCase
 
         $request = \Mockery::mock(Request::class);
 
+        $request->shouldReceive('get')
+            ->withAnyArgs()
+            ->andReturnNull();
+
         $controller
             ->shouldReceive('handleRelations')
             ->once()
             ->andThrow(new TestException());
+        $hasError = false;
         try {
             $controller->store($request);
         } catch (TestException $exception) {
             $this->assertCount(1, Video::all());
+            $hasError = true;
         }
+        $this->assertTrue($hasError);
     }
 
     public function testRollbackUpdate()
@@ -106,6 +113,12 @@ class VideoControllerTest extends TestCase
             ->andThrow(new TestException());
 
         $request = \Mockery::mock(Request::class);
+
+        $request->shouldReceive('get')
+            ->withAnyArgs()
+            ->andReturnNull();
+
+
         $hasErro = false;
         try {
             $controller->update($request, 1);
