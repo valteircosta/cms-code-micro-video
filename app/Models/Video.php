@@ -34,8 +34,8 @@ class Video extends Model
 
     public $incrementing = false;
 
-    //First is called magic method what call create, it not exist then called
-    // QueryBuilder constructor
+    //First  magic method is called wich call create, if create does not exist then next line
+    // QueryBuilder constructor is called
     public static  function create(array $attributes = [])
     {
         try {
