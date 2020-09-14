@@ -42,6 +42,7 @@ class Video extends Model
             //Disable auto commit
             \DB::beginTransaction();
             $obj = static::query()->create($attributes);
+            static::handleRelations($obj, $attributes);
             // Do upload here
             \DB::commit();
             return $obj;
@@ -66,6 +67,7 @@ class Video extends Model
             //Disable auto commit
             \DB::beginTransaction();
             $saved = parent::update($attributes, $options);
+            static::handleRelations($this, $attributes);
             if ($saved) {
                 //Do upload new file here
                 //Do delete older file
@@ -78,6 +80,18 @@ class Video extends Model
             throw $e; // Rise execption for laravel
         }
     }
+
+    public static function handleRelations(Video $video, array  $attributes)
+    {
+        /** sync = Faz o relacionamente removendo o antigo relacionamento e incluindo o novo array  */
+        if (isset($attributes['categories_id'])) {
+            $video->categories()->sync($attributes['categories_id']);
+        }
+        if (isset($attributes['genres_id'])) {
+            $video->genres()->sync($attributes['genres_id']);
+        }
+    }
+
     public function categories()
     {
         //with trashed traz a categorias antigas que já foram excluidas

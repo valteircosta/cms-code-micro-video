@@ -49,15 +49,7 @@ class VideoController extends BasicCrudController
         /** Faz validação */
         /** Faz filtro para somente usar campos fillAble */
         $validatedData =  $this->validate($request, $this->rulesStore());
-        $self = $this;
-        /** @var Video $obj */
-        /** Esta closure faz a transação mais simples efetuando o rollback caso ocorra erro */
-        $obj = \DB::transaction(function () use ($request, $validatedData, $self) {
-            $obj = $this->model()::create($validatedData);
-            $self->handleRelations($obj, $request);
-            return $obj; // Escopo diferente
-        });
-        /** Refresh pega todos campos usados na operação */
+        $obj = $this->model()::create($validatedData);
         $obj->refresh();
         return $obj;
     }
@@ -69,26 +61,13 @@ class VideoController extends BasicCrudController
             $categoriesId
         );
     }
-    protected function handleRelations($video, Request $request)
-    {
-        /** sync = Faz o relacionamente removendo o antigo relacionamento e incluindo o novo array  */
-        $video->categories()->sync($request->get('categories_id'));
-        $video->genres()->sync($request->get('genres_id'));
-    }
     /** Override update par  */
     public function update(Request $request, $id)
     {
-
         $obj = $this->findOrFail($id);
         $this->addRuleIfGenresHasCategories($request);
         $validatedData =  $this->validate($request, $this->rulesStore());
-        $self = $this;
-        /** @var Video $obj */
-        $obj = \DB::transaction(function () use ($request, $validatedData, $self, $obj) {
-            $obj->update($validatedData);
-            $self->handleRelations($obj, $request);
-            return $obj; // Escopo diferente
-        });
+        $obj->update($validatedData);
         return $obj;
     }
 
