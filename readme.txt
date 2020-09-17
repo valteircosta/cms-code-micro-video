@@ -1,6 +1,7 @@
 Anotações referente ao projeto/estudos
 
-Parei no video  Sobre Modo Transação Aninhados => Tempo 08:18
+Parei no video
+Novos testes dos relacionamentos categorias e gêneros  => Tempo 00:00
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
