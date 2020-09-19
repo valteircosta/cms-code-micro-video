@@ -1,7 +1,7 @@
 Anotações referente ao projeto/estudos
 
 Parei no video
-Novos testes dos relacionamentos categorias e gêneros  => Tempo 00:00
+Novos testes dos relacionamentos categorias e gêneros  => Tempo 02:30
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
