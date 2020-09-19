@@ -194,7 +194,7 @@ class VideoTest extends TestCase
         Video::handleRelations($video, [
             'genres_id' => [$genresId[0]]
         ]);
-        $this->assertDatabaseHas('genre_id', [
+        $this->assertDatabaseHas('genre_video', [
             'genre_id' => $genresId[0],
             'video_id' => $video->id
         ]);
