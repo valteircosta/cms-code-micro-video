@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use phpDocumentor\Reflection\Types\This;
 
 class Video extends Model
 {
-    use SoftDeletes, Traits\Uuid;
+    use SoftDeletes, Traits\Uuid, Traits\UploadFiles;
 
     const RATING_LIST = ['L', '10', '12', '14', '16', '18'];
 
@@ -33,17 +34,21 @@ class Video extends Model
     ];
 
     public $incrementing = false;
+    public static $fileFields = ['filme', 'banner', 'trailer'];
 
     //First  magic method is called wich call create, if create does not exist then next line
     // QueryBuilder constructor is called
     public static  function create(array $attributes = [])
     {
+        $files = self::extractFiles($attributes);
         try {
             //Disable auto commit
             \DB::beginTransaction();
+            /** @var Video $obj */
             $obj = static::query()->create($attributes);
             static::handleRelations($obj, $attributes);
             // Do upload here
+            $obj->uploadFiles($files);
             \DB::commit();
             return $obj;
         } catch (\Exception $e) {
@@ -101,5 +106,10 @@ class Video extends Model
     public function genres()
     {
         return $this->belongsToMany(Genre::class)->withTrashed();
+    }
+
+    protected function uploadDir()
+    {
+        return $this->id;
     }
 }
