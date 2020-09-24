@@ -73,4 +73,55 @@ class UploadFilesUnitTest extends TestCase
         \Storage::assertMissing("1/{$file1->hashName()}");
         \Storage::assertMissing("1/{$file2->hashName()}");
     }
+    /** @test */
+    public function testExtractFiles()
+    {
+        $attributes = [];
+        $files = UploadFilesStub::extractFiles($attributes);
+        $this->assertCount(0, $attributes);
+        $this->assertCount(0, $files);
+
+        //Test params string
+        $attributes = ['file1' => 'test'];
+        $files = UploadFilesStub::extractFiles($attributes);
+        $this->assertCount(1, $attributes);
+        $this->assertEquals(['file1' => 'test'], $attributes);
+        $this->assertCount(0, $files);
+
+        //Test two params string
+        $attributes = ['file1' => 'test', 'file2' => 'test'];
+        $files = UploadFilesStub::extractFiles($attributes);
+        $this->assertCount(2, $attributes);
+        $this->assertEquals(['file1' => 'test', 'file2' => 'test'], $attributes);
+        $this->assertCount(0, $files);
+
+        //Test params file, sent only one param
+        $file1 = UploadedFile::fake()->create('video.mp4');
+        $attributes = ['file1' => $file1, 'others' => 'test'];
+        $files = UploadFilesStub::extractFiles($attributes);
+        $this->assertCount(2, $attributes);
+        $this->assertEquals(['file1' => $file1->hashName(), 'others' => 'test'], $attributes);
+        $this->assertEquals([$file1], $files);
+        $this->assertCount(1, $files);
+
+        //Test params file, sent two params
+        $file2 = UploadedFile::fake()->create('video1.mp4');
+        $attributes = [
+            'file1' => $file1,
+            'file2' => $file2,
+            'others' => 'test'
+        ];
+        $files = UploadFilesStub::extractFiles($attributes);
+        $this->assertCount(3, $attributes);
+        $this->assertEquals(
+            [
+                'file1' => $file1->hashName(),
+                'file2' => $file2->hashName(),
+                'others' => 'test'
+            ],
+            $attributes
+        );
+        $this->assertEquals([$file1, $file2], $files);
+        $this->assertCount(2, $files);
+    }
 }

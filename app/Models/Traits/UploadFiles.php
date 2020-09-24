@@ -49,7 +49,7 @@ trait UploadFiles
         $files = [];
         foreach (self::$fileFields as $file) {
             if (isset($attributes[$file]) && $attributes[$file] instanceof UploadedFile) {
-                $file[] = $attributes[$file];
+                $files[] = $attributes[$file];
                 $attributes[$file] = $attributes[$file]->hashName();
             }
         }
