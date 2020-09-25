@@ -1,6 +1,7 @@
 Anotações referente ao projeto/estudos
 
-Parei no video  Usando Regra Validação => Tempo 00:00
+Parei no video
+Primeiro teste com upload de arquivos=> Tempo 00:00
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
