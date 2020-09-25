@@ -34,7 +34,7 @@ class Video extends Model
     ];
 
     public $incrementing = false;
-    public static $fileFields = ['filme', 'banner', 'trailer'];
+    public static $fileFields = ['video_file'];
 
     //First  magic method is called wich call create, if create does not exist then next line
     // QueryBuilder constructor is called
