@@ -1,0 +1,44 @@
+{
+    "git.ignoreLimitWarning": true,
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 30,
+            "database": "teste",
+            "dialect": "PostgreSQL",
+            "name": "graphql_api_node",
+            "password": "secret",
+            "port": 5432,
+            "server": "172.",
+            "username": "default"
+        },
+        {
+            "database": "code_micro_videos",
+            "dialect": "MariaDB",
+            "name": "cms_code_micro_video",
+            "password": "root",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        },
+        {
+            "database": "code_micro_videos_test",
+            "dialect": "MariaDB",
+            "name": "code_micro_videos_test",
+            "password": "root",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        }
+    ],
+    "phpunit.docker_name": "app",
+    "phpunit.exec": "vendor/bin/phpunit",
+    "phpunit.code_path": "/var/www",
+    "vim.smartcase": false,
+    "vim.ignorecase": false,
+    "php.suggest.basic": false,
+    "phpunit.docker.image": "",
+    "vim.easymotion": true,
+    "vim.incsearch": false,
+    "editor.suggest.insertMode": "replace",
+    "editor.tabCompletion": "on"
+}

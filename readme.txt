@@ -1,7 +1,7 @@
 Anotações referente ao projeto/estudos
 
 Parei no video
-Primeiro teste com upload de arquivos=> Tempo 00:00
+Integração do Google Cloud Storage com Laravel => Tempo 5:00
 
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container

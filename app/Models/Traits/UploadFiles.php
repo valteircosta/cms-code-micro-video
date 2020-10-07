@@ -2,13 +2,32 @@
 
 namespace App\Models\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\File\UploadedFile as FileUploadedFile;
 
 trait UploadFiles
 {
 
+    public $oldFiles = [];
+
     protected abstract function uploadDir();
+
+    public static function bootUploadFiles()
+    {
+        static::updating(function (Model $model) {
+            $fieldsUpdated = \array_keys($model->getDirty());
+            $filesUpdated = \array_intersect($fieldsUpdated, self::$fileFields);
+            $filesFiltered = Arr::where($filesUpdated, function ($fileField) use ($model) {
+                return $model->getOriginal($fileField);
+            });
+            //Method statica is the model, not can uses $this
+            $model->oldFiles = \array_map(function ($filesFiltered) use ($model) {
+                return $model->getOriginal($filesFiltered);
+            }, $filesFiltered);
+        });
+    }
 
     /**
      * @param UploadedFile[] $files
@@ -23,6 +42,10 @@ trait UploadFiles
     public function uploadFile(UploadedFile $file)
     {
         $file->store($this->uploadDir());
+    }
+    public function deleteOldFiles()
+    {
+        $this->deleteFiles($this->oldFiles);
     }
 
     public function deleteFiles(array $files)

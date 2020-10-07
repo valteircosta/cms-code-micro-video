@@ -57,6 +57,7 @@ class GenreUnitTest extends TestCase
     }
     public function testCasts()
     {
+
         $Casts = ['id' => 'string', 'is_active' => 'boolean'];
         $this->assertEquals(
             $Casts,

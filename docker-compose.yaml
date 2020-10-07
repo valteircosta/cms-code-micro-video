@@ -7,15 +7,18 @@ services:
     # Indica ao caminho do arquivo de construção Dockerfile
     build: .
     container_name: micro-videos-app
-    # user: "${UID}:${GID}"
     # Passando params para dockerize rodar script entrypoint.sh
     entrypoint: ./.docker/entrypoint.sh
+    environment:
+      - XDEBUG_CONFIG=xdebug.remote_host=app x.debug.remote_port=9001 xdebug.remote_enable=1 xdebug.remote_autostart=1 xdebug.remote_handler=dbgp xdebug.idekey=VSCODE xdebug.remote_log=/var/log/xdebug/xdebug.log
     ports:
-      - "9000"
+      - "9001:9001"
 
     volumes:
       - .:/var/www:rw,cached
       - ./.docker/app/log:/var/log:rw,cached
+      - ./.docker/app/log/xdebug:/var/log/xdebug:rw,cached
+      - ./.docker/app/php.ini:/usr/local/etc/php/php.ini
     #Rede a qual pertence o containner
     networks:
       - app-network
@@ -29,7 +32,6 @@ services:
     build: .docker/nginx
     # Nome do container
     container_name: micro-videos-nginx
-    # user: "${UID}:${GID}"
     # Passa configuração  e faz teste de conexão para com o app
     entrypoint: dockerize -template ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf  -wait tcp://app:9000 nginx -g "daemon off;"
     # Reiniciar caso o container cair
@@ -56,7 +58,6 @@ services:
     # Comando que evita erros (Se não usar é muito choro e ranger de dentes para o programador)
     command: --innodb-use-native-aio=0
     container_name: micro-videos-db
-    # user: "${UID}:${GID}"
     restart: always
     tty: true
     ports:

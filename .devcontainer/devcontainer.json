@@ -18,7 +18,7 @@
 
     // Set *default* container specific settings.json values on container create.
     "settings": {
-        "terminal.integrated.shell.linux": null
+        "terminal.integrated.shell.linux": "bash"
     },
 
     // Add the IDs of extensions you want installed when the container is created.
@@ -47,6 +47,7 @@
         "visualstudioexptteam.vscodeintellicode",
         "redhat.vscode-yaml",
         "felixfbecker.php-debug",
+        "sevavietl.php-files",
         "marabesi.php-import-checker",
         "coenraads.bracket-pair-colorizer-2"
     ]

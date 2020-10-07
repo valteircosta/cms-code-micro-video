@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\MassAssignmentException;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use phpDocumentor\Reflection\Types\This;
 
 class Video extends Model
 {
@@ -20,7 +18,9 @@ class Video extends Model
         'year_launched',
         'opened',
         'rating',
-        'duration'
+        'duration',
+        'thumb_file',
+        'video_file',
     ];
 
     protected $dates = ['deleted_at'];
@@ -34,7 +34,7 @@ class Video extends Model
     ];
 
     public $incrementing = false;
-    public static $fileFields = ['video_file'];
+    public static $fileFields = ['video_file', 'thumb_file'];
 
     //First  magic method is called wich call create, if create does not exist then next line
     // QueryBuilder constructor is called
@@ -53,7 +53,7 @@ class Video extends Model
             return $obj;
         } catch (\Exception $e) {
             if (isset($obj)) {
-                // Do delete uploaded files
+                $obj->deleteFiles($files);
             }
             \DB::rollBack();
             throw $e; // Rise execption for laravel
@@ -68,6 +68,8 @@ class Video extends Model
      */
     public function update(array $attributes = [], array $options = [])
     {
+
+        $files = self::extractFiles($attributes);
         try {
             //Disable auto commit
             \DB::beginTransaction();
@@ -75,6 +77,7 @@ class Video extends Model
             static::handleRelations($this, $attributes);
             if ($saved) {
                 //Do upload new file here
+                $this->uploadFiles($files);
                 //Do delete older file
             }
             \DB::commit();

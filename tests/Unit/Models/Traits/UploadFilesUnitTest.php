@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models\Traits;
 
 use Illuminate\Http\UploadedFile;
-use phpDocumentor\Reflection\Types\This;
 use Tests\Stubs\Models\UploadFilesStub;
 use Tests\TestCase;
 
@@ -46,6 +45,21 @@ class UploadFilesUnitTest extends TestCase
         \Storage::assertExists("1/{$file2->hashName()}");
     }
 
+    /** @test */
+    public function testDeleteOldFiles()
+    {
+        \Storage::fake(); //Make in testing folder
+        $file1 = UploadedFile::fake()->create('video1.mp4')->size(1); //Fake of file generate by laravel
+        $file2 = UploadedFile::fake()->create('video2.mp4')->size(1); //Fake of file generate by laravel
+        $this->obj->uploadFiles([$file1, $file2]);
+        $this->obj->deleteOldFiles([$file1, $file2]);
+        $this->assertCount(2, \Storage::allFiles());
+
+        $this->obj->oldFiles = [$file1->hashName()];
+        $this->obj->deleteOldFiles();
+        \Storage::assertMissing("1/{$file1->hashName()}");
+        \Storage::assertExists("1/{$file2->hashName()}");
+    }
     /** @test */
     public function testDeleteFile()
     {
