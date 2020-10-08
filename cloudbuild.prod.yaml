@@ -1,5 +1,16 @@
 # Este arquivo será lido pelo Google Cloud Plataform - GCP
 steps:
+  - id: "Rodando geração do encrypt do json"
+    name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - kms
+      - decrypt
+      - --cphertex-file=./storage/credentials/google/service-account-storage.json.enc
+      - --plaintex-file=./storage/credentials/google/service-account-storage.json
+      - --location=global
+      - --keyring=test-lesson-vcs
+      - --key=service-account-vcs
+
   - id: "Rodando docker-compose"
     # Informa a imagem do docker cloufbuilder que sera usada
     name: "gcr.io/$PROJECT_ID/docker-compose:1.24.0"
@@ -9,6 +20,12 @@ steps:
     # up -> comando para subir container
     # -d -> container em modo daemon
     args: ["-f", "docker-compose.prod.yaml", "up", "-d"]
+    env:
+      - GOOGLE_CLOUD_PROJECT_ID=$PROJECT_ID
+      - GOOGLE_CLOUD_KEY_FILE=service-account-storage.json
+      - GOOGLE_CLOUD_STORAGE_BUCKET=code-micro-service-vcs
+      - GOOGLE_CLOUD_STORAGE_API_URI=https://storage.cloud.google.com/code-micro-service-vcs
+      - TESTING_PROD=true
 
   - id: "Rodando docker ps"
     # Informa o comando que será executado.
