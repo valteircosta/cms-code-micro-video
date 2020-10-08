@@ -4,7 +4,7 @@ version: "3"
 
 services:
   app:
-    build: -f Dockerfile.prod -t .
+    build: Dockerfile.prod
     environment:
       - GOOGLE_CLOUD_PROJECT_ID=${PGOOGLE_CLOUD_PROJECT_ID}
       - GOOGLE_CLOUD_KEY_FILE=${GOOGLE_CLOUD_KEY_FILE}
