@@ -28,8 +28,8 @@ RUN pecl install -f xdebug \
     && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_mode=req" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_log=/var/log/xdebug/xdebug.log" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    x&& echo "debug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    x&& echo "debug.max_nesting_level=200" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.max_nesting_level=200" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_host=app" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Manipulação de imagens
