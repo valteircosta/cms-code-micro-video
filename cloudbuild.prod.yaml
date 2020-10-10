@@ -26,11 +26,6 @@ steps:
       - GOOGLE_CLOUD_STORAGE_BUCKET=code-micro-service-vcs
       - GOOGLE_CLOUD_STORAGE_API_URI=https://storage.cloud.google.com/code-micro-service-vcs
       - TESTING_PROD=true
-    # Change owner of the files, setting for www-data
-  # - id: "Rodando Chown in /var/www"
-  #   name: 'gcr.io/cloud-builders/docker'
-  #   args: ['exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www']
-
 
   - id: "Rodando docker ps"
     # Informa o comando que será executado.
