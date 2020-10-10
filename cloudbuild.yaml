@@ -30,9 +30,9 @@ steps:
       - TESTING_PROD=true
 
     # Change owner of the files, setting for www-data
-  - id: "Rodando Chown in /var/www"
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www']
+  # - id: "Rodando Chown in /var/www"
+  #   name: 'gcr.io/cloud-builders/docker'
+  #   args: ['exec','-u','root','-t','app','chown','-R','www-data:www-data','/var/www']
 
    #
   - id: "Rodando docker ps"
