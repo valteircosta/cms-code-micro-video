@@ -5,6 +5,8 @@ namespace Tests\Unit\Models\Traits;
 use Illuminate\Http\UploadedFile;
 use Tests\Stubs\Models\UploadFilesStub;
 use Tests\TestCase;
+use Tests\Traits\TestProd;
+use Tests\Traits\TestStorage;
 
 /**
  * Teste de itens e propriedades da unit
@@ -14,6 +16,8 @@ use Tests\TestCase;
 
 class UploadFilesUnitTest extends TestCase
 {
+    use TestStorage, TestProd;
+
     /**
      *
      * @var UploadFilesStub
@@ -24,12 +28,15 @@ class UploadFilesUnitTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->skipTestIfNotProd();
         $this->obj = new UploadFilesStub();
+        \Config::set('filesystems.default', 'gcs');
+        $this->deleteAllFiles();
     }
+
     /** @test */
     public function testUploadFile()
     {
-        \Storage::fake(); //Make in testing folder
         $file = UploadedFile::fake()->create('video.mp4'); //Fake of file generate by laravel
         $this->obj->uploadFile($file);
         \Storage::assertExists("1/{$file->hashName()}");
@@ -37,7 +44,6 @@ class UploadFilesUnitTest extends TestCase
     /** @test */
     public function testUploadFiles()
     {
-        \Storage::fake(); //Make in testing folder
         $file1 = UploadedFile::fake()->create('video1.mp4'); //Fake of file generate by laravel
         $file2 = UploadedFile::fake()->create('video2.mp4'); //Fake of file generate by laravel
         $this->obj->uploadFiles([$file1, $file2]);
@@ -48,7 +54,6 @@ class UploadFilesUnitTest extends TestCase
     /** @test */
     public function testDeleteOldFiles()
     {
-        \Storage::fake(); //Make in testing folder
         $file1 = UploadedFile::fake()->create('video1.mp4')->size(1); //Fake of file generate by laravel
         $file2 = UploadedFile::fake()->create('video2.mp4')->size(1); //Fake of file generate by laravel
         $this->obj->uploadFiles([$file1, $file2]);
@@ -63,7 +68,6 @@ class UploadFilesUnitTest extends TestCase
     /** @test */
     public function testDeleteFile()
     {
-        \Storage::fake();
         $file = UploadedFile::fake()->create('video.mp4');
         $this->obj->uploadFile($file);
         $fileName = $file->hashName();
@@ -79,7 +83,6 @@ class UploadFilesUnitTest extends TestCase
     /** @test */
     public function testDeleteFiles()
     {
-        \Storage::fake(); //Make in testing folder
         $file1 = UploadedFile::fake()->create('video1.mp4'); //Fake of file generate by laravel
         $file2 = UploadedFile::fake()->create('video2.mp4'); //Fake of file generate by laravel
         $this->obj->uploadFiles([$file1, $file2]);
