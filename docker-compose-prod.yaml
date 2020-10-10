@@ -14,6 +14,9 @@ services:
       - GOOGLE_CLOUD_STORAGE_API_URI=${GOOGLE_CLOUD_STORAGE_API_URI}
       - TESTING_PROD=${TESTING_PROD}
     container_name: app
+    # Passando params para dockerize rodar script entrypoint.sh
+    entrypoint: ./.docker/entrypoint.sh
+
     # Passando params para dockerize copy tamplate, aguarda conexão db e rodar script entrupoint.sh
     # entrypoint: dockerize -wait tcp://db:3306 -timeout 60s ./.docker/entrypoint.sh
     # valor da variáveis p/ template
