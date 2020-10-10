@@ -1,0 +1,4 @@
+[2020-04-09 07:49:40.622] [sharedprocess] [info] main {"machineId":"83ccf6c8f2e088b9df9ca3e943a1a7b9ded0258695c4c0d89c9bafa269285468","windowId":2}
+[2020-04-09 07:49:40.681] [sharedprocess] [error] [File Watcher (node.js)] Error: ENOENT: no such file or directory, stat '/home/valteir/code/estudo/code-education/curso-microservices/sources/cms-code-micro-video/root/User/snippets'
+[2020-04-09 07:49:41.889] [sharedprocess] [info] Deleted from disk ms-vsliveshare.vsliveshare /home/valteir/.vscode/extensions/ms-vsliveshare.vsliveshare-1.0.1891
+[2020-04-09 07:50:20.644] [sharedprocess] [info] Starting to clean up unused language packs.

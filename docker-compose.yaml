@@ -7,20 +7,18 @@ services:
     # Indica ao caminho do arquivo de construção Dockerfile
     build: .
     container_name: micro-videos-app
-    # Passando params para dockerize copy tamplate, aguarda conexão db e rodar script entrypoint.sh
-    entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 60s ./.docker/entrypoint.sh
-    ports:
-      - "9000"
-
-    # valor da variáveis p/ template
+    # Passando params para dockerize rodar script entrypoint.sh
+    entrypoint: ./.docker/entrypoint.sh
     environment:
-      - DB_HOST=db
-      - DB_DATABASE=code_micro_videos
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
+      - XDEBUG_CONFIG=xdebug.remote_host=app xdebug.remote_port=9001 xdebug.remote_enable=1 xdebug.remote_autostart=1 xdebug.remote_handler=dbgp xdebug.idekey=VSCODE xdebug.remote_log=/var/log/xdebug/xdebug.log
+    ports:
+      - "9001:9001"
+
     volumes:
       - .:/var/www:rw,cached
       - ./.docker/app/log:/var/log:rw,cached
+      - ./.docker/app/log/xdebug:/var/log/xdebug:rw,cached
+      - ./.docker/app/php.ini:/usr/local/etc/php/php.ini
     #Rede a qual pertence o containner
     networks:
       - app-network
@@ -69,8 +67,8 @@ services:
       - ./.docker/database/dumps:/dumps:rw,cached
       - ./.docker/database/data:/var/lib/mysql:rw,cached
       - ./.docker/database/config:/etc/mysql/conf.d:rw,cached
+      - ./.docker/database/config:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_DATABASE=code_micro_videos
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=root
     networks:
