@@ -8,11 +8,6 @@ use Tests\TestCase;
 use Tests\Traits\TestProd;
 use Tests\Traits\TestStorage;
 
-/**
- * Teste de itens e propriedades da unit
- * Não testa nada que vem de fora da classe
- * Esta mudanças serão testadas em feature
- */
 
 class UploadFilesUnitTest extends TestCase
 {
