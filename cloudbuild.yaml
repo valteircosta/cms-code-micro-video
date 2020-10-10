@@ -1,7 +1,7 @@
 # Este arquivo será lido pelo Google Cloud Plataform - GCP
 steps:
   - id: "Rodando geração do encrypt do json"
-    name: 'gcr.io/cloud-builders/gcloud'
+    name: "gcr.io/cloud-builders/gcloud"
     args:
       - kms
       - decrypt
