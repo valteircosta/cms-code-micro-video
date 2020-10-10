@@ -24,7 +24,7 @@ services:
     #   - DB_PASSWORD=root
     volumes:
       - .:/var/www
-    #Rede a qual perrence o containner
+    #Rede a qual pertence o containner
     networks:
       - app-network
     #Aqui agora apenas garante a ordem de criação dos serviços
