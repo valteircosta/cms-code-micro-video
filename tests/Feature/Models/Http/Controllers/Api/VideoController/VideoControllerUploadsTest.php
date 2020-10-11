@@ -18,17 +18,48 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
     //Sempre usar esta trait em teste com banco de dados
     use  TestValidations, TestUploads;
 
+    public function testInvalidationThumbField()
+    {
+        $this->assertInvalidationFile(
+            'thumb_file',
+            'jpg',
+            Video::THUMB_FILE_MAX_SIZE,
+            'image'
+        );
+    }
+
+    public function testInvalidationBannerField()
+    {
+        $this->assertInvalidationFile(
+            'banner_file',
+            'jpg',
+            Video::BANNER_FILE_MAX_SIZE,
+            'image'
+        );
+    }
+
+    public function testInvalidationTrailerField()
+    {
+        $this->assertInvalidationFile(
+            'trailer_file',
+            'mp4',
+            Video::TRAILER_FILE_MAX_SIZE,
+            'mimetypes',
+            ['values'=> 'video/mp4']
+        );
+    }
+
     public function testInvalidationVideoField()
     {
-
         $this->assertInvalidationFile(
             'video_file',
             'mp4',
-            12,
-            'mimetypes',
+            Video::VIDEO_FILE_MAX_SIZE,
+           'mimetypes',
             ['values' => 'video/mp4']
         );
     }
+
     public function testStoreWithFiles()
     {
         \Storage::fake();
@@ -78,8 +109,8 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
     }
 
     protected function getFiles()
+    return [
     {
-        return [
             'video_file' => UploadedFile::fake()->create("video_file.mp4")
         ];
     }
