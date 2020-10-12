@@ -27,6 +27,8 @@ class Video extends Model
         'duration',
         'thumb_file',
         'video_file',
+        'banner_file',
+        'trailer_file',
     ];
 
     protected $dates = ['deleted_at'];
@@ -40,7 +42,8 @@ class Video extends Model
     ];
 
     public $incrementing = false;
-    public static $fileFields = ['video_file', 'thumb_file'];
+    protected $hidden = ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
+    public static $fileFields = ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
 
     //First  magic method is called wich call create, if create does not exist then next line
     // QueryBuilder constructor is called
@@ -120,5 +123,26 @@ class Video extends Model
     protected function uploadDir()
     {
         return $this->id;
+    }
+
+    /**
+     * Methods below work with concepts mutations of the Laravel
+     * getThumbFileAttribute()  producer  $video->thumb_file_url
+     */
+    public function getThumbFileUrlAttributre()
+    {
+        return $this->thumb_file ? $this->getFileUrl($this->thumb_file) : null;
+    }
+    public function getBannerFileUrlAttributre()
+    {
+        return $this->banner_file ? $this->getFileUrl($this->banner_file) : null;
+    }
+    public function getTrailerFileUrlAttributre()
+    {
+        return $this->trailer_file ? $this->getFileUrl($this->trailer_file) : null;
+    }
+    public function getVideoFileUrlAttributre()
+    {
+        return $this->video_file ? $this->getFileUrl($this->video_file) : null;
     }
 }

@@ -3,11 +3,11 @@
 namespace Tests\Feature\Http\Controllers\Api\VideoController;
 
 
-use App\Http\Controllers\Api\VideoController;
-use App\Models\Category;
-use App\Models\Genre;
 use App\Models\Video;
+use App\Http\Controllers\Api\VideoController;
+use App\Models\Traits\UploadFiles;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Tests\Traits\TestUploads;
 use Tests\Traits\TestValidations;
 
@@ -45,7 +45,7 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
             'mp4',
             Video::TRAILER_FILE_MAX_SIZE,
             'mimetypes',
-            ['values'=> 'video/mp4']
+            ['values' => 'video/mp4']
         );
     }
 
@@ -55,7 +55,7 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
             'video_file',
             'mp4',
             Video::VIDEO_FILE_MAX_SIZE,
-           'mimetypes',
+            'mimetypes',
             ['values' => 'video/mp4']
         );
     }
@@ -65,53 +65,57 @@ class VideoControllerUploadsTest extends BaseVideoControllerTestCase
         \Storage::fake();
         $files = $this->getFiles();
 
-        $category = Factory(Category::class)->create();
-        $genre = Factory(Genre::class)->create();
-        $genre->categories()->sync($category->id);
-
         $response = $this->json(
             'POST',
             $this->routeStore(),
-            $this->sendData + [
-                'categories_id' => [$category->id],
-                'genres_id' => [$genre->id],
-            ] + $files
+            $this->sendData + $files
         );
         $response->assertStatus(201);
-        $id = $response->json('id');
-        foreach ($files as $file) {
-            \Storage::assertExists("{$id}/{$file->hashName()}");
-        }
+        $this->assertFilesOnPersist($response, $files);
     }
+
     public function testUpdateWithFiles()
     {
         \Storage::fake();
         $files = $this->getFiles();
 
-        $category = Factory(Category::class)->create();
-        $genre = Factory(Genre::class)->create();
-        $genre->categories()->sync($category->id);
-
         $response = $this->json(
             'PUT',
             $this->routeUpdate(),
-            $this->sendData + [
-                'categories_id' => [$category->id],
-                'genres_id' => [$genre->id],
-            ] + $files
+            $this->sendData + $files
         );
 
         $response->assertStatus(200);
-        $id = $response->json('id');
-        foreach ($files as $file) {
-            \Storage::assertExists("{$id}/{$file->hashName()}");
-        }
-    }
+        $this->assertFilesOnPersist($response, $files);
 
-    protected function getFiles()
-    return [
+        $new_files = [
+            'thumb_file' => UploadedFile::fake()->create('thumb_file.jpg'),
+            'video_file' => UploadedFile::fake()->create('video_file.mp4'),
+        ];
+        $response = $this->json('PUT', $this->routeUpdate(), $this->sendData + $new_files);
+        $response->assertStatus(200);
+        $this->assertFilesOnPersist(
+            $response,
+            Arr::except($files, ['thumb_file', 'video_file']) + $new_files
+        );
+        $id = $response->json('id');
+        $video = Video::find($id);
+        \Storage::assertMissing($video->relativeFilePath($files['thumb_file']->hashName()));
+        \Storage::assertMissing($video->relativeFilePath($files['video_file']->hashName()));
+    }
+    protected function assertFilesOnPersist($response, $files)
     {
-            'video_file' => UploadedFile::fake()->create("video_file.mp4")
+        $id = $response->json('id');
+        $video = Video::find($id);
+        $this->assertFilesExistsInStorage($video, $files);
+    }
+    protected function getFiles()
+    {
+        return [
+            'thumb_file' => UploadedFile::fake()->create("thumb_file.jpg"),
+            'banner_file' => UploadedFile::fake()->create("banner_file.jpg"),
+            'trailer_file' => UploadedFile::fake()->create("trailer_file.mp4"),
+            'video_file' => UploadedFile::fake()->create("video_file.mp4"),
         ];
     }
 

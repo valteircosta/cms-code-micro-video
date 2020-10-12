@@ -28,6 +28,11 @@ class UploadFilesUnitTest extends TestCase
         \Config::set('filesystems.default', 'gcs');
         $this->deleteAllFiles();
     }
+    /** @test */
+    public function testRelativeFilePath()
+    {
+        $this->assertEquals("1/video.mp4", $this->obj->relativeFilePath("video.mp4"));
+    }
 
     /** @test */
     public function testUploadFile()
