@@ -27,7 +27,7 @@ class VideoSeeder extends Seeder
         $self = $this;
         $this->allGenres = Genre::all();
         Model::reguard(); //Active mass assignment in the model
-        factory(\App\Models\Video::class, 50)
+        factory(\App\Models\Video::class, 100)
             ->make()
             ->each(function (Video $video) use ($self) {
                 $self->fetchRelations();
