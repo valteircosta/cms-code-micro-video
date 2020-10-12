@@ -64,8 +64,8 @@ class VideoSeeder extends Seeder
     public function getImageFile()
     {
         return new UploadedFile(
-            storage_path('faker/thumbs/base-image.png'),
-            '01-how-functionate-upload-image.png'
+            storage_path('faker/thumbs/base-imagem.png'),
+            '01-how-functionate-upload-imagem.png'
         );
     }
 
