@@ -129,19 +129,19 @@ class Video extends Model
      * Methods below work with concepts mutations of the Laravel
      * getThumbFileAttribute()  producer  $video->thumb_file_url
      */
-    public function getThumbFileUrlAttributre()
+    public function getThumbFileUrlAttribute()
     {
         return $this->thumb_file ? $this->getFileUrl($this->thumb_file) : null;
     }
-    public function getBannerFileUrlAttributre()
+    public function getBannerFileUrlAttribute()
     {
         return $this->banner_file ? $this->getFileUrl($this->banner_file) : null;
     }
-    public function getTrailerFileUrlAttributre()
+    public function getTrailerFileUrlAttribute()
     {
         return $this->trailer_file ? $this->getFileUrl($this->trailer_file) : null;
     }
-    public function getVideoFileUrlAttributre()
+    public function getVideoFileUrlAttribute()
     {
         return $this->video_file ? $this->getFileUrl($this->video_file) : null;
     }
