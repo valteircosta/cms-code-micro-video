@@ -2,10 +2,10 @@
 
 namespace App\Models\Traits;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Symfony\Component\HttpFoundation\File\UploadedFile as FileUploadedFile;
 
 trait UploadFiles
 {
@@ -44,6 +44,9 @@ trait UploadFiles
         }
     }
 
+    /**
+     * @param UploadedFile $file
+     */
     public function uploadFile(UploadedFile $file)
     {
         $file->store($this->uploadDir());
@@ -64,7 +67,7 @@ trait UploadFiles
      */
     public function deleteFile($file)
     {
-        $fileName = $file instanceof FileUploadedFile ? $file->hashName() : $file;
+        $fileName = $file instanceof UploadedFile ? $file->hashName() : $file;
         \Storage::delete("{$this->uploadDir()}/{$fileName}");
     }
 
