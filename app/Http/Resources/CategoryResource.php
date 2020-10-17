@@ -17,9 +17,11 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         //Define field that returned
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
+        // return [
+        //     'id' => $this->id,
+        //     'name' => $this->name,
+        // ];
+        // Keep simple stupid, not exist field for hide
+        return parent::toArray($request);
     }
 }

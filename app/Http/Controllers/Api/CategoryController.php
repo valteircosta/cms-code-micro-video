@@ -14,6 +14,7 @@ class CategoryController extends BasicCrudController
         'is_active' => 'boolean',
     ];
 
+
     /**
      * Using resource in controller, override method
      */
@@ -41,5 +42,9 @@ class CategoryController extends BasicCrudController
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+    protected function resource()
+    {
+        return CategoryResource::class;
     }
 }

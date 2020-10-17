@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\Resource;
 
 abstract class BasicCrudController extends Controller
 {
     protected abstract function model();
     protected abstract function rulesStore();
     protected abstract function rulesUpdate();
+    protected abstract function resource();
 
     public function index()
     {
@@ -23,7 +25,9 @@ abstract class BasicCrudController extends Controller
         $obj = $this->model()::create($validatedData);
         /** Refresh pega todos campos usados na operação */
         $obj->refresh();
-        return $obj;
+        //Implementing resource
+        $resource = $this->resource();
+        return new Resource($obj);
     }
     protected function findOrFail($id)
     {
