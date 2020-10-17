@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource
 {
+    //Disable wrap Data
+    //public static $wrap = false;
     /**
      * Transform the resource into an array.
      *
@@ -14,6 +16,10 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        //Define field that returned
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
     }
 }

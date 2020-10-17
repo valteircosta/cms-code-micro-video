@@ -30,7 +30,8 @@ Para criar um relacionamento deve se respeitar a ordem alfabetica pois o laravel
 Exemplo: veja que category está antes de video em ordem alfabetica no singular
 1.1) Criar a migrate  php artisan make:migration create_category_video_table
 1.2) Criar a migrate  php artisan make:migration create_genre_video_table
-1.3) Criar o resource php artisan make:resource CategoryResource
+1.3) Criar o resource  -> php artisan make:resource CategoryResource
+     Criar o resource collection -> php artisan make:resource CategoryCollecion --collection
     - O resource faz a serialização no laravel, anteriormente era usao o Fractal.
 
 Adicionando Model ao sistema em desenvolvimento
