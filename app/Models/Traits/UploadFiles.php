@@ -5,7 +5,6 @@ namespace App\Models\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Symfony\Component\HttpFoundation\File\UploadedFile as FileUploadedFile;
 
 trait UploadFiles
 {
@@ -29,6 +28,11 @@ trait UploadFiles
         });
     }
 
+    public function relativeFilePath($value)
+    {
+        return "{$this->uploadDir()}/{$value}";
+    }
+
     /**
      * @param UploadedFile[] $files
      */
@@ -39,6 +43,9 @@ trait UploadFiles
         }
     }
 
+    /**
+     * @param UploadedFile $file
+     */
     public function uploadFile(UploadedFile $file)
     {
         $file->store($this->uploadDir());
@@ -59,7 +66,7 @@ trait UploadFiles
      */
     public function deleteFile($file)
     {
-        $fileName = $file instanceof FileUploadedFile ? $file->hashName() : $file;
+        $fileName = $file instanceof UploadedFile ? $file->hashName() : $file;
         \Storage::delete("{$this->uploadDir()}/{$fileName}");
     }
 
@@ -77,5 +84,9 @@ trait UploadFiles
             }
         }
         return $files;
+    }
+    protected function getFileUrl($filename)
+    {
+        return \Storage::url($this->relativeFilePath($filename));
     }
 }
