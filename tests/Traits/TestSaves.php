@@ -41,7 +41,7 @@ trait TestSaves
         $table = (new $model)->getTable();
         $this->assertDatabaseHas(
             $table,
-            $testDatabase + ['id' => $response->json('id')]
+            $testDatabase + ['id' => $this->getIdFromResponse($response)]
         );
     }
     private  function assertJsonResponseContext(TestResponse $response, array $testDatabase, array $testJsonData = null)
@@ -49,7 +49,13 @@ trait TestSaves
 
         $testResponse = $testJsonData ?? $testDatabase;
         $response->assertJsonFragment(
-            $testResponse + ['id' => $response->json('id')]
+            $testResponse + ['id' => $this->getIdFromResponse($response)]
         );
+    }
+
+    private function getIdFromResponse(TestResponse $response)
+    {
+        //Using operator null coalesc PHP
+        return $response->json('id') ?? $response->json('data.id');
     }
 }
