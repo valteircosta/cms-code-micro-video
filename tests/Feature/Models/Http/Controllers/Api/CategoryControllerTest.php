@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Http\Resources\CategoryCollecion;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -36,8 +37,9 @@ class CategoryControllerTest extends TestCase
     {
         $response = $this->get(route('categories.index'));
         $response
-            ->assertStatus(200)
-            ->assertJson([$this->category->toArray()]);
+            ->assertStatus(200);
+        $resource = CategoryResource::collection(collect([$this->category]));
+        $this->assertResource($response, $resource);
     }
     public function testShow()
     {

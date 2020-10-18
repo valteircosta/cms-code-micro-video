@@ -15,16 +15,18 @@ class CategoryController extends BasicCrudController
     ];
 
 
+
     /**
      * Using resource in controller, override method
      */
-    public function index()
-    {
-        $collection = parent::index();
-        //call for returning collection
-        // return CategoryResource::collection($collection);
-        return new CategoryCollecion($collection);
-    }
+    // public function index()
+    // {
+    //     $collection = parent::index();
+    //     //call for returning collection
+    //     // return CategoryResource::collection($collection);
+    //     return new CategoryCollecion($collection);
+    // }
+
     protected function model()
     {
         return Category::class;
@@ -36,6 +38,11 @@ class CategoryController extends BasicCrudController
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+    //Puts above the resource() method because it is using her
+    protected function resourceCollection()
+    {
+        return $this->resource();
     }
     protected function resource()
     {
