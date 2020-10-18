@@ -56,7 +56,9 @@ class VideoController extends BasicCrudController
         $validatedData =  $this->validate($request, $this->rulesStore());
         $obj = $this->model()::create($validatedData);
         $obj->refresh();
-        return $obj;
+        //Because overridden method should end with get resource() method.
+        $resource = $this->resource();
+        return new $resource($obj);
     }
     protected function addRuleIfGenresHasCategories(Request $request)
     {
@@ -73,7 +75,9 @@ class VideoController extends BasicCrudController
         $this->addRuleIfGenresHasCategories($request);
         $validatedData =  $this->validate($request, $this->rulesStore());
         $obj->update($validatedData);
-        return $obj;
+        //Because overridden method should end with get resource() method.
+        $resource = $this->resource();
+        return new $resource($obj);
     }
 
     protected function model()
