@@ -27,4 +27,14 @@ class CastMemberController extends BasicCrudController
     {
         return $this->rules;
     }
+
+    //Puts above the resource() method because it is using her
+    protected function resourceCollection()
+    {
+        return $this->resource();
+    }
+    protected function resource()
+    {
+        return CastMemberResource::class;
+    }
 }
