@@ -32,7 +32,6 @@ class CategoryControllerTest extends TestCase
         $this->category = factory(Category::class)->create();
     }
 
-
     public function testIndex()
     {
         $response = $this->get(route('categories.index'));
