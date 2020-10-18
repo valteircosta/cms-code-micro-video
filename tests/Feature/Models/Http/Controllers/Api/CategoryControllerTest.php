@@ -134,8 +134,12 @@ class CategoryControllerTest extends TestCase
 
         $response = $this->assertUpdate($data, $testDatabase, $testJsonData);
         $response->assertJsonStructure(
-            ['deleted_at', 'created_at']
+            ['data' => $this->serializedFields]
         );
+
+        $id = $response->json('data.id');
+        $resource = new CategoryResource(Category::find($id));
+        $this->assertResource($response, $resource);
 
         $testDatabase = array_merge($data + [
             'description' => '',
