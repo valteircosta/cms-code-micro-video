@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Tests\Traits\TestResources;
 use Tests\Traits\TestSaves;
 use Tests\Traits\TestValidations;
 
@@ -12,7 +14,7 @@ class CategoryControllerTest extends TestCase
 
 {
     //Sempre usar esta trait em teste com banco de dados
-    use DatabaseMigrations, TestValidations, TestSaves;
+    use DatabaseMigrations, TestValidations, TestSaves, TestResources;
 
     private $category;
     private $serializedFields = [
@@ -92,6 +94,17 @@ class CategoryControllerTest extends TestCase
         ];
         $testDatabase = $data;
         $this->assertStore($data, $testDatabase);
+
+        //Instructions Teacher Luiz
+        //Returning CategoryResource to Json
+        // $json = (new CategoryResource(Category::first()))->response()->content();
+        // dump($json);
+        //Returning to Array
+        // $array = (new CategoryResource(Category::first()))->response()->getData(true);
+        // $response->assertJson($array);
+        $id = $response->json('data.id');
+        $resource = new CategoryResource(Category::find($id));
+        $this->assertResource($response, $resource);
     }
 
     public function testUpdate()
