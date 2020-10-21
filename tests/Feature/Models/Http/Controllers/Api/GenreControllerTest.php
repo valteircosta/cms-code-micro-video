@@ -197,39 +197,12 @@ class GenreControllerTest extends TestCase
             $response->assertJsonStructure([
                 'data' => $this->serializedFields
             ]);
+            $this->assertHasCategory($response->json('data.id'), $categoryId);
             $this->assertResource(
                 $response,
                 new GenreResource(Genre::find($response->json('data.id')))
             );
         }
-    }
-
-    public function testUpdate()
-    {
-
-        $categoryId = factory(Category::class)->create()->id;
-
-        $data =    [
-            'name' => 'test',
-            'is_active' => true,
-        ];
-
-        $response = $this->assertStore(
-            $data + ['categories_id' => [$categoryId]],
-            $data + ['is_active' => true, 'deleted_at' => null]
-        );
-        $response->assertJsonStructure(['updated_at', 'deleted_at', 'created_at']);
-
-        $this->assertHasCategory($response->json('id'), $categoryId);
-
-        $data =    [
-            'name' => 'test',
-            'is_active' => false,
-        ];
-        $this->assertStore(
-            $data + ['categories_id' => [$categoryId]],
-            $data + ['is_active' => false]
-        );
     }
     protected  function assertHasCategory($genreId, $categoryiId)
     {
