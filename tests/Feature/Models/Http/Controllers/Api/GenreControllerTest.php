@@ -165,7 +165,7 @@ class GenreControllerTest extends TestCase
             [
                 'send_data' => [
                     'name' => 'test',
-                    'categories_id' => $categoryId
+                    'categories_id' => [$categoryId]
                 ],
                 'test_data'  => [
                     'name' => 'test',
@@ -174,7 +174,7 @@ class GenreControllerTest extends TestCase
                 'send_data' => [
                     'name' => 'test',
                     'is_active' => false,
-                    'categories_id' => $categoryId
+                    'categories_id' => [$categoryId]
                 ],
                 'test_data'  => [
                     'name' => 'test',
