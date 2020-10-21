@@ -1,7 +1,6 @@
 Anotações referente ao projeto/estudos
 
-Parei no video
-Terminando upload de modulo video 19:00
+Parei no video Corrigindo fase de projeto - Implemen... Minuto 10:00
 Chamando o arquivo que inicializa o projeto
 sudo ./init_container.sh -> iniciar container
 sudo ./init_container-build.sh -> construir container build com sudo
