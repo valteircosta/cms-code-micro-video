@@ -5,11 +5,7 @@ namespace Tests\Feature\Http\Controllers\Api;
 use App\Http\Resources\CastMemberResource;
 use App\Models\CastMember;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Foundation\Testing\WithFaker;
-use phpDocumentor\Reflection\Types\This;
-use Route;
 use Tests\TestCase;
 use Tests\Traits\TestResources;
 use Tests\Traits\TestSaves;
@@ -139,7 +135,7 @@ class CastMemberControllerTest extends TestCase
         ];
 
         $response = $this->assertUpdate($data, $data + ['deleted_at' => null]);
-        $response->assertJsonFragment(
+        $response->assertJsonStructure(
             ['data' => $this->serializedFields]
         );
         $this->assertResource($response, new CastMemberResource(

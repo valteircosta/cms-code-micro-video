@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
-use App\Http\Resources\CategoryCollecion;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
