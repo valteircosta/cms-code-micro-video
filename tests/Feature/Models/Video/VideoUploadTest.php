@@ -6,9 +6,11 @@ use App\Models\Video;
 use Illuminate\Database\Events\TransactionCommitted;
 use Illuminate\Http\UploadedFile;
 use Tests\Exceptions\TestException;
+use Tests\Traits\TestProd;
 
 class VideoUploadTest extends BaseVideoTestCase
 {
+    use TestProd;
     /** @test */
     public function testCreateWithFiles()
     {
@@ -16,11 +18,15 @@ class VideoUploadTest extends BaseVideoTestCase
         $video = Video::create(
             $this->data + [
                 'thumb_file' => UploadedFile::fake()->image('thumb.jpg'),
-                'video_file' => UploadedFile::fake()->image('video.mp4'),
+                'banner_file' => UploadedFile::fake()->image('banner.png'),
+                'video_file' => UploadedFile::fake()->create('video.mp4'),
+                'trailer_file' => UploadedFile::fake()->create('trailer.mp4'),
             ]
         );
         \Storage::assertExists("{$video->id}/{$video->thumb_file}");
         \Storage::assertExists("{$video->id}/{$video->video_file}");
+        \Storage::assertExists("{$video->id}/{$video->banner_file}");
+        \Storage::assertExists("{$video->id}/{$video->trailer_file}");
     }
     /** @test */
     public function testCreateIfRollbackFiles()
