@@ -55,7 +55,7 @@ class CastMemberControllerTest extends TestCase
                     'meta' => [],
                 ]
             )
-            ->assertJsonFragment($this->castMember->toArray())
+            ->assertJsonFragment($this->castMember->toArray());
     }
     public function testShow()
     {
@@ -66,8 +66,7 @@ class CastMemberControllerTest extends TestCase
             ->assertJsonFragment($this->castMember->toArray());
 
         $this->assertResource($response, new CastMemberResource($this->castMember));
-
-  }
+    }
     /** @test */
     public function testInvalidationData()
     {
@@ -139,14 +138,13 @@ class CastMemberControllerTest extends TestCase
             'type' => CastMember::TYPE_ACTOR
         ];
 
-        $response = $this->assertUpdate($data, $data+['deleted_at'=>null]);
+        $response = $this->assertUpdate($data, $data + ['deleted_at' => null]);
         $response->assertJsonFragment(
             ['data' => $this->serializedFields]
         );
         $this->assertResource($response, new CastMemberResource(
-                CastMember::find($response->json('data.id'))
+            CastMember::find($response->json('data.id'))
         ));
-
     }
     /** @test */
     public function testDestroy()

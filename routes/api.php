@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Api'], function () {
     ];
     Route::resource('categories', 'CategoryController', $exceptCreateAndEdit);
     Route::resource('genres', 'GenreController', $exceptCreateAndEdit);
+    //When to use field compost name for turn easy to handle using "_"
     Route::resource('cast_members', 'CastMemberController', $exceptCreateAndEdit);
     Route::resource('videos', 'VideoController', $exceptCreateAndEdit);
 });
