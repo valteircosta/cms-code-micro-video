@@ -19,8 +19,8 @@ class VideoUploadTest extends BaseVideoTestCase
             $this->data + [
                 'thumb_file' => UploadedFile::fake()->image('thumb.jpg'),
                 'banner_file' => UploadedFile::fake()->image('banner.png'),
-                'video_file' => UploadedFile::fake()->create('video.mp4'),
                 'trailer_file' => UploadedFile::fake()->create('trailer.mp4'),
+                'video_file' => UploadedFile::fake()->create('video.mp4'),
             ]
         );
         \Storage::assertExists("{$video->id}/{$video->thumb_file}");
@@ -44,10 +44,14 @@ class VideoUploadTest extends BaseVideoTestCase
                 $this->data + [
                     'thumb_file' => UploadedFile::fake()->image('thumb.jpg'),
                     'video_file' => UploadedFile::fake()->image('video.mp4'),
+                    'banner_file' => UploadedFile::fake()->image('banner.png'),
+                    'trailer_file' => UploadedFile::fake()->create('trailer.mp4'),
                 ]
             );
             \Storage::assertExists("{$video->id}/{$video->thumb_file}");
             \Storage::assertExists("{$video->id}/{$video->video_file}");
+            \Storage::assertExists("{$video->id}/{$video->banner_file}");
+            \Storage::assertExists("{$video->id}/{$video->trailer_file}");
         } catch (\Tests\Exceptions\TestException $e) {
             $this->assertCount(0, \Storage::allFiles());
             $hasError = \true;
@@ -82,6 +86,76 @@ class VideoUploadTest extends BaseVideoTestCase
             $this->assertEquals("{$baseUrl}/$video->id/$value", $fileUrl);
         }
     }
+    public function testUpdateWithFile()
+    {
+        \Storage::fake();
+        $video = factory(Video::class)->create();
+        $thumbFile = UploadedFile::fake()->image('thumb.jpg');
+        $bannerFile = UploadedFile::fake()->image('banner.png');
+        $videoFile = UploadedFile::fake()->create('video.mp4');
+        $traillerFile = UploadedFile::fake()->create('trailler.mp4');
+
+        $video->update(
+            $this->data + [
+                'video_file' => $videoFile,
+                'trailer_file' => $traillerFile,
+                'thumb_file' => $thumbFile,
+                'banner_file' => $bannerFile
+            ]
+        );
+        $video->refresh();
+
+        $this->assertEquals($video->video_file, $videoFile->hashName());
+        $this->assertEquals($video->trailer_file, $traillerFile->hashName());
+        $this->assertEquals($video->thumb_file, $thumbFile->hashName());
+        $this->assertEquals($video->banner_file, $bannerFile->hashName());
+
+        \Storage::assertExists("{$video->id}/{$video->video_file}");
+        \Storage::assertExists("{$video->id}/{$video->trailer_file}");
+        \Storage::assertExists("{$video->id}/{$video->thumb_file}");
+        \Storage::assertExists("{$video->id}/{$video->banner_file}");
+
+        $newVideoFile = UploadedFile::fake()->image('video.mp4');
+
+        $video->update(
+            $this->data + [
+                'video_file' => $newVideoFile,
+            ]
+        );
+
+        \Storage::assertMissing("{$video->id}/{$videoFile->hashName()}");
+        \Storage::assertExists("{$video->id}/{$newVideoFile->hashName()}");
+        \Storage::assertExists("{$video->id}/{$thumbFile->hashName()}");
+        \Storage::assertExists("{$video->id}/{$traillerFile->hashName()}");
+        \Storage::assertExists("{$video->id}/{$bannerFile->hashName()}");
+    }
+
+    public function testUpdateIfRollbackFiles()
+    {
+        \Storage::fake();
+        $video = factory(Video::class)->create();
+        \Event::listen(TransactionCommitted::class, function () {
+            throw new TestException();
+        });
+        $hasError = false;
+
+        try {
+            $video->update(
+                $this->data + [
+                    'video_file' => UploadedFile::fake()->create('video.mp4'),
+                    'trailer_file' => UploadedFile::fake()->create('trailler.mp4'),
+                    'thumb_file' => UploadedFile::fake()->image('thumb.jpg'),
+                    'banner_file' => UploadedFile::fake()->image('banner.png')
+                ]
+            );
+        } catch (TestException $e) {
+            $this->assertCount(0, \Storage::allFiles());
+            $hasError = true;
+        }
+
+        $this->assertTrue($hasError);
+    }
+
     public function testFileUrlsIfNullWhenFieldAreNull()
     {
         $video = \factory(Video::class)->create();
