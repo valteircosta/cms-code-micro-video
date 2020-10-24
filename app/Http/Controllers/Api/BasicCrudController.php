@@ -37,7 +37,7 @@ abstract class BasicCrudController extends Controller
         $obj->refresh();
         //Implementing resource
         $resource = $this->resource();
-        return new Resource($obj);
+        return new $resource($obj);
     }
     protected function findOrFail($id)
     {
@@ -51,7 +51,7 @@ abstract class BasicCrudController extends Controller
     {
         $obj = $this->findOrFail($id);
         $resource = $this->resource();
-        return new Resource($obj);
+        return new $resource($obj);
     }
 
     public function update(Request $request, $id)
@@ -61,7 +61,7 @@ abstract class BasicCrudController extends Controller
         $validatedData =  $this->validate($request, $this->rulesStore());
         $obj->update($validatedData);
         $resource = $this->resource();
-        return new Resource($obj);
+        return new $resource($obj);
     }
 
     public function destroy($id)

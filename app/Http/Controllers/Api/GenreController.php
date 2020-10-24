@@ -44,6 +44,7 @@ class GenreController extends BasicCrudController
         $obj = \DB::transaction(function () use ($request, $validatedData, $self, $obj) {
             $obj->update($validatedData);
             $self->handleRelations($obj, $request);
+            return $obj;
         });
         //Because overridden method should end with get resource() method.
         $resource = $this->resource();

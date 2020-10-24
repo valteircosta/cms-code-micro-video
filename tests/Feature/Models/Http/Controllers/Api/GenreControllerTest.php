@@ -73,14 +73,10 @@ class GenreControllerTest extends TestCase
         $response = $this->get(route('genres.show', ['genre' => $this->genre->id]));
         $response
             ->assertStatus(200)
-            ->assertJsonStructure(
-                [
-                    'data' => $this->serializedFields
-
-                ]
-            )
+            ->assertJsonStructure(['data' => $this->serializedFields])
             ->assertJsonFragment($this->genre->toArray());
-        $resource = new GenreResource($this->genre);
+        $id = $response->json('data.id');
+        $resource = new GenreResource(Genre::find($id));
         $this->assertResource($response, $resource);
     }
     /** @test */
