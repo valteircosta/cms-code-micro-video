@@ -88,15 +88,17 @@ class Video extends Model
                 //Do upload new file here
                 $this->uploadFiles($files);
             }
+
+            \DB::commit();
+
             //Do delete older file
             if ($saved && count($files)) {
                 $this->deleteOldFiles();
             }
-
-            \DB::commit();
             return $saved;
         } catch (\Exception $e) {
             //Do delete new files try update here
+            $this->deleteFiles($files);
             \DB::rollBack();
             throw $e; // Rise execption for laravel
         }
