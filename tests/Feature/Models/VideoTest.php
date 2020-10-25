@@ -7,7 +7,6 @@ use App\Models\Genre;
 use App\Models\Video;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use phpDocumentor\Reflection\Types\This;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
@@ -45,6 +44,8 @@ class VideoTest extends TestCase
                 'duration',
                 'video_file',
                 'thumb_file',
+                'banner_file',
+                'trailer_file',
                 'updated_at',
                 'deleted_at',
                 'created_at'

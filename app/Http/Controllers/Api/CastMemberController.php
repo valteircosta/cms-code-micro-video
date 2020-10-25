@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\CastMemberResource;
 use App\Models\CastMember;
-use Illuminate\Http\Request;
 
 class CastMemberController extends BasicCrudController
 {
@@ -26,5 +26,15 @@ class CastMemberController extends BasicCrudController
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+
+    //Puts above the resource() method because it is using her
+    protected function resourceCollection()
+    {
+        return $this->resource();
+    }
+    protected function resource()
+    {
+        return CastMemberResource::class;
     }
 }

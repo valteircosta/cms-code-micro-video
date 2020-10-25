@@ -43,7 +43,7 @@ class Video extends Model
 
     public $incrementing = false;
     protected $hidden = ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
-    public static $fileFields = ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
+    public static $fileFields =  ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
 
     //First  magic method is called wich call create, if create does not exist then next line
     // QueryBuilder constructor is called
@@ -87,12 +87,18 @@ class Video extends Model
             if ($saved) {
                 //Do upload new file here
                 $this->uploadFiles($files);
-                //Do delete older file
             }
+
             \DB::commit();
+
+            //Do delete older file
+            if ($saved && count($files)) {
+                $this->deleteOldFiles();
+            }
             return $saved;
         } catch (\Exception $e) {
             //Do delete new files try update here
+            $this->deleteFiles($files);
             \DB::rollBack();
             throw $e; // Rise execption for laravel
         }
@@ -124,6 +130,7 @@ class Video extends Model
     {
         return $this->id;
     }
+
 
     /**
      * Methods below work with concepts mutations of the Laravel

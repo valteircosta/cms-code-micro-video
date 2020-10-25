@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\VideoResource;
 use App\Models\Video;
 use App\Rules\GenresHasCategoriesRule;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class VideoController extends BasicCrudController
                 'exists:genres,id,deleted_at,NULL',
             ],
             'thumb_file' => 'image|max:' . Video::THUMB_FILE_MAX_SIZE, // 5 MB
-            'banne_file' => 'image|max:' . Video::BANNER_FILE_MAX_SIZE, // 10 MB
+            'banner_file' => 'image|max:' . Video::BANNER_FILE_MAX_SIZE, // 10 MB
             'trailer_file' => 'mimetypes:video/mp4|max:' . Video::TRAILER_FILE_MAX_SIZE, // 1 GB
             'video_file' => 'mimetypes:video/mp4|max:' . Video::VIDEO_FILE_MAX_SIZE // 50 GB, //KB
         ];
@@ -55,7 +56,9 @@ class VideoController extends BasicCrudController
         $validatedData =  $this->validate($request, $this->rulesStore());
         $obj = $this->model()::create($validatedData);
         $obj->refresh();
-        return $obj;
+        //Because overridden method should end with get resource() method.
+        $resource = $this->resource();
+        return new $resource($obj);
     }
     protected function addRuleIfGenresHasCategories(Request $request)
     {
@@ -72,7 +75,9 @@ class VideoController extends BasicCrudController
         $this->addRuleIfGenresHasCategories($request);
         $validatedData =  $this->validate($request, $this->rulesStore());
         $obj->update($validatedData);
-        return $obj;
+        //Because overridden method should end with get resource() method.
+        $resource = $this->resource();
+        return new $resource($obj);
     }
 
     protected function model()
@@ -86,5 +91,14 @@ class VideoController extends BasicCrudController
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+    //Puts above the resource() method because it is using her
+    protected function resourceCollection()
+    {
+        return $this->resource();
+    }
+    protected function resource()
+    {
+        return VideoResource::class;
     }
 }
