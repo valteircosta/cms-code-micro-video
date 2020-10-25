@@ -25,7 +25,15 @@ abstract class BaseVideoControllerTestCase extends TestCase
         $category = factory(Category::class)->create();
         $genre = factory(Genre::class)->create();
         $genre->categories()->sync($category->id);
-        $this->video = factory(Video::class)->create(['opened' => false]);
+        $this->video = factory(Video::class)->create(
+            [
+                'opened' => false,
+                'thumb_file' => 'thumb.jpg',
+                'banner_file' => 'banner.jpg',
+                'video_file' => 'video.mp4',
+                'trailer_file' => 'trailer.mp4'
+            ]
+        );
         $this->sendData = [
             'title' => 'title',
             'description' => 'description',

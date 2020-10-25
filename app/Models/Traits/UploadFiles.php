@@ -21,8 +21,8 @@ trait UploadFiles
                 return $model->getOriginal($fileField);
             });
             //Method statica is the model, not can uses $this
-            $model->oldFiles = \array_map(function ($fileFields) use ($model) {
-                return $model->getOriginal($fileFields);
+            $model->oldFiles = \array_map(function ($fileField) use ($model) {
+                return $model->getOriginal($fileField);
             }, $filesFiltered);
         });
     }
@@ -83,6 +83,8 @@ trait UploadFiles
             }
         }
         return $files;
+
+        $files = [];
     }
     protected function getFileUrl($filename)
     {
