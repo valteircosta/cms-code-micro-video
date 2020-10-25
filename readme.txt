@@ -20,6 +20,7 @@ docker-compose exec --user=1000 app bash
 
 =====================
 Ajuda
+Deve agora entrar na pastaf backend para executar o artisan
 php artisan  make:model --help
 
 Cria model, factory, migration, seeder e controller
