@@ -1,7 +1,12 @@
 #!/bin/bash
 # Aqui devemos rodar o compose  pois aqui o que é realizado fica no volume compartilhado
-# a imagem já está criada.
 
+## FRONT-END
+cd /var/www/frontend && npm install && cd ..
+
+## BACK-END Go to folder backend
+cd backend
+# a imagem já está criada.
 echo "Concede permissão na pasta....."
 chown -R www-data:www-data .
 
@@ -12,8 +17,14 @@ echo "Instalando dependencias node....."
 npm install
 
 echo "copiando .env da aplicacao..."
+if [ ! -f ".env"]; then
 cp .env.example .env
+fi
+
+echo "copiando .env.testing da aplicacao..."
+if [ ! -f ".env.testing"]; then
 cp .env.testing.example .env.testing
+fi
 
 dockerize -wait tcp://db:3306 -timeout 60s
 

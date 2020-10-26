@@ -30,13 +30,9 @@
             "username": "root"
         }
     ],
-    "phpunit.docker_name": "app",
-    "phpunit.exec": "vendor/bin/phpunit",
-    "phpunit.code_path": "/var/www",
     "vim.smartcase": false,
     "vim.ignorecase": false,
     "php.suggest.basic": false,
-    "phpunit.docker.image": "",
     "vim.easymotion": true,
     "vim.incsearch": false,
     "editor.suggest.insertMode": "replace",

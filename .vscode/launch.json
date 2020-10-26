@@ -9,7 +9,7 @@
             // "log": true,
             // "externalConsole": false,
             "pathMappings": {
-                "/var/www": "${workspaceFolder}/var/www"
+                "/var/www/backend": "${workspaceFolder}/var/www/backend"
             },
             // "ignore": ["**/vendor/**/*.php"],
             "xdebugSettings": {
