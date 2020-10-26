@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.134.1/containers/docker-existing-docker-compose
 // If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
 {
-    "name": "micro-service",
+    "name": "micro-services",
 
     // Update the 'dockerComposeFile' list if you have more compose files or use different names.
     // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
@@ -55,7 +55,8 @@
 		"codingyu.laravel-goto-view",
 		"stef-k.laravel-goto-controller",
 		"onecentlin.laravel5-snippets",
-		"calebporzio.better-phpunit"
+		"calebporzio.better-phpunit",
+		"recca0120.vscode-phpunit"
 	]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
