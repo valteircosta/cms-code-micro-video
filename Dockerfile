@@ -15,7 +15,7 @@ RUN apk add --no-cache openssl \
 
 RUN docker-php-ext-install pdo pdo_mysql
 
-RUN touch /home/www-data/.bashrc | echo "PS1='\w\$ '" >> /home/www-data/.bashrc
+RUN touch /root/.bashrc | echo "PS1='\w\$ '" >> /root/.bashrc
 
 # Add XDevug
 RUN pecl install -f xdebug \
@@ -43,6 +43,9 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Add cache in npm for improve performance
+RUN npm config set cache /var/www/.npm-cache --global
 
 RUN usermod -u 1000 www-data
 

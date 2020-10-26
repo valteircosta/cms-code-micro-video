@@ -1,6 +1,10 @@
 #!/bin/bash
 # Aqui devemos rodar o compose  pois aqui o que é realizado fica no volume compartilhado
-# Go to folder backend
+
+## FRONT-END
+cd /var/www/frontend && npm install && cd ..
+
+## BACK-END Go to folder backend
 cd backend
 # a imagem já está criada.
 echo "Concede permissão na pasta....."

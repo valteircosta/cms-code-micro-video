@@ -3,3 +3,4 @@
 .docker/redis
 .docker/nginx/log
 .docker/app/log
+.npm-cache/
