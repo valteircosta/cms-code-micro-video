@@ -17,7 +17,6 @@ use Tests\Traits\TestValidations;
 
 
 class VideoControllerCrudTest extends BaseVideoControllerTestCase
-
 {
     //Sempre usar esta trait em teste com banco de dados
     use DatabaseMigrations, TestValidations, TestSaves, TestResources;

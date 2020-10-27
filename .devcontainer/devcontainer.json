@@ -18,7 +18,8 @@
 
     // Set *default* container specific settings.json values on container create.
     "settings": {
-        "terminal.integrated.shell.linux": "bash"
+    	"terminal.integrated.shell.linux": "bash",
+
     },
 
     // Add the IDs of extensions you want installed when the container is created.
@@ -56,6 +57,8 @@
 		"stef-k.laravel-goto-controller",
 		"onecentlin.laravel5-snippets",
 		"calebporzio.better-phpunit",
+		"ms-vscode.vscode-typescript-tslint-plugin",
+		"xabikos.reactsnippets",
 		"recca0120.vscode-phpunit"
 	]
 

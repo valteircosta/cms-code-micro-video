@@ -36,5 +36,5 @@
     "vim.easymotion": true,
     "vim.incsearch": false,
     "editor.suggest.insertMode": "replace",
-    "editor.tabCompletion": "on"
+    "editor.tabCompletion": "on",
 }
