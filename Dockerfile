@@ -46,7 +46,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Add cache in npm for improve performance
 RUN npm config set cache /var/www/.npm-cache --global
-
+# Add user in containner
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www
