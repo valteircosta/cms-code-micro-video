@@ -47,7 +47,9 @@
 		"xabikos.reactsnippets",
 		"hbenl.vscode-test-explorer",
 		"kavod-io.vscode-jest-test-adapter",
-		"streetsidesoftware.code-spell-checker"
+		"streetsidesoftware.code-spell-checker",
+		"burkeholland.simple-react-snippets",
+		"infeng.vscode-react-typescript"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
