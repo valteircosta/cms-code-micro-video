@@ -45,6 +45,8 @@
 		"mikestead.dotenv",
 		"ms-vscode.vscode-typescript-tslint-plugin",
 		"xabikos.reactsnippets",
+		"hbenl.vscode-test-explorer",
+		"kavod-io.vscode-jest-test-adapter"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
