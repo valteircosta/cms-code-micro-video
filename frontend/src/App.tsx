@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 // import logo from './logo.svg';
 // import './App.css';
@@ -6,7 +7,8 @@ import { Navbar } from './components/Navbar';
 
 function App() {
   return (
-    <Navbar></Navbar>
+    <Navbar>
+    </Navbar>
   );
 }
 
