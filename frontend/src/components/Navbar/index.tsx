@@ -10,14 +10,14 @@ const useStyles = makeStyles({
         backgroundColor: '#000000'
     },
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        textAlign: 'center'
     }
 });
 
 export const Navbar: React.FC = () => {
     //Execute function return object styles
     const classes = useStyles();
-    console.log(classes);
     return (
         <div>
             <AppBar>
