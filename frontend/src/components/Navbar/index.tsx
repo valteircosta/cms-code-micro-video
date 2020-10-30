@@ -4,6 +4,8 @@ import {
     Button,
     IconButton,
     makeStyles,
+    Menu,
+    MenuItem,
     Theme,
     Toolbar,
     Typography,
@@ -44,9 +46,17 @@ export const Navbar: React.FC = () => {
                         aria-haspopup="true"
                     >
                         <MenuIcon>
-
                         </MenuIcon>
                     </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        open={true}
+                    >
+                        <MenuItem>
+                            Categorias
+                        </MenuItem>
+
+                    </Menu>
                     <Typography className={classes.title}>
                         <img src={logo} alt="CodeFlix" />
                     </Typography>
@@ -55,4 +65,4 @@ export const Navbar: React.FC = () => {
             </AppBar>
         </div>
     );
-};
+}
