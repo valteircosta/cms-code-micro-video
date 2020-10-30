@@ -9,7 +9,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import logo from "../../static/img/logo.png";
-import MenuIcon from "@material-ui/core/icons/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
 
 //Make object with styles using Theme
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,7 +35,14 @@ export const Navbar: React.FC = () => {
         <div>
             <AppBar>
                 <Toolbar className={classes.toolbar}>
-                    <IconButton>
+                    {/* Note..: When use two or plus line, correctly alignment is line over line in code  */}
+                    <IconButton
+                        color="inherit"
+                        edge="start"
+                        aria-label="open drawer"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                    >
                         <MenuIcon>
 
                         </MenuIcon>
