@@ -8,7 +8,9 @@ const App: React.FC = () => {
     <React.Fragment>
       <Navbar />
       <Box paddingTop={'70px'} >
-        <Page title={'Categorias'} />
+        <Page title={'Categorias'} >
+          Content show in the children property
+        </Page>
       </Box >
     </React.Fragment >
   );

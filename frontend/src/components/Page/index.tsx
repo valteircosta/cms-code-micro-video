@@ -17,6 +17,7 @@ export const Page: React.FC<PageProps> = (props) => {
                 <Typography className={classes.title} component='h1' variant='h5' >
                     {props.title}
                 </Typography>
+                {props.children}
             </Container>
         </div>
     );
