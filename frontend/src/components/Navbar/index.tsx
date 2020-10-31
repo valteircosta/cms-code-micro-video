@@ -62,6 +62,10 @@ export const Navbar: React.FC = () => {
                         open={open}
                         anchorEl={anchorEl}
                         onClose={handleClose} //Event make for close menu
+                        // Change menu position on the form
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        getContentAnchorEl={null}
                     >
                         <MenuItem onClick={handleClose} >
                             Categorias
