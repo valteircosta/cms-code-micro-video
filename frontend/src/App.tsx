@@ -1,14 +1,18 @@
-import { Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-// import { Button } from '@material-ui/core';
 import { Navbar } from './components/Navbar';
+import { Page } from './components/Page';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <Navbar>
-    </Navbar>
+    <React.Fragment>
+      <Navbar />
+      <Box paddingTop={'70px'} >
+        <Page title={'Categorias'} >
+          Content show in the children property
+        </Page>
+      </Box >
+    </React.Fragment >
   );
 }
 
