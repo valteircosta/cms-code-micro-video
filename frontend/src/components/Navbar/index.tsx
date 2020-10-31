@@ -8,6 +8,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import logo from "../../static/img/logo.png";
+import { Menu } from "./Menu";
 
 //Make object with styles using Theme
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,6 +33,7 @@ export const Navbar: React.FC = () => {
         <div>
             <AppBar>
                 <Toolbar className={classes.toolbar}>
+                <Menu />
                     <Typography className={classes.title}>
                         <img src={logo} alt="CodeFlix" />
                     </Typography>
