@@ -37,7 +37,7 @@ export const Navbar: React.FC = () => {
     const open = Boolean(anchorEl);
     // Event handler for IconButton
     const handleOpen = (event: any) => setAnchorEl(event.currentTarget);
-    const handleClose = (event: any) => setAnchorEl(null);
+    const handleClose = () => setAnchorEl(null);
 
     // Execute function return object styles
     const classes = useStyles();
