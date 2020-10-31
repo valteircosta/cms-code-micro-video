@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
             <AppBar>
                 <Toolbar className={classes.toolbar}>
                     <Menu />
-                    <Typography className={classes.title}>
+                    <Typography className={classes.title} >
                         <img src={logo} alt="CodeFlix" />
                     </Typography>
                     <Button color="inherit">Login</Button>

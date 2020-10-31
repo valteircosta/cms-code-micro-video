@@ -14,7 +14,7 @@ export const Page: React.FC<PageProps> = (props) => {
     return (
         <div>
             <Container>
-                <Typography className={classes.title} >
+                <Typography className={classes.title} component='h1' variant='h5' >
                     {props.title}
                 </Typography>
             </Container>
