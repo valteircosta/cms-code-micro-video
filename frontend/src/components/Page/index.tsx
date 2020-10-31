@@ -3,7 +3,7 @@ import { Container, makeStyles, Typography } from '@material-ui/core';
 import * as React from 'react';
 
 const useStyles = makeStyles({
-    title: { color='#999999' }
+    title: { color: '#999999' }
 });
 
 type PageProps = {

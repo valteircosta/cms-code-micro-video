@@ -1,14 +1,13 @@
-import { Typography } from '@material-ui/core';
 import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-// import { Button } from '@material-ui/core';
 import { Navbar } from './components/Navbar';
+import { Page } from './components/Page';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <Navbar>
-    </Navbar>
+    <React.Fragment>
+      <Navbar />
+      <Page title={'Categorias'} />
+    </React.Fragment>
   );
 }
 
