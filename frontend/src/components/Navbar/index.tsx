@@ -29,9 +29,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
     }
 }));
-
 export const Navbar: React.FC = () => {
-    //Execute function return object styles
+    /**
+    * I Make first Hook with React, his define inicial value for open property of the menu and contain
+    */
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    // Event handler for IconButton
+    const handleOpen = (event: any) => setAnchorEl(event.currentTarget);
+    const handleClose = (event: any) => setAnchorEl(null);
+
+    // Execute function return object styles
     const classes = useStyles();
     return (
         <div>
@@ -44,15 +52,18 @@ export const Navbar: React.FC = () => {
                         aria-label="open drawer"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
+                        onClick={handleOpen} //Event make above
                     >
                         <MenuIcon>
                         </MenuIcon>
                     </IconButton>
                     <Menu
                         id="menu-appbar"
-                        open={true}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose} //Event make for close menu
                     >
-                        <MenuItem>
+                        <MenuItem onClick={handleClose} >
                             Categorias
                         </MenuItem>
 
