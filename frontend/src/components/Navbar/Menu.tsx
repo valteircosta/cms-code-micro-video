@@ -5,8 +5,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 
 export const Menu = () => {
+    const listRoutes = ['dashboard', 'categories.list'];
     /**
-    * I Make first Hook with React, his define inicial value for open property of the menu and contain
+    * I Make first Hook with React, his define initial value for open property of the menu and contain
     */
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
