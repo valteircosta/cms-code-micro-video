@@ -15,7 +15,7 @@ const routes: MyRouteProps[] = [
         exact: true
     },
     {
-        label: 'Listagem de categorias',
+        label: 'List of categories',
         path: '/categories',
         component: CategoryList,
         exact: true
