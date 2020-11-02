@@ -39,24 +39,22 @@ const LinkRouter = (props: LinkRouterProps) => <Link {...props} component={Route
 export default function Breadcrumbs() {
   const classes = useStyles();
 
-  function makeBreadcrumb(location:Location) {
-  
+  function makeBreadcrumb(location: Location) {
+
     const pathnames = location.pathname.split('/').filter((x) => x);
     pathnames.unshift('/'); // Make array type ['/','categories','create']
-    console.log(pathnames, location.pathname);
 
     return (
       <MuiBreadcrumbs aria-label="breadcrumb">
-        
+
         {
           pathnames.map((value, index) => { // array [/,categories,create, others]
             const last = index === pathnames.length - 1;
             // First value is '//categories/create/others then apply replace method to fix in /categories/create/others
-            const to = `${pathnames.slice(0, index + 1).join('/').replace('//','/')}`;
-            console.log('to :>> ', to);
+            const to = `${pathnames.slice(0, index + 1).join('/').replace('//', '/')}`;
             const route = Object
-            .keys(breadcrumbNameMap)
-            .find(path => new RouteParser(path).match(to));
+              .keys(breadcrumbNameMap)
+              .find(path => new RouteParser(path).match(to));
             if (route === undefined) {
               return false
             }
@@ -80,7 +78,7 @@ export default function Breadcrumbs() {
       <Route>
         {
           /**  Executing Destructuring Object  method,  getting the location property through Location Object  */
-         ({location}:{location:Location}) => makeBreadcrumb(location)
+          ({ location }: { location: Location }) => makeBreadcrumb(location)
         }
       </Route>
     </div>

@@ -53,6 +53,5 @@ const routes: MyRouteProps[] = [
         component: CategoryList,
         exact: true
     },
-    
 ];
 export default routes;
