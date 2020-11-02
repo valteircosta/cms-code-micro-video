@@ -7,6 +7,7 @@ import { Route } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { Location } from 'history';
 import routes from '../routes';
+import RouteParser from 'route-parser';
 
 const breadcrumbNameMap: { [key: string]: string } = {};
 routes.forEach(route => breadcrumbNameMap[route.path as string] = route.label);
