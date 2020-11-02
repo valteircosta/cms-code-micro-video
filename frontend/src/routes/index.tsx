@@ -3,7 +3,8 @@ import Dashboard from '../pages/Dashboard';
 import CategoryList from '../pages/category/List';
 
 // Declaring new interface that extended RouteProps
-interface MyRouteProps extends RouteProps {
+export interface MyRouteProps extends RouteProps {
+
     name: string;
     label: string;
 }
@@ -17,7 +18,9 @@ const routes: MyRouteProps[] = [
         exact: true
     },
     {
-        label: 'List of categories',
+        /* cSpell:disable */
+        label: 'Listagem de categorias',
+        /* cSpell:enable */
         name: 'categories.list',
         path: '/categories',
         component: CategoryList,
