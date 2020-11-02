@@ -54,14 +54,17 @@ export default function Breadcrumbs() {
             // First value is '//categories/create/others then apply replace method to fix in /categories/create/others
             const to = `${pathnames.slice(0, index + 1).join('/').replace('//','/')}`;
             console.log('to :>> ', to);
-
+            const route = Object.keys(breadcrumbNameMap).find(path => new RouteParser(path).match(to));
+            if (route === undefined) {
+              return false
+            }
             return last ? (
               <Typography color="textPrimary" key={to}>
-                {breadcrumbNameMap[to]}
+                {breadcrumbNameMap[route]}
               </Typography>
             ) : (
                 <LinkRouter color="inherit" to={to} key={to}>
-                  {breadcrumbNameMap[to]}
+                  {breadcrumbNameMap[route]}
                 </LinkRouter>
               );
           })
