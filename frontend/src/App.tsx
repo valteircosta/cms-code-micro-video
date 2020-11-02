@@ -7,8 +7,8 @@ import AppRouter from './routes/AppRouter';
 const App: React.FC = () => {
   return (
     <React.Fragment>
-      <Navbar />
       <BrowserRouter>
+      <Navbar />
         <Box paddingTop={'70px'} >
           <AppRouter />
         </Box >
