@@ -16,5 +16,9 @@
         "titleBar.inactiveForeground": "#15202b99"
     },
     "peacock.remoteColor": "#61dafb",
-    "peacock.color": "#ff4000"
+    "peacock.color": "#ff4000",
+    "cSpell.language": "en,pt,pt_BR",
+    "cSpell.customWorkspaceDictionaries": [
+    
+    ]
 }

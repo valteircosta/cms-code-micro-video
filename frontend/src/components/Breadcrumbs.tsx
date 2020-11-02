@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Link, { LinkProps } from '@material-ui/core/Link';
@@ -66,7 +66,7 @@ const LinkRouter = (props: LinkRouterProps) => <Link {...props} component={Route
 
 export default function Breadcrumbs() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
