@@ -102,18 +102,6 @@ export default function Breadcrumbs() {
             );
           }}
         </Route>
-        <nav className={classes.lists} aria-label="mailbox folders">
-          <List>
-            <ListItemLink to="/inbox" open={open} onClick={handleClick} />
-            <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                <ListItemLink to="/inbox/important" className={classes.nested} />
-              </List>
-            </Collapse>
-            <ListItemLink to="/trash" />
-            <ListItemLink to="/spam" />
-          </List>
-        </nav>
       </div>
     </MemoryRouter>
   );
