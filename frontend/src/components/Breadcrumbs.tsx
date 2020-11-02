@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Link, { LinkProps } from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
