@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { IconButton, Menu as MuiMenu, MenuItem } from '@material-ui/core';
 import MenuIcon from "@material-ui/icons/Menu";
-import routes, {MyRouteProps} from '../../routes';
+import routes, { MyRouteProps } from '../../routes';
 import { Link } from 'react-router-dom';
 
 
@@ -41,8 +41,7 @@ export const Menu = () => {
                 aria-haspopup="true"
                 onClick={handleOpen} //Event make above
             >
-                <MenuIcon>
-                </MenuIcon>
+                <MenuIcon/>
             </IconButton>
             <MuiMenu
                 /* cSpell:disable */
@@ -55,20 +54,25 @@ export const Menu = () => {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 getContentAnchorEl={null}
-                >
+            >
                 {
                     listRoutes.map(
                         (routeName, key) => {
                             // as MyRouteProps is a typecast of the typescript, "as" is operator
-                            const route = menuRoutes.find(route => route.name === routeName ) as MyRouteProps; 
+                            const route = menuRoutes.find(route => route.name === routeName) as MyRouteProps;
                             return (
-                                <MenuItem key={key} component={Link} to={route.path as string} onClick={handleClose} >
+                                <MenuItem
+                                    key={key}
+                                    component={Link}
+                                    to={route.path as string}
+                                    onClick={handleClose}
+                                >
                                     {route.label}
                                 </MenuItem>
                             )
                         }
-                        )
-                    }
+                    )
+                }
             </MuiMenu>
         </React.Fragment>
     );
