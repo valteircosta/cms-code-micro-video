@@ -11,18 +11,18 @@ export interface MyRouteProps extends RouteProps {
 
 const routes: MyRouteProps[] = [
     {
-        label: 'Dashboard',
-        name: 'dashboard',
-        path: '/',
+        label: "Dashboard",
+        name: "dashboard",
+        path: "/",
         component: Dashboard,
         exact: true
     },
     {
         /* cSpell:disable */
-        label: 'Listagem de categorias',
+        label: "Listagem de categorias",
         /* cSpell:enable */
-        name: 'categories.list',
-        path: '/categories',
+        name: "categories.list",
+        path: "/categories",
         component: CategoryList,
         exact: true
     }

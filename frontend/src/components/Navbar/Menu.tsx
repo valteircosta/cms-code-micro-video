@@ -6,15 +6,15 @@ import routes, { MyRouteProps } from '../../routes';
 import { Link } from 'react-router-dom';
 
 
-export const Menu = () => {
+/* cSpell:disable */
+const listRoutes = [
+    'dashboard',
+    'categories.list'
+];
+const menuRoutes = routes.filter(route => listRoutes.includes(route.name));
+/* cSpell:enable */
 
-    /* cSpell:disable */
-    const listRoutes = [
-        'dashboard',
-        'categories.list'
-    ];
-    const menuRoutes = routes.filter(route => listRoutes.includes(route.name));
-    /* cSpell:enable */
+export const Menu = () => {
 
     /**
     * I Make first Hook with React, his define initial value for open property of the menu and contain

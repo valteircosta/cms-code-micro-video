@@ -30,7 +30,6 @@ export const Navbar: React.FC = () => {
     // Execute function return object styles
     const classes = useStyles();
     return (
-        <div>
             <AppBar>
                 <Toolbar className={classes.toolbar}>
                     <Menu />
@@ -40,6 +39,5 @@ export const Navbar: React.FC = () => {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-        </div>
     );
 }

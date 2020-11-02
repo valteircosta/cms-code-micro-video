@@ -1,7 +1,7 @@
-import { Box } from '@material-ui/core';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Box } from '@material-ui/core';
 import { Navbar } from './components/Navbar';
+import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './routes/AppRouter';
 
 const App: React.FC = () => {
