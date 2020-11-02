@@ -66,11 +66,6 @@ const LinkRouter = (props: LinkRouterProps) => <Link {...props} component={Route
 
 export default function Breadcrumbs() {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
-
-  const handleClick = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
 
   return (
     <MemoryRouter initialEntries={['/inbox']} initialIndex={0}>
