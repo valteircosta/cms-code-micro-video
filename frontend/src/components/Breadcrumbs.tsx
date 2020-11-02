@@ -6,11 +6,6 @@ import MuiBreadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 
-interface ListItemLinkProps extends LinkProps {
-  to: string;
-  open?: boolean;
-}
-
 const breadcrumbNameMap: { [key: string]: string } = {
   '/inbox': 'Inbox',
   '/inbox/important': 'Important',
