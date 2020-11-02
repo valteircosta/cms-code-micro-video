@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import MuiBreadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route, MemoryRouter } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { Omit } from '@material-ui/types';
@@ -64,7 +64,7 @@ interface LinkRouterProps extends LinkProps {
 
 const LinkRouter = (props: LinkRouterProps) => <Link {...props} component={RouterLink as any} />;
 
-export default function RouterBreadcrumbs() {
+export default function Breadcrumbs() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -80,7 +80,7 @@ export default function RouterBreadcrumbs() {
             const pathnames = location.pathname.split('/').filter((x) => x);
 
             return (
-              <Breadcrumbs aria-label="breadcrumb">
+              <MuiBreadcrumbs aria-label="breadcrumb">
                 <LinkRouter color="inherit" to="/">
                   Home
                 </LinkRouter>
@@ -98,7 +98,7 @@ export default function RouterBreadcrumbs() {
                     </LinkRouter>
                   );
                 })}
-              </Breadcrumbs>
+              </MuiBreadcrumbs>
             );
           }}
         </Route>
