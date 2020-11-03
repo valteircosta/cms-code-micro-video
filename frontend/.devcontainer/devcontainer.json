@@ -49,7 +49,8 @@
 		"kavod-io.vscode-jest-test-adapter",
 		"streetsidesoftware.code-spell-checker",
 		"burkeholland.simple-react-snippets",
-		"infeng.vscode-react-typescript"
+		"infeng.vscode-react-typescript",
+		"anseki.vscode-color"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
