@@ -8,24 +8,22 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Location } from 'history';
 import routes from '../routes';
 import RouteParser from 'route-parser';
+import { Container } from '@material-ui/core';
 
 const breadcrumbNameMap: { [key: string]: string } = {};
 routes.forEach(route => breadcrumbNameMap[route.path as string] = route.label);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: 360,
+    linkRouter: {
+      color:'#4db5ab'
     },
-    lists: {
-      backgroundColor: theme.palette.background.paper,
-      marginTop: theme.spacing(1),
+    '&:focus, &:active': {
+      color:'#4db5ab'
     },
-    nested: {
-      paddingLeft: theme.spacing(4),
-    },
+    '&:hover':{
+      color:'#055a52'
+    }
   }),
 );
 
@@ -63,24 +61,23 @@ export default function Breadcrumbs() {
                 {breadcrumbNameMap[route]}
               </Typography>
             ) : (
-                <LinkRouter color="inherit" to={to} key={to}>
+                <LinkRouter color="inherit" to={to} key={to} className={classes.linkRouter}>
                   {breadcrumbNameMap[route]}
                 </LinkRouter>
               );
           })
-
         }
       </MuiBreadcrumbs>
     );
   }
   return (
-    <div className={classes.root}>
+    <Container>
       <Route>
         {
           /**  Executing Destructuring Object  method,  getting the location property through Location Object  */
           ({ location }: { location: Location }) => makeBreadcrumb(location)
         }
       </Route>
-    </div>
+    </Container>
   );
 }
