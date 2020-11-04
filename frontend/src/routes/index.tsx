@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
-import CategoryList from '../pages/category/List';
+import CategoryList from '../pages/category/PageList';
 
 // Declaring new interface that extended RouteProps
 export interface MyRouteProps extends RouteProps {
@@ -19,7 +19,7 @@ const routes: MyRouteProps[] = [
     },
     {
         /* cSpell:disable */
-        label: "Listagem de categorias",
+        label: "Listar categorias",
         /* cSpell:enable */
         name: "categories.list",
         path: "/categories",
@@ -28,30 +28,13 @@ const routes: MyRouteProps[] = [
     }, 
     {
         /* cSpell:disable */
-        label: "Criar de categorias",
+        label: "Criar categoria",
         /* cSpell:enable */
         name: "categories.create",
         path: "/categories/create",
         component: CategoryList,
         exact: true
     },
-    {
-        /* cSpell:disable */
-        label: "Editar de categorias",
-        /* cSpell:enable */
-        name: "categories.edit",
-        path: "/categories/:id/edit",
-        component: CategoryList,
-        exact: true
-    },
-    {
-        /* cSpell:disable */
-        label: "Criar de teste 1",
-        /* cSpell:enable */
-        name: "categories.edit",
-        path: "/categories/:id/edit/:name",
-        component: CategoryList,
-        exact: true
-    },
+    
 ];
 export default routes;
