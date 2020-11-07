@@ -38,7 +38,6 @@ const Table = (props: Props) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-
         httpVideo.get('categories').then(
             (response) => setData(response.data.data)
         )
