@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 /* cSpell:disable */
 const listRoutes = [
     'dashboard',
+    'genres.list',
+    'cast-members.list',
     'categories.list'
 ];
 const menuRoutes = routes.filter(route => listRoutes.includes(route.name));
@@ -41,7 +43,7 @@ export const Menu = () => {
                 aria-haspopup="true"
                 onClick={handleOpen} //Event make above
             >
-                <MenuIcon/>
+                <MenuIcon />
             </IconButton>
             <MuiMenu
                 /* cSpell:disable */
