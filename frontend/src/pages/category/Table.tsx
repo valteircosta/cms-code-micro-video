@@ -3,6 +3,7 @@ import * as React from 'react';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import { httpVideo } from '../../util/http';
+import { Chip } from '@material-ui/core';
 
 const columnsDefinitions: MUIDataTableColumn[] = [
     {
@@ -11,7 +12,13 @@ const columnsDefinitions: MUIDataTableColumn[] = [
     },
     {
         name: 'is_active',
-        label: 'Ativo?'
+        label: 'Ativo?',
+        options: {
+            customBodyRender(value, tableMeta, updateValue) {
+                return value ? <Chip label='Sim' color="primary" /> : <Chip label='Não' color="secondary" />;
+
+            }
+        }
     },
     {
         name: 'created_at',
@@ -19,15 +26,6 @@ const columnsDefinitions: MUIDataTableColumn[] = [
     },
 ];
 
-const data = [
-    { name: 'title', is_active: true, created_at: '2020-10-01' },
-    { name: 'title1', is_active: false, created_at: '2020-10-02' },
-    { name: 'title2', is_active: true, created_at: '2020-10-03' },
-    { name: 'title3', is_active: false, created_at: '2020-10-04' },
-    { name: 'title4', is_active: true, created_at: '2020-10-05' },
-    { name: 'title5', is_active: false, created_at: '2020-10-06' },
-    { name: 'title6', is_active: true, created_at: '2020-10-07' },
-];
 
 type Props = {
 
