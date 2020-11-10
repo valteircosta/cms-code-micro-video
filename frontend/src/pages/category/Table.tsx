@@ -50,6 +50,7 @@ const Table = (props: Props) => {
         categoryHttp
             .list<{ data: Category[] }>()
             .then(({ data }) => setData(data.data))
+        
         // httpVideo.get('categories').then(
         // response) => setData(response.data.data)
         // )
