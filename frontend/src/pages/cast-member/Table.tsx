@@ -12,7 +12,7 @@ import parseISO from 'date-fns/parseISO';
 //     2: "Ator",
 // };
 
-const CastMemberTypeMap= {
+const CastMemberTypeMap = {
     1: "Diretor",
     2: "Ator",
 };
@@ -59,7 +59,7 @@ const Table = (props: Props) => {
 
     return (
         <MUIDataTable
-            title='Listagem de categorias'
+            title='Listagem de membros de elenco'
             data={data}
             columns={columnsDefinitions}
         />

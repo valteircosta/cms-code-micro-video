@@ -1,6 +1,7 @@
 import { RouteProps } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 import CategoryList from '../pages/category/PageList';
+import CategoryCreate from '../pages/category/PageForm';
 import GenreList from '../pages/genre/PageList';
 import CastMemberList from '../pages/cast-member/PageList';
 
@@ -34,7 +35,7 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "categories.create",
         path: "/categories/create",
-        component: CategoryList,
+        component: CategoryCreate,
         exact: true
     },
     {
