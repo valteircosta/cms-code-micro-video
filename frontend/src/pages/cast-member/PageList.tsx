@@ -9,18 +9,18 @@ import Table from './Table';
 const PageList = () => {
     return (
         /* cSpell:disable */
-        <Page title={'Listagem de categorias'}>
+        <Page title={'Listagem de membros de elenco'}>
             {/* cSpell:enable */}
 
             <Box
                 dir={'rtl'}>
                 <Fab
                     /* cSpell:disable */
-                    title='Adiciona categorias'
+                    title='Adiciona membro de elenco'
                     /* cSpell:enabldisable */
                     size='small'
                     component={Link}
-                    to='/categories/create'
+                    to='/cast-members/create'
                 >
                     <AddIcon />
                 </Fab>
