@@ -48,7 +48,7 @@ export const Form = () => {
             />
             Ativo?
             <Box dir={'rtl'} >
-                <Button {...buttonProps}>Salvar</Button>
+                <Button {...buttonProps} onClick={() => console.log(getValues())} >Salvar</Button>
                 <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
             </Box>
         </form>
