@@ -2,6 +2,7 @@
 import { Box, Button, ButtonProps, Checkbox, makeStyles, TextField, Theme } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import categoryHttp from '../../util/http/category-http';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -19,11 +20,18 @@ export const Form = () => {
         className: classes.submit,
         variant: 'outlined',
     }
-    //Using component react-hook-form
-    const { register, getValues } = useForm()
+
+    //Using component react-hook-form 
+    const { register, handleSubmit, getValues } = useForm();
+
+    function onSubmit(formData) {
+        categoryHttp
+            .create(formData)
+            .then((response) => console.log(response))
+    }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)} >
             <TextField
                 name='name'
                 label='Nome'
@@ -48,9 +56,9 @@ export const Form = () => {
             />
             Ativo?
             <Box dir={'rtl'} >
-                <Button {...buttonProps} onClick={() => console.log(getValues())} >Salvar</Button>
+                <Button {...buttonProps}  >Salvar</Button>
                 <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
             </Box>
-        </form>
+        </form >
     );
 };
