@@ -2,7 +2,7 @@
 import { Box, Button, ButtonProps, Checkbox, makeStyles, TextField, Theme } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import categoryHttp from '../../util/http/category-http';
+import castMemberHttp from '../../util/http/cast-member-http';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -22,15 +22,10 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues } = useForm({
-        /** Used to send default values for controls */
-        defaultValues: {
-            is_active: true
-        }
-    });
+    const { register, handleSubmit, getValues } = useForm();
 
     function onSubmit(formData, event) {
-        categoryHttp
+        castMemberHttp
             .create(formData)
             .then((response) => console.log(response))
     }
