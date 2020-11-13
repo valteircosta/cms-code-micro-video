@@ -22,7 +22,12 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues } = useForm();
+    const { register, handleSubmit, getValues } = useForm({
+        /** Used to send default values for controls */
+        defaultValues: {
+            is_active: true
+        }
+    });
 
     function onSubmit(formData) {
         categoryHttp
@@ -53,6 +58,7 @@ export const Form = () => {
             <Checkbox
                 name='is_active'
                 inputRef={register}
+                defaultChecked
             />
             Ativo?
             <Box dir={'rtl'} >
