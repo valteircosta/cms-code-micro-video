@@ -2,9 +2,9 @@
 import * as React from 'react';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
-import { httpVideo } from '../../util/http';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
+import castMemberHttp from '../../util/http/cast-member-http';
 
 // With noImplicintAny = true must declare type
 // const CastMemberTypeMap: { [key: number]: string } = {
@@ -46,18 +46,18 @@ const columnsDefinitions: MUIDataTableColumn[] = [
 type Props = {
 
 };
-
+interface CastMember {
+    id: string;
+    name: string;
+}
 const Table = (props: Props) => {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<CastMember[]>([]);
 
     useEffect(() => {
-        // categoryHttp
-        //     .list<{ data: Category[] }>()
-        //     .then(({ data }) => setData(data.data))
-        httpVideo.get('cast_members').then(
-            (response) => setData(response.data.data)
-        )
+        castMemberHttp
+            .list<{ data: CastMember[] }>()
+            .then(({ data }) => setData(data.data))
     }, []);
 
     return (
