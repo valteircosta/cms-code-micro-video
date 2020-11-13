@@ -35,11 +35,17 @@ type Props = {
 
 };
 
+interface Genre {
+    id: string;
+    name: string;
+}
 const Table = (props: Props) => {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Genre[]>([]);
 
     useEffect(() => {
+        
+        
         httpVideo.get('genres').then(
             (response) => setData(response.data.data)
         )

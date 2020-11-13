@@ -20,7 +20,7 @@ const PageList = () => {
                     /* cSpell:enabldisable */
                     size='small'
                     component={Link}
-                    to='/genre/create'
+                    to='/genres/create'
                 >
                     <AddIcon />
                 </Fab>
