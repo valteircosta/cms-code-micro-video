@@ -1,6 +1,7 @@
 // @flow 
-import { Box, Button, ButtonProps, Checkbox, makeStyles, TextField, Theme } from '@material-ui/core';
-import * as React from 'react';
+
+import React, { useEffect } from 'react';
+import { Box, Button, ButtonProps, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup, TextField, Theme } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import castMemberHttp from '../../util/http/cast-member-http';
 
@@ -22,7 +23,12 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues } = useForm();
+    const { register, handleSubmit, getValues, setValue } = useForm();
+
+    //Used for make bind between components
+    useEffect(() => {
+        register({ name: 'type' })
+    }, [register]);//Look [register] is dependence passed to hook
 
     function onSubmit(formData, event) {
         castMemberHttp
@@ -40,22 +46,19 @@ export const Form = () => {
                 margin='normal'
                 inputRef={register}
             />
-            <TextField
-                name='description'
-                label='Descrição'
-                multiline
-                rows='4'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                inputRef={register}
-            />
-            <Checkbox
-                name='is_active'
-                inputRef={register}
-                defaultChecked
-            />
-            Ativo?
+            <FormControl margin='normal' >
+                <FormLabel component='legend'>Tipo</FormLabel>
+                <RadioGroup
+                    name='type'
+                    onChange={(e) => {
+                        //Linking with component react-hook-form
+                        setValue('type', parseInt(e.target.value));
+                    }}
+                >
+                    <FormControlLabel value='1' control={<Radio />} label='Diretor' />
+                    <FormControlLabel value='2' control={<Radio />} label='Ator' />
+                </RadioGroup>
+            </FormControl>
             <Box dir={'rtl'} >
                 <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)} >Salvar</Button>
                 <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
