@@ -29,7 +29,7 @@ export const Form = () => {
         }
     });
 
-    function onSubmit(formData) {
+    function onSubmit(formData, event) {
         categoryHttp
             .create(formData)
             .then((response) => console.log(response))
@@ -62,7 +62,7 @@ export const Form = () => {
             />
             Ativo?
             <Box dir={'rtl'} >
-                <Button {...buttonProps}  >Salvar</Button>
+                <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)} >Salvar</Button>
                 <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
             </Box>
         </form >

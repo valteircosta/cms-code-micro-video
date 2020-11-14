@@ -3,7 +3,9 @@ import Dashboard from '../pages/Dashboard';
 import CategoryList from '../pages/category/PageList';
 import CategoryCreate from '../pages/category/PageForm';
 import GenreList from '../pages/genre/PageList';
+import GenreCreate from '../pages/genre/PageForm';
 import CastMemberList from '../pages/cast-member/PageList';
+import CastMemberCreate from '../pages/cast-member/PageForm';
 
 // Declaring new interface that extended RouteProps
 export interface MyRouteProps extends RouteProps {
@@ -53,7 +55,7 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "cast-members.create",
         path: "/cast-members/create",
-        component: CastMemberList,
+        component: CastMemberCreate,
         exact: true
     },
     {
@@ -71,7 +73,7 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "genres.create",
         path: "/genres/create",
-        component: GenreList,
+        component: GenreCreate,
         exact: true
     },
 ];
