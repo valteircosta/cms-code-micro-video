@@ -1,9 +1,10 @@
 // @flow 
 
-import React, { useEffect } from 'react';
-import { Box, Button, ButtonProps, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup, TextField, Theme } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, ButtonProps, makeStyles, MenuItem, TextField, Theme } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import genreHttp from '../../util/http/genre-http';
+import categoryHttp from '../../util/http/category-http';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -21,14 +22,26 @@ export const Form = () => {
         className: classes.submit,
         variant: 'outlined',
     }
-
+    //Using hook useState
+    const [categories, setCategories] = useState<any>([]);
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues, setValue } = useForm();
+    const { register, handleSubmit, getValues, setValue, watch } = useForm({
+        defaultValues: {
+            categories_id: []
+        }
+    });
+
 
     //Used for make bind between components
     useEffect(() => {
-        register({ name: 'type' })
+        register({ name: 'categories_id' })
     }, [register]);//Look [register] is dependence passed to hook
+
+    useEffect(() => {
+        categoryHttp
+            .list()
+            .then(({ data }) => setCategories(data.data))
+    });
 
     function onSubmit(formData, event) {
         genreHttp
@@ -46,19 +59,32 @@ export const Form = () => {
                 margin='normal'
                 inputRef={register}
             />
-            <FormControl margin='normal' >
-                <FormLabel component='legend'>Tipo</FormLabel>
-                <RadioGroup
-                    name='type'
-                    onChange={(e) => {
-                        //Linking with component react-hook-form
-                        setValue('type', parseInt(e.target.value));
-                    }}
-                >
-                    <FormControlLabel value='1' control={<Radio />} label='Diretor' />
-                    <FormControlLabel value='2' control={<Radio />} label='Ator' />
-                </RadioGroup>
-            </FormControl>
+            <TextField
+                select
+                name='categories_id'
+                value={watch('categories_id')}
+                label='Categorias'
+                fullWidth
+                variant='outlined'
+                margin='normal'
+                onChange={(e) => {
+                    setValue('categories_id', e.target.value);
+                }}
+                SelectProps={{
+                    multiple: true
+                }}
+            >
+                <MenuItem value='' disabled>
+                    <em>Selecione categorias</em>
+                </MenuItem>
+                {
+                    categories.map(
+                        (category, key) => (
+                            <MenuItem key={key} value={category.id}> {category.name} </MenuItem>
+                        )
+                    )
+                }
+            </TextField>
             <Box dir={'rtl'} >
                 <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)} >Salvar</Button>
                 <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>

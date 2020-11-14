@@ -44,8 +44,8 @@ const Table = (props: Props) => {
     const [data, setData] = useState<Genre[]>([]);
 
     useEffect(() => {
-        
-        
+
+
         httpVideo.get('genres').then(
             (response) => setData(response.data.data)
         )
