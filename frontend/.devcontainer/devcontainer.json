@@ -51,7 +51,8 @@
 		"burkeholland.simple-react-snippets",
 		"infeng.vscode-react-typescript",
 		"anseki.vscode-color",
-		"xabikos.javascriptsnippets"
+		"xabikos.javascriptsnippets",
+		"ibm.output-colorizer"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
