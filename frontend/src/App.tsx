@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, MuiThemeProvider } from '@material-ui/core';
+import { Box, CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { Navbar } from './components/Navbar';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './routes/AppRouter';
@@ -10,6 +10,7 @@ const App: React.FC = () => {
   return (
     <React.Fragment>
       <MuiThemeProvider theme={theme}>
+        <CssBaseline />
         <BrowserRouter>
           <Navbar />
           <Box paddingTop={'70px'} >
