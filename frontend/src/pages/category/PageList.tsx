@@ -17,7 +17,7 @@ const PageList = () => {
                 <Fab
                     /* cSpell:disable */
                     title='Adiciona categoria'
-                    /* cSpell:enabldisable */
+                    /* cSpell:enable */
                     size='small'
                     component={Link}
                     to='/categories/create'

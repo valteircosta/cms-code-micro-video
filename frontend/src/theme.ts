@@ -14,14 +14,11 @@ const theme = createMuiTheme({
       default: "#fafafa",
     },
   },
-  // overrides: {
-  //   MuiFormLabel: {
-  //     root: {
-  //       fontSize: "1.2rem",
-  //       fontWeight: 500,
-  //     },
-  //   },
-  // CssBaseline},
+  overrides: {
+    MUIDataTable: {
+
+    },
+  },
 });
 
 export default theme;
