@@ -16,7 +16,9 @@ const theme = createMuiTheme({
   },
   overrides: {
     MUIDataTable: {
-
+      paper: {
+        boxShadow: "nome",
+      },
     },
   },
 });
