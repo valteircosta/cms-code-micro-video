@@ -13,10 +13,11 @@ const PageList = () => {
             {/* cSpell:enable */}
 
             <Box
-                dir={'rtl'}>
+                dir={'rtl'} paddingBottom={2}>
                 <Fab
                     /* cSpell:disable */
                     title='Adiciona categoria'
+                    color='secondary'
                     /* cSpell:enable */
                     size='small'
                     component={Link}

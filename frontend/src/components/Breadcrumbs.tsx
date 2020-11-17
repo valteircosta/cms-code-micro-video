@@ -16,13 +16,13 @@ routes.forEach(route => breadcrumbNameMap[route.path as string] = route.label);
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     linkRouter: {
-      color:'#4db5ab'
+      color: '#4db5ab'
     },
     '&:focus, &:active': {
-      color:'#4db5ab'
+      color: '#4db5ab'
     },
-    '&:hover':{
-      color:'#055a52'
+    '&:hover': {
+      color: '#055a52'
     }
   }),
 );
@@ -72,7 +72,7 @@ export default function Breadcrumbs() {
   }
   return (
     <Container>
-      <Box paddingBottom={2}>
+      <Box paddingTop={2} paddingBottom={1} >
         <Route>
           {
             /**  Executing Destructuring Object  method,  getting the location property through Location Object  */

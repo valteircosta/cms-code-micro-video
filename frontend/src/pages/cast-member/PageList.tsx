@@ -13,11 +13,12 @@ const PageList = () => {
             {/* cSpell:enable */}
 
             <Box
-                dir={'rtl'}>
+                dir={'rtl'} paddingBottom={2}>
                 <Fab
                     /* cSpell:disable */
                     title='Adiciona membro de elenco'
                     /* cSpell:enabldisable */
+                    color='secondary'
                     size='small'
                     component={Link}
                     to='/cast-members/create'
