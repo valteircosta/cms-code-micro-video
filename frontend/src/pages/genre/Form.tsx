@@ -20,7 +20,8 @@ export const Form = () => {
 
     const buttonProps: ButtonProps = {
         className: classes.submit,
-        variant: 'outlined',
+        color: 'secondary',
+        variant: 'contained',
     }
     //Using hook useState
     const [categories, setCategories] = useState<any>([]);

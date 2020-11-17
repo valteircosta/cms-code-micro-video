@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 
 
 /* cSpell:disable */
-const listRoutes = [
-    'dashboard',
-    'genres.list',
-    'cast-members.list',
-    'categories.list'
-];
-const menuRoutes = routes.filter(route => listRoutes.includes(route.name));
+const listRoutes = {
+    'dashboard': 'Dasboard',
+    'categories.list': 'Categorias',
+    'cast-members.list': 'Membros do Elenco',
+    'genres.list': 'Gêneros',
+};
+const menuRoutes = routes.filter(route => Object.keys(listRoutes).includes(route.name));
 /* cSpell:enable */
 
 export const Menu = () => {
@@ -58,7 +58,7 @@ export const Menu = () => {
                 getContentAnchorEl={null}
             >
                 {
-                    listRoutes.map(
+                    Object.keys(listRoutes).map(
                         (routeName, key) => {
                             // as MyRouteProps is a typecast of the typescript, "as" is operator
                             const route = menuRoutes.find(route => route.name === routeName) as MyRouteProps;
@@ -69,7 +69,7 @@ export const Menu = () => {
                                     to={route.path as string}
                                     onClick={handleClose}
                                 >
-                                    {route.label}
+                                    {listRoutes[routeName]}
                                 </MenuItem>
                             )
                         }
