@@ -2,8 +2,9 @@
 // Class room name Entendendo a definição de tipo no Typescript
 /* cSpell:enable */
 
-import { ComponentNameToClassKey } from "@material-ui/core/styles/overrides";
-import { PaletteColor, PaletteOptions, Palette, PaletteColorOptions } from "@material-ui/core/styles/createPalette";
+// import { ComponentNameToClassKey } from "@material-ui/core/styles/overrides";
+// import { PaletteColor, PaletteOptions, Palette, PaletteColorOptions } from "@material-ui/core/styles/createPalette";
+import { PaletteColor } from "@material-ui/core/styles/createPalette";
 declare module "@material-ui/core/styles/overrides" {
   interface ComponentNameToClassKey {
     MUIDataTable: any;
