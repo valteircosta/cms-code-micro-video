@@ -23,8 +23,7 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues } = useForm({
-        /** Used to send default values for controls */
+    const { register, handleSubmit, getValues, errors } = useForm({
         defaultValues: {
             is_active: true
         }
@@ -35,7 +34,7 @@ export const Form = () => {
             .create(formData)
             .then((response) => console.log(response))
     }
-
+    console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <TextField
@@ -44,7 +43,9 @@ export const Form = () => {
                 fullWidth
                 variant='outlined'
                 margin='normal'
-                inputRef={register}
+                inputRef={register({
+                    required: 'O campo nome é requerido'
+                })}
             />
             <TextField
                 name='description'
