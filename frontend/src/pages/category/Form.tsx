@@ -34,7 +34,7 @@ export const Form = () => {
             .create(formData)
             .then((response) => console.log(response))
     }
-
+    console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <TextField
