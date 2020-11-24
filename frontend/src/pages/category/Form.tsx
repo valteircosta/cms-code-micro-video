@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
-import * as yup from 'yup';
+import * as yup from '../../util/vendor/yup';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -51,10 +51,7 @@ export const Form = () => {
                 fullWidth
                 variant='outlined'
                 margin='normal'
-                inputRef={register({
-                    required: 'O campo nome é requerido',
-                })}
-
+                inputRef={register}
                 error={errors.name !== undefined}
                 helperText={errors.name && errors.name.message}
             />

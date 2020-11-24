@@ -31,8 +31,14 @@
         "Listagem",
         "Selecione",
         "Tipo",
+        "caracteres",
         "categorias",
         "datatables",
-        "requerido"
+        "hookform",
+        "máximo",
+        "mínimo",
+        "precisa",
+        "requerido",
     ],
+    "prettier.jsxSingleQuote": true, 
 }
