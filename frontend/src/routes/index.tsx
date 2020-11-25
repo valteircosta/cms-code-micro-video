@@ -1,11 +1,11 @@
 import { RouteProps } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 import CategoryList from '../pages/category/PageList';
-import CategoryCreate from '../pages/category/PageForm';
+import CategoryForm from '../pages/category/PageForm';
 import GenreList from '../pages/genre/PageList';
-import GenreCreate from '../pages/genre/PageForm';
+import GenreForm from '../pages/genre/PageForm';
 import CastMemberList from '../pages/cast-member/PageList';
-import CastMemberCreate from '../pages/cast-member/PageForm';
+import CastMemberForm from '../pages/cast-member/PageForm';
 
 // Declaring new interface that extended RouteProps
 export interface MyRouteProps extends RouteProps {
@@ -37,7 +37,16 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "categories.create",
         path: "/categories/create",
-        component: CategoryCreate,
+        component: CategoryForm,
+        exact: true
+    },
+    {
+        /* cSpell:disable */
+        label: "Editar categorias",
+        /* cSpell:enable */
+        name: "categories.edit",
+        path: "/categories/:id/edit",
+        component: CategoryForm,
         exact: true
     },
     {
@@ -55,7 +64,7 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "cast-members.create",
         path: "/cast-members/create",
-        component: CastMemberCreate,
+        component: CastMemberForm,
         exact: true
     },
     {
@@ -73,7 +82,7 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "genres.create",
         path: "/genres/create",
-        component: GenreCreate,
+        component: GenreForm,
         exact: true
     },
 ];
