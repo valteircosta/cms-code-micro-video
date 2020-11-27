@@ -1,5 +1,5 @@
 // @flow 
-import { Box, Button, ButtonProps, Checkbox, makeStyles, TextField, Theme } from '@material-ui/core';
+import { Box, Button, ButtonProps, Checkbox, FormControl, FormControlLabel, makeStyles, TextField, Theme } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
@@ -96,14 +96,19 @@ export const Form = () => {
                 inputRef={register}
                 InputLabelProps={{ shrink: true }}
             />
-            <Checkbox
-                name='is_active'
-                onChange={
-                    () => setValue('is_active', !getValues()['is_active'])
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        name='is_active'
+                        onChange={
+                            () => setValue('is_active', !getValues()['is_active'])
+                        }
+                        checked={watch('is_active')}
+                    />
                 }
-                checked={watch('is_active')}
+                label={'Ativo?'}
+                labelPlacement={'end'}
             />
-            Ativo?
             <Box dir={'rtl'} >
                 <Button
                     color={'primary'}
