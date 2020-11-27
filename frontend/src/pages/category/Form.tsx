@@ -1,10 +1,13 @@
 // @flow 
-import { Box, Button, ButtonProps, Checkbox, makeStyles, TextField, Theme } from '@material-ui/core';
+import { Box, Button, ButtonProps, Checkbox, FormControl, FormControlLabel, makeStyles, TextField, Theme } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
+import { useParams } from 'react-router';
+import { watch } from 'fs';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -30,18 +33,45 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues, errors } = useForm({
-        defaultValues: {
-            name: null,
-            is_active: true
-        },
-        resolver: yupResolver(validationSchema),
-    });
+    const { register,
+        handleSubmit,
+        getValues,
+        setValue,
+        errors,
+        reset,
+        watch } = useForm({
+            defaultValues: {
+                name: null,
+                is_active: true
+            },
+            resolver: yupResolver(validationSchema),
+        });
+
+    const { id } = useParams<{ id: string }>();
+    const [category, setCategory] = useState<{ id: string } | null>(null);
+    useEffect(() => {
+        if (!id) {
+            return;
+        }
+        console.log(id);
+        categoryHttp.get(id)
+            .then(({ data }) => {
+                setCategory(data.data);
+                reset(data.data);
+            })
+    }, []);
+
+    //Used for make bind between components, in case checkbox
+    useEffect(() => {
+        register({ name: 'is_active' })
+    }, [register]);//Look [register] is dependence passed to hook
 
     function onSubmit(formData, event) {
-        categoryHttp
-            .create(formData)
-            .then((response) => console.log(response))
+        const http = !category
+            ? categoryHttp.create(formData)
+            : categoryHttp.update(category.id, formData);
+        console.log(event);
+        http.then((response) => console.log(response));
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -53,7 +83,7 @@ export const Form = () => {
                 margin='normal'
                 inputRef={register}
                 error={errors.name !== undefined}
-                helperText={errors.name && errors.name.message}
+                InputLabelProps={{ shrink: true }}
             />
             <TextField
                 name='description'
@@ -64,13 +94,21 @@ export const Form = () => {
                 variant='outlined'
                 margin='normal'
                 inputRef={register}
+                InputLabelProps={{ shrink: true }}
             />
-            <Checkbox
-                name='is_active'
-                inputRef={register}
-                defaultChecked
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        name='is_active'
+                        onChange={
+                            () => setValue('is_active', !getValues()['is_active'])
+                        }
+                        checked={watch('is_active')}
+                    />
+                }
+                label={'Ativo?'}
+                labelPlacement={'end'}
             />
-            Ativo?
             <Box dir={'rtl'} >
                 <Button
                     color={'primary'}
