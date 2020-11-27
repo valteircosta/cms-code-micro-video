@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
 import { useParams } from 'react-router';
+import { watch } from 'fs';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -32,16 +33,22 @@ export const Form = () => {
     }
 
     //Using component react-hook-form 
-    const { register, handleSubmit, getValues, errors, reset } = useForm({
-        defaultValues: {
-            name: null,
-            is_active: true
-        },
-        resolver: yupResolver(validationSchema),
-    });
+    const { register,
+        handleSubmit,
+        getValues,
+        setValue,
+        errors,
+        reset,
+        watch } = useForm({
+            defaultValues: {
+                name: null,
+                is_active: true
+            },
+            resolver: yupResolver(validationSchema),
+        });
 
     const { id } = useParams<{ id: string }>();
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState<{ id: string } | null>(null);
     useEffect(() => {
         if (!id) {
             return;
@@ -54,10 +61,17 @@ export const Form = () => {
             })
     }, []);
 
+    //Used for make bind between components, in case checkbox
+    useEffect(() => {
+        register({ name: 'is_active' })
+    }, [register]);//Look [register] is dependence passed to hook
+
     function onSubmit(formData, event) {
-        categoryHttp
-            .create(formData)
-            .then((response) => console.log(response))
+        const http = !category
+            ? categoryHttp.create(formData)
+            : categoryHttp.update(category.id, formData);
+        console.log(event);
+        http.then((response) => console.log(response));
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -84,8 +98,10 @@ export const Form = () => {
             />
             <Checkbox
                 name='is_active'
-                inputRef={register}
-                defaultChecked
+                onChange={
+                    () => setValue('is_active', !getValues()['is_active'])
+                }
+                checked={watch('is_active')}
             />
             Ativo?
             <Box dir={'rtl'} >
