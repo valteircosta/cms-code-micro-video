@@ -26,11 +26,6 @@ export const Form = () => {
 
     const classes = useStyles();
 
-    const buttonProps: ButtonProps = {
-        className: classes.submit,
-        color: 'secondary',
-        variant: 'contained',
-    }
 
     //Using component react-hook-form 
     const { register,
@@ -49,16 +44,27 @@ export const Form = () => {
 
     const { id } = useParams<{ id: string }>();
     const [category, setCategory] = useState<{ id: string } | null>(null);
+    //Make state default value false
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const buttonProps: ButtonProps = {
+        className: classes.submit,
+        color: 'secondary',
+        variant: 'contained',
+        disabled: loading
+    }
     useEffect(() => {
         if (!id) {
             return;
         }
         console.log(id);
+        setLoading(true);
         categoryHttp.get(id)
             .then(({ data }) => {
                 setCategory(data.data);
                 reset(data.data);
             })
+            .finally(() => setLoading(false))
     }, []);
 
     //Used for make bind between components, in case checkbox
@@ -67,11 +73,14 @@ export const Form = () => {
     }, [register]);//Look [register] is dependence passed to hook
 
     function onSubmit(formData, event) {
+        setLoading(true);
         const http = !category
             ? categoryHttp.create(formData)
             : categoryHttp.update(category.id, formData);
         console.log(event);
-        http.then((response) => console.log(response));
+        http
+            .then((response) => console.log(response))
+            .finally(() => setLoading(false))
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -82,6 +91,7 @@ export const Form = () => {
                 variant='outlined'
                 margin='normal'
                 inputRef={register}
+                disabled={loading}
                 error={errors.name !== undefined}
                 InputLabelProps={{ shrink: true }}
             />
@@ -94,6 +104,7 @@ export const Form = () => {
                 variant='outlined'
                 margin='normal'
                 inputRef={register}
+                disabled={loading}
                 InputLabelProps={{ shrink: true }}
             />
             <FormControlLabel
@@ -108,6 +119,7 @@ export const Form = () => {
                 }
                 label={'Ativo?'}
                 labelPlacement={'end'}
+                disabled={loading}
             />
             <Box dir={'rtl'} >
                 <Button
