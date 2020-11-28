@@ -117,7 +117,7 @@ export const Form = () => {
                 { variant: 'error' }
             );
         } finally {
-
+            setLoading(false);
         }
     };
 
@@ -132,6 +132,7 @@ export const Form = () => {
                 inputRef={register}
                 disabled={loading}
                 error={errors.name !== undefined}
+                helperText={errors.name && errors.name.message}
                 InputLabelProps={{ shrink: true }}
             />
             <TextField
