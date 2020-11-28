@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) => {
 const validationSchema = yup.object().shape({
     name: yup.string()
         .label('Nome')
-        .required(),
+        .required()
+        .max(255),
 });
 
 export const Form = () => {

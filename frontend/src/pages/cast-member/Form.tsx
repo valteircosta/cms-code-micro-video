@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Box, Button, ButtonProps, FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup, TextField, Theme } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import castMemberHttp from '../../util/http/cast-member-http';
+import * as yup from '../../util/vendor/yup';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -11,6 +12,16 @@ const useStyles = makeStyles((theme: Theme) => {
             margin: theme.spacing(1)
         }
     }
+});
+
+const validationSchema = yup.object().shape({
+    name: yup.string()
+        .label('Nome')
+        .required()
+        .max(255),
+    type: yup.number()
+        .label('Tipo')
+        .required(),
 });
 
 export const Form = () => {
