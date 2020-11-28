@@ -22,9 +22,6 @@ const validationSchema = yup.object().shape({
         .label('Nome')
         .required(),
 });
-export const Form = () => {
-
-    const classes = useStyles();
 
 
     //Using component react-hook-form 
@@ -34,14 +31,16 @@ export const Form = () => {
         setValue,
         errors,
         reset,
-        watch } = useForm({
-            defaultValues: {
-                name: null,
-                is_active: true
-            },
-            resolver: yupResolver(validationSchema),
-        });
+        watch
+    } = useForm({
+        defaultValues: {
+            name: null,
+            is_active: true
+        },
+        resolver: yupResolver(validationSchema),
+    });
 
+    const classes = useStyles();
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
@@ -65,7 +64,7 @@ export const Form = () => {
             try {
                 const { data } = await categoryHttp.get(id);
                 setCategory(data.data);
-                reset(data.data);
+
             } catch (error) {
                 snackbar.enqueueSnackbar(
                     'Não foi possível carregar as informações',
