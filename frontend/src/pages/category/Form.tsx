@@ -65,6 +65,7 @@ export const Form = () => {
             try {
                 const { data } = await categoryHttp.get(id);
                 setCategory(data.data);
+                reset(data.data);
 
             } catch (error) {
                 snackbar.enqueueSnackbar(
