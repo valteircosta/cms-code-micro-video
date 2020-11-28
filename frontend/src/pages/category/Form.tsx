@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
 import { useHistory, useParams } from 'react-router';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -41,6 +42,7 @@ export const Form = () => {
             resolver: yupResolver(validationSchema),
         });
 
+    const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
     const [category, setCategory] = useState<{ id: string } | null>(null);
@@ -53,6 +55,7 @@ export const Form = () => {
         variant: 'contained',
         disabled: loading
     }
+
     useEffect(() => {
         if (!id) {
             return;
@@ -82,6 +85,10 @@ export const Form = () => {
         // Save
         http
             .then(({ data }) => {
+                snackbar.enqueueSnackbar(
+                    'Categoria salva com sucesso',
+                    { variant: 'success' }
+                );
                 setTimeout(() => {
                     // Is event check button clicked
                     event
@@ -93,6 +100,13 @@ export const Form = () => {
                         )
                         : history.push('/categories')
                 })
+            })
+            .catch((error) => {
+                console.log(error);
+                snackbar.enqueueSnackbar(
+                    'Não foi possível salvar a categoria',
+                    { variant: 'error' }
+                );
             })
             .finally(() => setLoading(false))
     }
