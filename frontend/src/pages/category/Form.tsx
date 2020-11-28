@@ -23,6 +23,7 @@ const validationSchema = yup.object().shape({
         .required(),
 });
 
+export const Form = () => {
 
     //Using component react-hook-form 
     const { register,
