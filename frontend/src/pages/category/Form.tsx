@@ -119,43 +119,6 @@ export const Form = () => {
         }
     };
 
-    // function onSubmit(formData, event) {
-    //     setLoading(true);
-    //         const http = !category
-    //         ? categoryHttp.create(formData)
-    //         : categoryHttp.update(category.id, formData);
-
-    //     console.log(event);
-    //     // Save and continue editing -> 
-    //     // Save
-    //     http
-    //         .then(({ data }) => {
-    //             snackbar.enqueueSnackbar(
-    //                 'Categoria salva com sucesso',
-    //                 { variant: 'success' }
-    //             );
-    //             setTimeout(() => {
-    //                 // Is event check button clicked
-    //                 event
-    //                     ? (
-    //                         id
-    //                             //Has id is editing else add
-    //                             ? history.replace(`/categories/${data.data.id}/edit`)
-    //                             : history.push(`/categories/${data.data.id}/edit`)
-    //                     )
-    //                     : history.push('/categories')
-    //             })
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             snackbar.enqueueSnackbar(
-    //                 'Não foi possível salvar a categoria',
-    //                 { variant: 'error' }
-    //             );
-    //         })
-    //         .finally(() => setLoading(false))
-    // }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <TextField
