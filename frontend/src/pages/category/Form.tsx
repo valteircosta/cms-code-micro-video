@@ -1,13 +1,12 @@
 // @flow 
-import { Box, Button, ButtonProps, Checkbox, FormControl, FormControlLabel, makeStyles, TextField, Theme } from '@material-ui/core';
+import { Box, Button, ButtonProps, Checkbox, FormControlLabel, makeStyles, TextField, Theme } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
-import { useParams } from 'react-router';
-import { watch } from 'fs';
+import { useHistory, useParams } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -42,6 +41,7 @@ export const Form = () => {
             resolver: yupResolver(validationSchema),
         });
 
+    const history = useHistory();
     const { id } = useParams<{ id: string }>();
     const [category, setCategory] = useState<{ id: string } | null>(null);
     //Make state default value false
@@ -57,7 +57,6 @@ export const Form = () => {
         if (!id) {
             return;
         }
-        console.log(id);
         setLoading(true);
         categoryHttp.get(id)
             .then(({ data }) => {
@@ -77,9 +76,24 @@ export const Form = () => {
         const http = !category
             ? categoryHttp.create(formData)
             : categoryHttp.update(category.id, formData);
+
         console.log(event);
+        // Save and continue editing -> 
+        // Save
         http
-            .then((response) => console.log(response))
+            .then(({ data }) => {
+                setTimeout(() => {
+                    // Is event check button clicked
+                    event
+                        ? (
+                            id
+                                //Has id is editing else add
+                                ? history.replace(`/categories/${data.data.id}/edit`)
+                                : history.push(`/categories/${data.data.id}/edit`)
+                        )
+                        : history.push('/categories')
+                })
+            })
             .finally(() => setLoading(false))
     }
     return (
