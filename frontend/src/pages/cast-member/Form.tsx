@@ -49,9 +49,9 @@ export const Form = () => {
         handleSubmit,
         getValues,
         setValue,
+        watch,
         errors,
         reset,
-        watch
     } = useForm({
         defaultValues: {
             name: null,
