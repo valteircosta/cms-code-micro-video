@@ -132,7 +132,7 @@ export const Form = () => {
         } catch (error) {
             console.log(error);
             snackbar.enqueueSnackbar(
-                'Não foi possível salvar a categoria',
+                'Não foi possível salvar membro do elenco',
                 { variant: 'error' }
             );
         } finally {
