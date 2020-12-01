@@ -61,7 +61,8 @@ export const Form = () => {
         if (!id) {
             return;
         }
-        async function getCategory() {
+        // We can work with pattern IIFE (Immediately Invokable Function Expressions)
+        (async function getCategory() {
             setLoading(true);
             try {
                 const { data } = await categoryHttp.get(id);
@@ -77,9 +78,7 @@ export const Form = () => {
             finally {
                 setLoading(false)
             }
-        };
-        // Call declared function up
-        getCategory();
+        })(); // Call with IIFE
     }, []);
 
     //Used for make bind between components, in case checkbox
