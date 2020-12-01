@@ -68,7 +68,7 @@ export const Form = () => {
 
     useEffect(() => {
 
-        async function loadData() {
+        (async function loadData() {
             setLoading(true);
             const promises = [categoryHttp.list()];
             if (id) {
@@ -97,9 +97,7 @@ export const Form = () => {
             finally {
                 setLoading(false)
             }
-        };
-        // Call declared function up
-        loadData();
+        })();
     }, []);
 
     //Used for make bind between components

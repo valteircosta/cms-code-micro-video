@@ -6,11 +6,13 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import castMemberHttp from '../../util/http/cast-member-http';
 
+/* eslint-disable */
 // With noImplicintAny = true must declare type
 // const CastMemberTypeMap: { [key: number]: string } = {
 //     1: "Diretor",
 //     2: "Ator",
 // };
+/* eslint-enable */
 
 const CastMemberTypeMap = {
     1: "Diretor",
