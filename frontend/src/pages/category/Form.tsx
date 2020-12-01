@@ -20,12 +20,11 @@ const useStyles = makeStyles((theme: Theme) => {
 const validationSchema = yup.object().shape({
     name: yup.string()
         .label('Nome')
-        .required(),
+        .required()
+        .max(255),
 });
+
 export const Form = () => {
-
-    const classes = useStyles();
-
 
     //Using component react-hook-form 
     const { register,
@@ -34,14 +33,16 @@ export const Form = () => {
         setValue,
         errors,
         reset,
-        watch } = useForm({
-            defaultValues: {
-                name: null,
-                is_active: true
-            },
-            resolver: yupResolver(validationSchema),
-        });
+        watch
+    } = useForm({
+        defaultValues: {
+            name: null,
+            is_active: true
+        },
+        resolver: yupResolver(validationSchema),
+    });
 
+    const classes = useStyles();
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
@@ -60,13 +61,25 @@ export const Form = () => {
         if (!id) {
             return;
         }
-        setLoading(true);
-        categoryHttp.get(id)
-            .then(({ data }) => {
+        async function getCategory() {
+            setLoading(true);
+            try {
+                const { data } = await categoryHttp.get(id);
                 setCategory(data.data);
                 reset(data.data);
-            })
-            .finally(() => setLoading(false))
+
+            } catch (error) {
+                snackbar.enqueueSnackbar(
+                    'Não foi possível carregar as informações',
+                    { variant: 'error' }
+                );
+            }
+            finally {
+                setLoading(false)
+            }
+        };
+        // Call declared function up
+        getCategory();
     }, []);
 
     //Used for make bind between components, in case checkbox
@@ -74,42 +87,40 @@ export const Form = () => {
         register({ name: 'is_active' })
     }, [register]);//Look [register] is dependence passed to hook
 
-    function onSubmit(formData, event) {
-        setLoading(true);
-        const http = !category
-            ? categoryHttp.create(formData)
-            : categoryHttp.update(category.id, formData);
 
-        console.log(event);
-        // Save and continue editing -> 
-        // Save
-        http
-            .then(({ data }) => {
-                snackbar.enqueueSnackbar(
-                    'Categoria salva com sucesso',
-                    { variant: 'success' }
-                );
-                setTimeout(() => {
-                    // Is event check button clicked
-                    event
-                        ? (
-                            id
-                                //Has id is editing else add
-                                ? history.replace(`/categories/${data.data.id}/edit`)
-                                : history.push(`/categories/${data.data.id}/edit`)
-                        )
-                        : history.push('/categories')
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-                snackbar.enqueueSnackbar(
-                    'Não foi possível salvar a categoria',
-                    { variant: 'error' }
-                );
-            })
-            .finally(() => setLoading(false))
-    }
+    async function onSubmit(formData, event) {
+        try {
+            setLoading(true);
+            const http = !category
+                ? categoryHttp.create(formData)
+                : categoryHttp.update(category.id, formData);
+            const { data } = await http;
+            snackbar.enqueueSnackbar(
+                'Categoria salva com sucesso',
+                { variant: 'success' }
+            );
+            setTimeout(() => {
+                // Is event check button clicked
+                event
+                    ? (
+                        id
+                            //Has id is editing else add
+                            ? history.replace(`/categories/${data.data.id}/edit`)
+                            : history.push(`/categories/${data.data.id}/edit`)
+                    )
+                    : history.push('/categories')
+            });
+        } catch (error) {
+            console.log(error);
+            snackbar.enqueueSnackbar(
+                'Não foi possível salvar a categoria',
+                { variant: 'error' }
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <TextField
@@ -121,6 +132,7 @@ export const Form = () => {
                 inputRef={register}
                 disabled={loading}
                 error={errors.name !== undefined}
+                helperText={errors.name && errors.name.message}
                 InputLabelProps={{ shrink: true }}
             />
             <TextField

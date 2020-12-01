@@ -69,6 +69,15 @@ const routes: MyRouteProps[] = [
     },
     {
         /* cSpell:disable */
+        label: "Edit membro de elenco",
+        /* cSpell:enable */
+        name: "cast-members.edit",
+        path: "/cast-members/:id/edit",
+        component: CastMemberForm,
+        exact: true
+    },
+    {
+        /* cSpell:disable */
         label: "Listar gêneros",
         /* cSpell:enable */
         name: "genres.list",
@@ -82,6 +91,15 @@ const routes: MyRouteProps[] = [
         /* cSpell:enable */
         name: "genres.create",
         path: "/genres/create",
+        component: GenreForm,
+        exact: true
+    },
+    {
+        /* cSpell:disable */
+        label: "Edit gênero",
+        /* cSpell:enable */
+        name: "genres.edit",
+        path: "/genres/:id/edit",
         component: GenreForm,
         exact: true
     },
