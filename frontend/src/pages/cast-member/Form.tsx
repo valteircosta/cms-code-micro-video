@@ -80,7 +80,7 @@ export const Form = () => {
         if (!id) {
             return;
         }
-        async function getCastMember() {
+        (async function getCastMember() {
             setLoading(true);
             try {
                 const { data } = await castMemberHttp.get(id);
@@ -96,9 +96,7 @@ export const Form = () => {
             finally {
                 setLoading(false)
             }
-        };
-        // Call declared function up
-        getCastMember();
+        })(); // Call IIFE
     }, []);
 
     //Used for make bind between components
