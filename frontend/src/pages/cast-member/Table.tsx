@@ -55,9 +55,10 @@ const Table = (props: Props) => {
     const [data, setData] = useState<CastMember[]>([]);
 
     useEffect(() => {
-        castMemberHttp
-            .list<{ data: CastMember[] }>()
-            .then(({ data }) => setData(data.data))
+        (async function getCastMember() {
+            const { data } = await castMemberHttp.list<{ data: CastMember[] }>();
+            setData(data.data);
+        })(); //IIFE by call
     }, []);
 
     return (
