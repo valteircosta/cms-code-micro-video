@@ -68,6 +68,7 @@ export const Form = () => {
 
     useEffect(() => {
 
+        let isSubscribed = true;
         (async function loadData() {
             setLoading(true);
             const promises = [categoryHttp.list()];
@@ -76,14 +77,17 @@ export const Form = () => {
             }
             const [categoriesResponse, genreResponse] = await Promise.all(promises);
             try {
-                setCategories(categoriesResponse.data.data);
-                if (id) {
-                    setGenre(genreResponse.data.data);
 
-                    reset({
-                        ...genreResponse.data.data,
-                        categories_id: genreResponse.data.data.categories.map(category => category.id)
-                    });
+                if (isSubscribed) {
+                    setCategories(categoriesResponse.data.data);
+                    if (id) {
+                        setGenre(genreResponse.data.data);
+
+                        reset({
+                            ...genreResponse.data.data,
+                            categories_id: genreResponse.data.data.categories.map(category => category.id)
+                        });
+                    }
                 }
 
 
@@ -96,6 +100,10 @@ export const Form = () => {
             }
             finally {
                 setLoading(false)
+            }
+
+            return () => {
+                isSubscribed = false;
             }
         })();
     }, []);

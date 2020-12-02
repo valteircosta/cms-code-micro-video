@@ -62,12 +62,15 @@ export const Form = () => {
             return;
         }
         // We can work with pattern IIFE (Immediately Invokable Function Expressions)
+        let isSubscribed = true;
         (async function getCategory() {
             setLoading(true);
             try {
                 const { data } = await categoryHttp.get(id);
-                setCategory(data.data);
-                reset(data.data);
+                if (isSubscribed) {
+                    setCategory(data.data);
+                    reset(data.data);
+                }
 
             } catch (error) {
                 snackbar.enqueueSnackbar(
@@ -78,7 +81,11 @@ export const Form = () => {
             finally {
                 setLoading(false)
             }
+
         })(); // Call with IIFE
+        return () => {
+            isSubscribed = false;
+        }
     }, []);
 
     //Used for make bind between components, in case checkbox
