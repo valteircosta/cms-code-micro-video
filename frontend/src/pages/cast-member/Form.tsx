@@ -80,12 +80,15 @@ export const Form = () => {
         if (!id) {
             return;
         }
+        let isSubscribed = true;
         (async function getCastMember() {
             setLoading(true);
             try {
                 const { data } = await castMemberHttp.get(id);
-                setCastMember(data.data);
-                reset(data.data);
+                if (isSubscribed) {
+                    setCastMember(data.data);
+                    reset(data.data);
+                }
 
             } catch (error) {
                 snackbar.enqueueSnackbar(
@@ -96,6 +99,10 @@ export const Form = () => {
             finally {
                 setLoading(false)
             }
+            return () => {
+                isSubscribed = false;
+            }
+
         })(); // Call IIFE
     }, []);
 
