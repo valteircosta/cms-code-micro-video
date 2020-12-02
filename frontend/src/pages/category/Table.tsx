@@ -17,7 +17,7 @@ const columnsDefinitions: MUIDataTableColumn[] = [
         label: 'Ativo?',
         options: {
             customBodyRender(value, tableMeta, updateValue) {
-                return value ? <BadgeYes/> : <BadgeNo/>;
+                return value ? <BadgeYes /> : <BadgeNo />;
             }
         }
     },
@@ -43,18 +43,24 @@ type Props = {};
 const Table = (props: Props) => {
 
     const [data, setData] = useState<Category[]>([]);
-
+    // ComponentDidMount
     useEffect(() => {
-        categoryHttp
-            .list<{ data: Category[] }>()
-            .then(({ data }) => setData(data.data))
-
-        // httpVideo.get('categories').then(
-        // response) => setData(response.data.data)
-        // )
+        // Used in cleanup function for no happen error in load   
+        let isSubscribed = true;
+        (async () => {
+            const { data } = await categoryHttp.list<{ data: Category[] }>();
+            if (isSubscribed) {
+                setData(data.data);
+            };
+        })();
+        // Cleanup function
+        return () => {
+            isSubscribed = false;
+        };
     }, []);
 
     return (
+
         <MUIDataTable
             title='Listagem de categorias'
             data={data}
