@@ -2,7 +2,7 @@
 import * as React from 'react';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
-import { httpVideo } from '../../util/http';
+import genreHttp from '../../util/http/genre-http';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 
@@ -44,11 +44,18 @@ const Table = (props: Props) => {
     const [data, setData] = useState<Genre[]>([]);
 
     useEffect(() => {
-
-
-        httpVideo.get('genres').then(
-            (response) => setData(response.data.data)
-        )
+        // Used in cleanup function for no happen error in load   
+        let isSubscribed = true;
+        (async () => {
+            const { data } = await genreHttp.list<{ data: Genre[] }>();
+            if (isSubscribed) {
+                setData(data.data);
+            };
+        })();
+        // Cleanup function
+        return () => {
+            isSubscribed = false;
+        };
     }, []);
 
     return (
