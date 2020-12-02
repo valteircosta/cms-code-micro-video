@@ -71,21 +71,22 @@ export const Form = () => {
         let isSubscribed = true;
         (async function loadData() {
             setLoading(true);
+            /** Define a Promise array, now can add new resources dependencies */
             const promises = [categoryHttp.list()];
             if (id) {
                 promises.push(genreHttp.get(id));
             }
-            const [categoriesResponse, genreResponse] = await Promise.all(promises);
             try {
-
+                /** Promise.all() resolve all promises in parallel returning results together */
+                const [categoriesResponse, genreResponse] = await Promise.all(promises);
                 if (isSubscribed) {
                     setCategories(categoriesResponse.data.data);
                     if (id) {
                         setGenre(genreResponse.data.data);
-
+                        const categories_id = genreResponse.data.data.categories.map(category => category.id);
                         reset({
                             ...genreResponse.data.data,
-                            categories_id: genreResponse.data.data.categories.map(category => category.id)
+                            categories_id: categories_id 
                         });
                     }
                 }
