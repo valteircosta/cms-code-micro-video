@@ -21,6 +21,7 @@ import * as yup from '../../util/vendor/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
+import { Category } from '../../util/models';
 
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -64,7 +65,7 @@ export const Form = () => {
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-    const [castMember, setCastMember] = useState<{ id: string } | null>(null);
+    const [castMember, setCastMember] = useState<Category | null>(null);
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 
