@@ -8,6 +8,7 @@ import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
+import { Category } from '../../util/models';
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -46,7 +47,7 @@ export const Form = () => {
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-    const [category, setCategory] = useState<{ id: string } | null>(null);
+    const [category, setCategory] = useState<Category | null>(null);
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 
