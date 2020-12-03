@@ -9,6 +9,7 @@ import * as yup from '../../util/vendor/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
+import { Category, Genre } from '../../util/models';
 
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -51,8 +52,8 @@ export const Form = () => {
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-    const [genre, setGenre] = useState<{ id: string } | null>(null);
-    const [categories, setCategories] = useState<[]>([]);
+    const [genre, setGenre] = useState<Genre | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 

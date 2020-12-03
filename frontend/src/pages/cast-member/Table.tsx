@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import castMemberHttp from '../../util/http/cast-member-http';
+import { CastMember, ListResponse } from '../../util/models';
 
 /* eslint-disable */
 // With noImplicintAny = true must declare type
@@ -48,10 +49,6 @@ const columnsDefinitions: MUIDataTableColumn[] = [
 type Props = {
 
 };
-interface CastMember {
-    id: string;
-    name: string;
-}
 const Table = (props: Props) => {
 
     const [data, setData] = useState<CastMember[]>([]);
@@ -59,7 +56,7 @@ const Table = (props: Props) => {
     useEffect(() => {
         let isSubscribed = true;
         (async function getCastMember() {
-            const { data } = await castMemberHttp.list<{ data: CastMember[] }>();
+            const { data } = await castMemberHttp.list<ListResponse<CastMember>>();
             if (isSubscribed) {
                 setData(data.data);
             };
