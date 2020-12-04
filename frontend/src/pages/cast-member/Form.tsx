@@ -2,18 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-    Box,
-    Button,
-    ButtonProps,
     FormControl,
     FormControlLabel,
     FormHelperText,
     FormLabel,
-    makeStyles,
     Radio,
     RadioGroup,
     TextField,
-    Theme
 } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import castMemberHttp from '../../util/http/cast-member-http';
@@ -22,15 +17,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category } from '../../util/models';
+import SubmitActions from '../../components/SubmitActions';
 
-
-const useStyles = makeStyles((theme: Theme) => {
-    return {
-        submit: {
-            margin: theme.spacing(1)
-        }
-    }
-});
 
 const validationSchema = yup.object().shape({
     name: yup.string()
@@ -53,6 +41,7 @@ export const Form = () => {
         watch,
         errors,
         reset,
+        trigger,
     } = useForm({
         defaultValues: {
             name: null,
@@ -61,7 +50,6 @@ export const Form = () => {
         resolver: yupResolver(validationSchema),
     });
 
-    const classes = useStyles();
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
@@ -69,13 +57,6 @@ export const Form = () => {
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 
-    //Using component react-hook-form
-    const buttonProps: ButtonProps = {
-        className: classes.submit,
-        color: 'secondary',
-        variant: 'contained',
-        disabled: loading
-    }
 
     useEffect(() => {
         if (!id) {
@@ -105,7 +86,7 @@ export const Form = () => {
             }
 
         })(); // Call IIFE
-    }, []);
+    }, [id, reset, snackbar]);
 
     //Used for make bind between components
     useEffect(() => {
@@ -180,10 +161,15 @@ export const Form = () => {
                     errors.type && <FormHelperText id='type-helper-text'>{errors.type.message} </FormHelperText>
                 }
             </FormControl>
-            <Box dir={'rtl'} >
-                <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)} >Salvar</Button>
-                <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
-            </Box>
+            <SubmitActions
+                disableButtons={loading}
+                handleSave={() =>
+                    trigger().then(isValid => {
+                        isValid && onSubmit(getValues(), null)
+                    })
+                }
+            />
+
         </form >
     );
 };

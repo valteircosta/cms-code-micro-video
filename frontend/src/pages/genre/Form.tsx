@@ -1,7 +1,7 @@
 // @flow 
 
 import React, { useEffect, useState } from 'react';
-import { Box, Button, ButtonProps, makeStyles, MenuItem, TextField, Theme } from '@material-ui/core';
+import { MenuItem, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import genreHttp from '../../util/http/genre-http';
 import categoryHttp from '../../util/http/category-http';
@@ -10,15 +10,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category, Genre } from '../../util/models';
+import SubmitActions from '../../components/SubmitActions';
 
 
-const useStyles = makeStyles((theme: Theme) => {
-    return {
-        submit: {
-            margin: theme.spacing(1)
-        }
-    }
-});
 
 const validationSchema = yup.object().shape({
     name: yup.string()
@@ -40,6 +34,7 @@ export const Form = () => {
         watch,
         errors,
         reset,
+        trigger,
     } = useForm({
         defaultValues: {
             name: null,
@@ -48,7 +43,6 @@ export const Form = () => {
         resolver: yupResolver(validationSchema),
     });
 
-    const classes = useStyles();
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
@@ -57,15 +51,6 @@ export const Form = () => {
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 
-
-
-
-    const buttonProps: ButtonProps = {
-        className: classes.submit,
-        color: 'secondary',
-        variant: 'contained',
-        disabled: loading
-    }
 
     useEffect(() => {
 
@@ -87,7 +72,7 @@ export const Form = () => {
                         const categories_id = genreResponse.data.data.categories.map(category => category.id);
                         reset({
                             ...genreResponse.data.data,
-                            categories_id: categories_id 
+                            categories_id: categories_id
                         });
                     }
                 }
@@ -108,7 +93,7 @@ export const Form = () => {
                 isSubscribed = false;
             }
         })();
-    }, []);
+    }, [id, reset, snackbar]);
 
     //Used for make bind between components
     useEffect(() => {
@@ -194,10 +179,14 @@ export const Form = () => {
                     )
                 }
             </TextField>
-            <Box dir={'rtl'} >
-                <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)} >Salvar</Button>
-                <Button {...buttonProps} type='submit' >Salvar e continuar editando</Button>
-            </Box>
+            <SubmitActions
+                disableButtons={loading}
+                handleSave={() =>
+                    trigger().then(isValid => {
+                        isValid && onSubmit(getValues(), null)
+                    })
+                }
+            />
         </form >
     );
 };
