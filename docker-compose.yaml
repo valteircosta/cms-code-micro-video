@@ -10,10 +10,12 @@ services:
     # Passando params para dockerize rodar script entrypoint.sh
     entrypoint: ./.docker/entrypoint.sh
     environment:
+      - CHOKIDAR_USEPOLLING=true 
       - XDEBUG_CONFIG=xdebug.remote_host=app xdebug.remote_port=9001 xdebug.remote_enable=1 xdebug.remote_autostart=1 xdebug.remote_handler=dbgp xdebug.idekey=VSCODE xdebug.remote_log=/var/log/xdebug/xdebug.log
     ports:
       - "9001:9001"
       - "3000:3000"
+      - "35729:35729"
 
     volumes:
       - .:/var/www:rw,cached
