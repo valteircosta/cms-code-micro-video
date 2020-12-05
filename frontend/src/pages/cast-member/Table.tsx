@@ -1,11 +1,12 @@
 // @flow 
 import * as React from 'react';
-import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
+import { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import castMemberHttp from '../../util/http/cast-member-http';
 import { CastMember, ListResponse } from '../../util/models';
+import DefaultTable from '../../components/Table';
 
 /* eslint-disable */
 // With noImplicintAny = true must declare type
@@ -67,7 +68,7 @@ const Table = (props: Props) => {
     }, []);
 
     return (
-        <MUIDataTable
+        <DefaultTable
             title='Listagem de membros de elenco'
             data={data}
             columns={columnsDefinitions}
