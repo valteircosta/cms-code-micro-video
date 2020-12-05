@@ -1,9 +1,14 @@
 // @flow 
 import * as React from 'react';
-import MUIDataTable, { MUIDataTableOptions, MUIDataTableProps } from 'mui-datatables';
-import { merge } from 'lodash';
+import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions, MUIDataTableProps } from 'mui-datatables';
+import { cloneDeep, merge, omit } from 'lodash';
+import { MuiThemeProvider, Theme, useTheme } from '@material-ui/core';
+
+export interface TableColumn extends MUIDataTableColumn {
+    width?: string;
+};
 const makeDefaultOptions: MUIDataTableOptions = {
-/* spell-checker: disable */
+    /* spell-checker: disable */
     print: false,
     download: false,
     textLabels: {
@@ -54,13 +59,39 @@ const makeDefaultOptions: MUIDataTableOptions = {
 };
 /* spell-checker: enable */
 interface TableProps extends MUIDataTableProps {
-
+    columns: TableColumn[];
 };
 const Table: React.FC<TableProps> = (props: TableProps) => {
+
+    function extractMuiDataTableColumns(columns: TableColumn[]): MUIDataTableColumn[] {
+        setColumnsWidth(columns);
+        return columns.map(column => omit(column, 'width'));
+    }
+    /** Used by set value width column */
+    function setColumnsWidth(columns: TableColumn[]) {
+        columns.forEach((column, key) => {
+            if (column.width) {
+                const overrides = theme.overrides as any;
+                overrides.MUIDataTableHeadCell.fixedHeader[`&:nth-child(${key + 2})`] = {
+                    width: column.width
+                }
+            }
+        })
+    }
+    /** Get deep clone of the object theme Global for keep only local the change */
+    const theme = cloneDeep<Theme>(useTheme());
     /** Using lodash we are making merge the properties of all objects passed by params  */
-    const newProps = merge({ options: makeDefaultOptions }, props);
+
+    const newProps = merge(
+        { options: makeDefaultOptions },
+        props,
+        { columns: extractMuiDataTableColumns(props.columns) },
+    );
     return (
-        <MUIDataTable{...newProps} />
+        /** Set local theme defined above */
+        <MuiThemeProvider theme={theme} >
+            <MUIDataTable{...newProps} />
+        </MuiThemeProvider>
     );
 };
 export default Table;
