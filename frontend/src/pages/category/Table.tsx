@@ -1,23 +1,34 @@
 // @flow 
 import * as React from 'react';
-import { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import categoryHttp from '../../util/http/category-http';
 import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
-import DefaultTable from '../../components/Table';
+import DefaultTable, { TableColumn } from '../../components/Table';
 
-
-const columnsDefinitions: MUIDataTableColumn[] = [
+/**
+ * Using type defined in component Table for definition the column with width property 
+ */
+const columnsDefinitions: TableColumn[] = [
+    {
+        name: 'id',
+        label: 'ID',
+        width: '33%',
+        options: {
+            sort: false,
+        }
+    },
     {
         name: 'name',
-        label: 'Nome'
+        label: 'Nome',
+        width: '40%'
     },
     {
         name: 'is_active',
         label: 'Ativo?',
+        width: '4%',
         options: {
             customBodyRender(value, tableMeta, updateValue) {
                 return value ? <BadgeYes /> : <BadgeNo />;
@@ -27,12 +38,19 @@ const columnsDefinitions: MUIDataTableColumn[] = [
     {
         name: 'created_at',
         label: 'Criado em',
+        width: '10%',
         options: {
             customBodyRender(value, tableMeta, updateValue) {
                 return <span>{format(parseISO(value), 'dd/MM/yyyy')}</span>;
             }
         }
     },
+    {
+        name: 'actions',
+        label: 'Ações',
+        width: '13%'
+    },
+
 ];
 
 type Props = {};
