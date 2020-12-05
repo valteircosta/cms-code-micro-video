@@ -11,6 +11,7 @@ import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category, Genre } from '../../util/models';
 import SubmitActions from '../../components/SubmitActions';
+import { DefaultForm } from '../../components/DefaultForm';
 
 
 
@@ -134,7 +135,11 @@ export const Form = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
+
+        <DefaultForm
+            GridItemProps={{ xs:12, md:6 }}
+            onSubmit={handleSubmit(onSubmit)}
+        >
             <TextField
                 name='name'
                 label='Nome'
@@ -166,7 +171,7 @@ export const Form = () => {
                 error={errors.categories_id !== undefined}
                 helperText={errors.categories_id && errors.categories_id['message']}
                 InputLabelProps={{ shrink: true }}
-
+                
             >
                 <MenuItem value='' disabled>
                     <em>Selecione categorias</em>
@@ -175,9 +180,9 @@ export const Form = () => {
                     categories.map(
                         (category: any, key) => (
                             <MenuItem key={key} value={category.id}> {category.name}</MenuItem>
-                        )
-                    )
-                }
+                            )
+                            )
+                        }
             </TextField>
             <SubmitActions
                 disableButtons={loading}
@@ -186,7 +191,7 @@ export const Form = () => {
                         isValid && onSubmit(getValues(), null)
                     })
                 }
-            />
-        </form >
+                />
+                </DefaultForm>
     );
 };

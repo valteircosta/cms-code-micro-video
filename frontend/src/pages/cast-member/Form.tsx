@@ -6,7 +6,6 @@ import {
     FormControlLabel,
     FormHelperText,
     FormLabel,
-    Grid,
     Radio,
     RadioGroup,
     TextField,
@@ -19,6 +18,7 @@ import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category } from '../../util/models';
 import SubmitActions from '../../components/SubmitActions';
+import { DefaultForm } from '../../components/DefaultForm';
 
 
 const validationSchema = yup.object().shape({
@@ -129,49 +129,50 @@ export const Form = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <Grid>
-                <TextField
-                    name='name'
-                    label='Nome'
-                    fullWidth
-                    variant='outlined'
-                    margin='normal'
-                    inputRef={register}
-                    disabled={loading}
-                    error={errors.name !== undefined}
-                    helperText={errors.name && errors.name.message}
-                    InputLabelProps={{ shrink: true }}
-                />
-                <FormControl
-                    margin='normal'
-                    error={errors.type !== undefined}
-                    disabled={loading} >
-                    <FormLabel component='legend'>Tipo</FormLabel>
-                    <RadioGroup
-                        name='type'
-                        onChange={(e) => {
-                            //Linking with component react-hook-form
-                            setValue('type', parseInt(e.target.value));
-                        }}
-                        value={watch('type') + ''}
-                    >
-                        <FormControlLabel value='1' control={<Radio />} label='Diretor' />
-                        <FormControlLabel value='2' control={<Radio />} label='Ator' />
-                    </RadioGroup>
-                    {
-                        errors.type && <FormHelperText id='type-helper-text'>{errors.type.message} </FormHelperText>
-                    }
-                </FormControl>
-                <SubmitActions
-                    disableButtons={loading}
-                    handleSave={() =>
-                        trigger().then(isValid => {
-                            isValid && onSubmit(getValues(), null)
-                        })
-                    }
-                />
-            </Grid>
-        </form >
+        <DefaultForm
+            GridItemProps={{ xs:12, md:6 }}
+            onSubmit={handleSubmit(onSubmit)}
+        >
+            <TextField
+                name='name'
+                label='Nome'
+                fullWidth
+                variant='outlined'
+                margin='normal'
+                inputRef={register}
+                disabled={loading}
+                error={errors.name !== undefined}
+                helperText={errors.name && errors.name.message}
+                InputLabelProps={{ shrink: true }}
+            />
+            <FormControl
+                margin='normal'
+                error={errors.type !== undefined}
+                disabled={loading} >
+                <FormLabel component='legend'>Tipo</FormLabel>
+                <RadioGroup
+                    name='type'
+                    onChange={(e) => {
+                        //Linking with component react-hook-form
+                        setValue('type', parseInt(e.target.value));
+                    }}
+                    value={watch('type') + ''}
+                >
+                    <FormControlLabel value='1' control={<Radio />} label='Diretor' />
+                    <FormControlLabel value='2' control={<Radio />} label='Ator' />
+                </RadioGroup>
+                {
+                    errors.type && <FormHelperText id='type-helper-text'>{errors.type.message} </FormHelperText>
+                }
+            </FormControl>
+            <SubmitActions
+                disableButtons={loading}
+                handleSave={() =>
+                    trigger().then(isValid => {
+                        isValid && onSubmit(getValues(), null)
+                    })
+                }
+            />
+        </DefaultForm>
     );
 };
