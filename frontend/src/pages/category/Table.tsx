@@ -15,7 +15,7 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'id',
         label: 'ID',
-        width: '33%',
+        width: '30%',
         options: {
             sort: false,
         }
@@ -23,7 +23,7 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'name',
         label: 'Nome',
-        width: '40%'
+        width: '43%'
     },
     {
         name: 'is_active',
