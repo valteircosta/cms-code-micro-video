@@ -1,6 +1,5 @@
 // @flow 
 import * as React from 'react';
-import { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import genreHttp from '../../util/http/genre-http';
 import format from 'date-fns/format';
@@ -86,7 +85,7 @@ const Table = (props: Props) => {
         return () => {
             isSubscribed = false;
         };
-    }, []);
+    }, [snackbar]);
 
     return (
         <DefaultTable
