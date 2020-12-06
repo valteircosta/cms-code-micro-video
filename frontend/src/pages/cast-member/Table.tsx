@@ -6,7 +6,7 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import castMemberHttp from '../../util/http/cast-member-http';
 import { CastMember, ListResponse } from '../../util/models';
-import DefaultTable from '../../components/Table';
+import DefaultTable, { TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
 
 /* eslint-disable */
@@ -22,14 +22,24 @@ const CastMemberTypeMap = {
     2: "Ator",
 };
 
-const columnsDefinitions: MUIDataTableColumn[] = [
+const columnsDefinitions: TableColumn[] = [
+    {
+        name: 'id',
+        label: 'ID',
+        width: '25%',
+        options: {
+            sort: false,
+        }
+    },
     {
         name: 'name',
-        label: 'Nome'
+        label: 'Nome',
+        width: '40%',
     },
     {
         name: 'type',
         label: 'Tipo',
+        width: '12%',
         options: {
             customBodyRender(value, tableMeta, updateValue) {
                 return CastMemberTypeMap[value];
@@ -39,12 +49,20 @@ const columnsDefinitions: MUIDataTableColumn[] = [
     {
         name: 'created_at',
         label: 'Criado em',
+        width: '10%',
         options: {
             customBodyRender(value, tableMeta, updateValue) {
                 return <span>{format(parseISO(value), 'dd/MM/yyyy')}</span>;
             }
         }
     },
+    {
+        name: 'actions',
+        label: 'Ações',
+        width: '13%'
+    },
+
+
 ];
 
 
