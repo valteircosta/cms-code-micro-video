@@ -95,6 +95,7 @@ const Table = (props: Props) => {
             data={data}
             columns={columnsDefinitions}
             loading={loading}
+            options={{ responsive: 'standard' }}
         />
     );
 };
