@@ -1,6 +1,5 @@
 // @flow 
 import * as React from 'react';
-import { MUIDataTableColumn } from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
