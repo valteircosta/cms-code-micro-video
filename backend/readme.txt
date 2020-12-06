@@ -35,6 +35,7 @@ Exemplo: veja que category está antes de video em ordem alfabetica no singular
     - O resource faz a serialização no laravel, anteriormente era usado o Fractal.
 1.3) Criar filtro usando a biblioteca : tucker-eric/eloquentfilter => php artisan model:filter User
     - php artisan model:filter CategoryFilter
+    cria na pasta padrão ModelFilters, caso queira pode passar o name space para criação
 
 
 Adicionando Model ao sistema em desenvolvimento

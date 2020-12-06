@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -18,14 +19,16 @@ abstract class BasicCrudController extends Controller
 
     public function index()
     {
-        // if paginationSize = 0 or null then return all registers else return model paginationSize,
-        $data = !$this->paginationSize ? $this->model()::all() : $this->model()::paginate($this->paginationSize);
-        $resouceCollectionClass = $this->resourceCollection();
-        // Using reflection get instance this class
-        $refClass = new \ReflectionClass($resouceCollectionClass);
-        return $refClass->isSubclassOf(ResourceCollection::class)
-            ? $resouceCollectionClass($data)
-            : $resouceCollectionClass::collection($data);
+        return  Category::filter(\Request::all())->get();
+
+        // // if paginationSize = 0 or null then return all registers else return model paginationSize,
+        // $data = !$this->paginationSize ? $this->model()::all() : $this->model()::paginate($this->paginationSize);
+        // $resouceCollectionClass = $this->resourceCollection();
+        // // Using reflection get instance this class
+        // $refClass = new \ReflectionClass($resouceCollectionClass);
+        // return $refClass->isSubclassOf(ResourceCollection::class)
+        //     ? $resouceCollectionClass($data)
+        //     : $resouceCollectionClass::collection($data);
     }
     public function store(Request $request)
     {
