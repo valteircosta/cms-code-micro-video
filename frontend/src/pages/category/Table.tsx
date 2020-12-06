@@ -7,6 +7,7 @@ import categoryHttp from '../../util/http/category-http';
 import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
 import DefaultTable, { TableColumn } from '../../components/Table';
+import { useSnackbar } from 'notistack';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -57,22 +58,35 @@ type Props = {};
 
 const Table = (props: Props) => {
 
+    const snackbar = useSnackbar();
     const [data, setData] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
     // ComponentDidMount
     useEffect(() => {
         // Used in cleanup function for no happen error in load   
         let isSubscribed = true;
         (async () => {
-            const { data } = await categoryHttp.list<ListResponse<Category>>();
-            if (isSubscribed) {
-                setData(data.data);
-            };
+            setLoading(true);
+            try {
+                const { data } = await categoryHttp.list<ListResponse<Category>>();
+                if (isSubscribed) {
+                    setData(data.data);
+                };
+            } catch (error) {
+                snackbar.enqueueSnackbar(
+                    'Não foi possível carregar as informações',
+                    { variant: 'error' }
+                );
+
+            } finally {
+                setLoading(false);
+            }
         })();
         // Cleanup function
         return () => {
             isSubscribed = false;
         };
-    }, []);
+    }, [snackbar]);
 
     return (
 
@@ -80,6 +94,7 @@ const Table = (props: Props) => {
             title='Listagem de categorias'
             data={data}
             columns={columnsDefinitions}
+            loading={loading}
         />
     );
 };
