@@ -2,7 +2,7 @@
 import * as React from 'react';
 import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions, MUIDataTableProps } from 'mui-datatables';
 import { cloneDeep, merge, omit } from 'lodash';
-import { MuiThemeProvider, Theme, useTheme } from '@material-ui/core';
+import { MuiThemeProvider, Theme, useMediaQuery, useTheme } from '@material-ui/core';
 
 export interface TableColumn extends MUIDataTableColumn {
     width?: string;
@@ -87,15 +87,22 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
             ? 'Carregando dados...'
             : textLabels.body.noMatch;
     }
-
+    /** Change responsibility type by size screen*/
+    function applyResponsive() {
+        newProps.options.responsive = isSmOrDown ? 'standard' : 'vertical';
+        console.log('object :>> ', newProps.options);
+    }
     /**Remove all no original properties */
     function getOriginalMuiDataTableProps() {
         return omit(newProps, 'loading');
     }
     /** Get deep clone of the object theme Global for keep only local the change */
     const theme = cloneDeep<Theme>(useTheme());
-    /** Using lodash we are making merge the properties of all objects passed by params  */
 
+    /** Detecting screen size change using hook useMediaQuery */
+    const isSmOrDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+    /** Using lodash we are making merge the properties of all objects passed by params  */
     const newProps = merge(
         { options: cloneDeep(makeDefaultOptions) },
         props,
@@ -104,6 +111,7 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
 
     /** Call apply */
     applyLoading();
+    applyResponsive();
     const originalProps = getOriginalMuiDataTableProps();
     return (
         /** Set local theme defined above */
