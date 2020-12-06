@@ -60,6 +60,7 @@ const makeDefaultOptions: MUIDataTableOptions = {
 /* spell-checker: enable */
 interface TableProps extends MUIDataTableProps {
     columns: TableColumn[];
+    loading?: boolean;
 };
 const Table: React.FC<TableProps> = (props: TableProps) => {
 
@@ -77,20 +78,37 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
                 }
             }
         })
+    };
+
+    /** Change message show during data load event */
+    function applyLoading() {
+        const textLabels = (newProps.options as any).textLabels;
+        textLabels.body.noMatch = newProps.loading === true
+            ? 'Carregando dados...'
+            : textLabels.body.noMatch;
+    }
+
+    /**Remove all no original properties */
+    function getOriginalMuiDataTableProps() {
+        return omit(newProps, 'loading');
     }
     /** Get deep clone of the object theme Global for keep only local the change */
     const theme = cloneDeep<Theme>(useTheme());
     /** Using lodash we are making merge the properties of all objects passed by params  */
 
     const newProps = merge(
-        { options: makeDefaultOptions },
+        { options: cloneDeep(makeDefaultOptions) },
         props,
         { columns: extractMuiDataTableColumns(props.columns) },
     );
+
+    /** Call apply */
+    applyLoading();
+    const originalProps = getOriginalMuiDataTableProps();
     return (
         /** Set local theme defined above */
         <MuiThemeProvider theme={theme} >
-            <MUIDataTable{...newProps} />
+            <MUIDataTable{...originalProps} />
         </MuiThemeProvider>
     );
 };
