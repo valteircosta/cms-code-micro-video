@@ -32,7 +32,10 @@ Exemplo: veja que category está antes de video em ordem alfabetica no singular
 1.2) Criar a migrate  php artisan make:migration create_genre_video_table
 1.3) Criar o resource  -> php artisan make:resource CategoryResource
      Criar o resource collection -> php artisan make:resource CategoryCollecion --collection
-    - O resource faz a serialização no laravel, anteriormente era usao o Fractal.
+    - O resource faz a serialização no laravel, anteriormente era usado o Fractal.
+1.3) Criar filtro usando a biblioteca : tucker-eric/eloquentfilter => php artisan model:filter User
+    - php artisan model:filter CategoryFilter
+
 
 Adicionando Model ao sistema em desenvolvimento
 Faz na ordem abaixo:
@@ -44,6 +47,7 @@ Faz na ordem abaixo:
 - add DatabaseSeeder.php
 - add route api.php
 - add resource
+- add filter
 
 
 
