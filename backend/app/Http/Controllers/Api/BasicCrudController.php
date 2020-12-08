@@ -19,16 +19,15 @@ abstract class BasicCrudController extends Controller
 
     public function index()
     {
-        return  Category::filter(\Request::all())->get();
 
-        // // if paginationSize = 0 or null then return all registers else return model paginationSize,
-        // $data = !$this->paginationSize ? $this->model()::all() : $this->model()::paginate($this->paginationSize);
-        // $resouceCollectionClass = $this->resourceCollection();
-        // // Using reflection get instance this class
-        // $refClass = new \ReflectionClass($resouceCollectionClass);
-        // return $refClass->isSubclassOf(ResourceCollection::class)
-        //     ? $resouceCollectionClass($data)
-        //     : $resouceCollectionClass::collection($data);
+        // if paginationSize = 0 or null then return all registers else return model paginationSize,
+        $data = !$this->paginationSize ? $this->model()::all() : $this->model()::paginate($this->paginationSize);
+        $resouceCollectionClass = $this->resourceCollection();
+        // Using reflection get instance this class
+        $refClass = new \ReflectionClass($resouceCollectionClass);
+        return $refClass->isSubclassOf(ResourceCollection::class)
+            ? $resouceCollectionClass($data)
+            : $resouceCollectionClass::collection($data);
     }
     public function store(Request $request)
     {
