@@ -1,11 +1,16 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
-import { AnySoaRecord } from 'dns';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { AnySoaRecord } from "dns";
 
 export default class HttpResource {
   constructor(protected http: AxiosInstance, protected resource) {}
 
   list<T = any>(): Promise<AxiosResponse<T>> {
-    return this.http.get<T>(this.resource);
+    const config: AxiosRequestConfig = {
+      params: {
+        all: "",
+      },
+    };
+    return this.http.get<T>(this.resource, config);
   }
 
   get<T = any>(id: any): Promise<AxiosResponse<T>> {
