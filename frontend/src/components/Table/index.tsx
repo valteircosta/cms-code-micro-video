@@ -122,7 +122,7 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
 };
 export default Table;
 
-export function makeActionsStyle(column) {
+export function makeActionStyle(column) {
     return theme => {
         const copyTheme = cloneDeep(theme);
         const selector = `&[data-testid^="MuiDataTableBodyCell-${column}"]`;

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface ListResponse<T> {
   data: [];
   links: {

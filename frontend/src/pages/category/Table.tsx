@@ -6,10 +6,9 @@ import parseISO from 'date-fns/parseISO';
 import categoryHttp from '../../util/http/category-http';
 import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
-import DefaultTable, { TableColumn } from '../../components/Table';
+import DefaultTable, { makeActionStyle, TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
-import { MuiThemeProvider, Theme } from '@material-ui/core';
-import { cloneDeep } from 'lodash';
+import { MuiThemeProvider } from '@material-ui/core';
 
 /**
  * Using type defined in component Table for definition the column with width property 

@@ -54,7 +54,8 @@
         "mínimo",
         "neros",
         "precisa",
-        "requerido"
+        "requerido",
+        "testid"
     ],
     "prettier.jsxSingleQuote": true, 
 }
