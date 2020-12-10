@@ -59,7 +59,7 @@ export const Form = () => {
         (async function loadData() {
             setLoading(true);
             /** Define a Promise array, now can add new resources dependencies */
-            const promises = [categoryHttp.list()];
+            const promises = [categoryHttp.list({ queryParams: { all: '' } })];
             if (id) {
                 promises.push(genreHttp.get(id));
             }
@@ -137,7 +137,7 @@ export const Form = () => {
     return (
 
         <DefaultForm
-            GridItemProps={{ xs:12, md:6 }}
+            GridItemProps={{ xs: 12, md: 6 }}
             onSubmit={handleSubmit(onSubmit)}
         >
             <TextField
@@ -171,7 +171,7 @@ export const Form = () => {
                 error={errors.categories_id !== undefined}
                 helperText={errors.categories_id && errors.categories_id['message']}
                 InputLabelProps={{ shrink: true }}
-                
+
             >
                 <MenuItem value='' disabled>
                     <em>Selecione categorias</em>
@@ -180,9 +180,9 @@ export const Form = () => {
                     categories.map(
                         (category: any, key) => (
                             <MenuItem key={key} value={category.id}> {category.name}</MenuItem>
-                            )
-                            )
-                        }
+                        )
+                    )
+                }
             </TextField>
             <SubmitActions
                 disableButtons={loading}
@@ -191,7 +191,7 @@ export const Form = () => {
                         isValid && onSubmit(getValues(), null)
                     })
                 }
-                />
-                </DefaultForm>
+            />
+        </DefaultForm>
     );
 };
