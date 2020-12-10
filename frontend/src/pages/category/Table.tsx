@@ -8,6 +8,8 @@ import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
 import DefaultTable, { TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
+import { MuiThemeProvider, Theme } from '@material-ui/core';
+import { cloneDeep } from 'lodash';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -54,6 +56,7 @@ const columnsDefinitions: TableColumn[] = [
 
 ];
 
+
 type Props = {};
 
 const Table = (props: Props) => {
@@ -89,14 +92,15 @@ const Table = (props: Props) => {
     }, [snackbar]);
 
     return (
-
-        <DefaultTable
-            title='Listagem de categorias'
-            data={data}
-            columns={columnsDefinitions}
-            loading={loading}
-            options={{ responsive: 'standard' }}
-        />
+        <MuiThemeProvider theme={makeActionStyle} >
+            <DefaultTable
+                title='Listagem de categorias'
+                data={data}
+                columns={columnsDefinitions}
+                loading={loading}
+                options={{ responsive: 'standard' }}
+            />
+        </MuiThemeProvider>
     );
 };
 export default Table;
