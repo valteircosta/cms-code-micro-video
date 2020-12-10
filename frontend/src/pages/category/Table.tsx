@@ -8,7 +8,9 @@ import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
 import DefaultTable, { makeActionStyle, TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
-import { MuiThemeProvider } from '@material-ui/core';
+import { IconButton, MuiThemeProvider } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -50,7 +52,21 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'actions',
         label: 'Ações',
-        width: '13%'
+        width: '13%',
+        options: {
+            sort: false,
+            customBodyRender(value, tableMeta) {
+                return (
+                    <IconButton
+                        color={'secondary'}
+                        component={Link}
+                        to={`/categories/${tableMeta.rowData[0]}/edit`}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                )
+            }
+        }
     },
 
 ];
@@ -91,7 +107,7 @@ const Table = (props: Props) => {
     }, [snackbar]);
 
     return (
-        <MuiThemeProvider theme={makeActionStyle} >
+        <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
                 title='Listagem de categorias'
                 data={data}

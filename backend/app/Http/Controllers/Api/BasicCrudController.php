@@ -56,7 +56,7 @@ abstract class BasicCrudController extends Controller
         $model = $this->model();
         /** Obtem a coluna usada no where */
         $keyName = (new $model)->getRouteKeyName();
-        return $this->queryBuilder()::where($keyName, $id)->firstOrFail();
+        return $this->queryBuilder()->where($keyName, $id)->firstOrFail();
     }
 
     public function show($id)

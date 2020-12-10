@@ -90,7 +90,6 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
     /** Change responsibility type by size screen*/
     function applyResponsive() {
         newProps.options.responsive = isSmOrDown ? 'standard' : 'vertical';
-        console.log('object :>> ', newProps.options);
     }
     /**Remove all no original properties */
     function getOriginalMuiDataTableProps() {
