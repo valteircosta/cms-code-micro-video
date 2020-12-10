@@ -7,6 +7,9 @@ import castMemberHttp from '../../util/http/cast-member-http';
 import { CastMember, ListResponse } from '../../util/models';
 import DefaultTable, { TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
+import { IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
 
 /* eslint-disable */
 // With noImplicintAny = true must declare type
@@ -58,9 +61,22 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'actions',
         label: 'Ações',
-        width: '13%'
-    },
-
+        width: '13%',
+        options: {
+            sort: false,
+            customBodyRender(value, tableMeta) {
+                return (
+                    <IconButton
+                        color={'secondary'}
+                        component={Link}
+                        to={`/cast-members/${tableMeta.rowData[0]}/edit`}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                )
+            }
+        }
+    }
 
 ];
 
