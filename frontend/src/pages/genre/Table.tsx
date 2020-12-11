@@ -7,6 +7,13 @@ import parseISO from 'date-fns/parseISO';
 import { Genre, ListResponse } from '../../util/models';
 import DefaultTable, { TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
+import { IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+
+
+
+
 const columnsDefinitions: TableColumn[] = [
     {
         name: 'id',
@@ -44,7 +51,25 @@ const columnsDefinitions: TableColumn[] = [
         name: 'actions',
         label: 'Ações',
         width: '13%'
-    },
+    },{
+        name: 'actions',
+        label: 'Ações',
+        width: '13%',
+        options: {
+            sort: false,
+            customBodyRender(value, tableMeta) {
+                return (
+                    <IconButton
+                        color={'secondary'}
+                        component={Link}
+                        to={`/genres/${tableMeta.rowData[0]}/edit`}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                )
+            }
+        }
+    }
 ];
 
 
