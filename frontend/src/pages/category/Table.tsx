@@ -71,7 +71,9 @@ const columnsDefinitions: TableColumn[] = [
 
 ];
 
-
+interface SearchState {
+    search: string;
+};
 type Props = {};
 
 const Table = (props: Props) => {
@@ -79,6 +81,7 @@ const Table = (props: Props) => {
     const snackbar = useSnackbar();
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [searchState, setSearchState] = useState<SearchState>({ search: '' });
     // ComponentDidMount
     useEffect(() => {
         // Used in cleanup function for no happen error in load   
