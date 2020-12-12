@@ -108,12 +108,18 @@ const Table = (props: Props) => {
             dir: null,
         }
     });
-    // Find and map sortable column 
-    const column = columnsDefinitions.map((column: any) => {
-        if (column.name === searchState.order.sort) {
-            column.options.sortDirection = searchState.order.dir
 
-        }
+    // Find and map sortable column 
+    const columns = columnsDefinitions.map((column) => {
+        return (column.name === searchState.order.sort)
+            //Add property sortDirection  of the object returned.
+            ? {
+                ...column,
+                options: {
+                    ...column.options,
+                    sortDirection: searchState.order.dir as any
+                }
+            } : column;
     });
     // ComponentDidMount
     useEffect(() => {
@@ -170,7 +176,7 @@ const Table = (props: Props) => {
             <DefaultTable
                 title='Listagem de categorias'
                 data={data}
-                columns={columnsDefinitions}
+                columns={columns}
                 loading={loading}
                 options={{
                     serverSide: true,
