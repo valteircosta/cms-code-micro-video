@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import categoryHttp from '../../util/http/category-http';
@@ -71,41 +71,79 @@ const columnsDefinitions: TableColumn[] = [
 
 ];
 
-
+interface Pagination {
+    page: number;
+    total: number;
+    per_page: number;
+};
+interface SearchState {
+    search: string;
+    pagination: Pagination;
+};
 type Props = {};
 
 const Table = (props: Props) => {
 
     const snackbar = useSnackbar();
+    // useRef hook make object content property current = {current:true} 
+    const subscribed = useRef(true);
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [searchState, setSearchState] = useState<SearchState>({
+        search: '',
+        pagination: {
+            page: 1,
+            total: 0,
+            per_page: 10
+        }
+    });
     // ComponentDidMount
     useEffect(() => {
-        // Used in cleanup function for no happen error in load   
-        let isSubscribed = true;
-        (async () => {
-            setLoading(true);
-            try {
-                const { data } = await categoryHttp.list<ListResponse<Category>>();
-                if (isSubscribed) {
-                    setData(data.data);
-                };
-            } catch (error) {
-                snackbar.enqueueSnackbar(
-                    'Não foi possível carregar as informações',
-                    { variant: 'error' }
-                );
-
-            } finally {
-                setLoading(false);
-            }
-        })();
+        subscribed.current = true;
+        getData();
         // Cleanup function
         return () => {
-            isSubscribed = false;
+            subscribed.current = false;
         };
-    }, [snackbar]);
 
+    }, [
+        searchState.search,
+        searchState.pagination.page,
+        searchState.pagination.per_page,
+    ]);
+
+    async function getData() {
+        setLoading(true);
+        try {
+            const { data } = await categoryHttp.list<ListResponse<Category>>({
+                queryParams: {
+                    search: searchState.search,
+                    page: searchState.pagination.page,
+                    per_page: searchState.pagination.per_page,
+                }
+            });
+            console.log(subscribed);
+            if (subscribed.current) {
+                setData(data.data);
+                setSearchState((prevState => ({
+                    ...prevState,
+                    pagination: {
+                        ...prevState.pagination,
+                        total: data.meta.total
+                    }
+                })));
+            };
+        } catch (error) {
+            snackbar.enqueueSnackbar(
+                'Não foi possível carregar as informações',
+                { variant: 'error' }
+            );
+
+        } finally {
+            setLoading(false);
+        }
+
+    };
     return (
         <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
@@ -113,7 +151,41 @@ const Table = (props: Props) => {
                 data={data}
                 columns={columnsDefinitions}
                 loading={loading}
-                options={{ responsive: 'standard' }}
+                options={{
+                    serverSide: true,
+                    responsive: 'standard',
+                    searchText: searchState.search as string,
+                    page: searchState.pagination.page - 1,
+                    rowsPerPage: searchState.pagination.per_page,
+                    count: searchState.pagination.total,
+                    onSearchChange: (value: any) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            search: value
+                        }
+                    ))),
+                    onChangePage: (page: number) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            pagination: {
+                                ...prevState.pagination,
+                                page: page + 1
+
+                            }
+                        }
+                    ))),
+                    onChangeRowsPerPage: (perPage: number) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            pagination: {
+                                ...prevState.pagination,
+                                per_page: perPage 
+
+                            }
+                        }
+                    ))),
+
+                }}
             />
         </MuiThemeProvider>
     );
