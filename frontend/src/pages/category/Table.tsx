@@ -149,7 +149,6 @@ const Table = (props: Props) => {
                     dir: searchState.order.dir,
                 }
             });
-            console.log(subscribed);
             if (subscribed.current) {
                 setData(data.data);
                 setSearchState((prevState => ({
@@ -161,6 +160,10 @@ const Table = (props: Props) => {
                 })));
             };
         } catch (error) {
+            console.error(error);
+            if (categoryHttp.isCancelledRequest(error)) {
+                return
+            }
             snackbar.enqueueSnackbar(
                 'Não foi possível carregar as informações',
                 { variant: 'error' }
