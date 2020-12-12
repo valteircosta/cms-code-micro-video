@@ -27,7 +27,8 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'name',
         label: 'Nome',
-        width: '43%'
+        width: '43%',
+
     },
     {
         name: 'is_active',
@@ -107,6 +108,13 @@ const Table = (props: Props) => {
             dir: null,
         }
     });
+    // Find and map sortable column 
+    const column = columnsDefinitions.map((column: any) => {
+        if (column.name === searchState.order.sort) {
+            column.options.sortDirection = searchState.order.dir
+
+        }
+    });
     // ComponentDidMount
     useEffect(() => {
         subscribed.current = true;
@@ -120,6 +128,7 @@ const Table = (props: Props) => {
         searchState.search,
         searchState.pagination.page,
         searchState.pagination.per_page,
+        searchState.order,
     ]);
 
     async function getData() {
@@ -130,6 +139,8 @@ const Table = (props: Props) => {
                     search: searchState.search,
                     page: searchState.pagination.page,
                     per_page: searchState.pagination.per_page,
+                    sort: searchState.order.sort,
+                    dir: searchState.order.dir,
                 }
             });
             console.log(subscribed);
@@ -194,10 +205,19 @@ const Table = (props: Props) => {
                             }
                         }
                     ))),
-
+                    onColumnSortChange: (changedColumn: string, direction: string) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            order: {
+                                sort: changedColumn,
+                                dir: direction,
+                            }
+                        }
+                    ))),
                 }}
             />
         </MuiThemeProvider>
+
     );
 };
 export default Table;
