@@ -125,13 +125,13 @@ const Table = (props: Props) => {
             console.log(subscribed);
             if (subscribed.current) {
                 setData(data.data);
-                // setSearchState((prevState => ({
-                //     ...prevState,
-                //     pagination: {
-                //         ...prevState.pagination,
-                //         total: data.meta.total
-                //     }
-                // })));
+                setSearchState((prevState => ({
+                    ...prevState,
+                    pagination: {
+                        ...prevState.pagination,
+                        total: data.meta.total
+                    }
+                })));
             };
         } catch (error) {
             snackbar.enqueueSnackbar(
@@ -152,6 +152,7 @@ const Table = (props: Props) => {
                 columns={columnsDefinitions}
                 loading={loading}
                 options={{
+                    serverSide: true,
                     responsive: 'standard',
                     searchText: searchState.search as string,
                     page: searchState.pagination.page - 1,
