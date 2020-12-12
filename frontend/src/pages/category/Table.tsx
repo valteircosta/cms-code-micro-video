@@ -76,9 +76,15 @@ interface Pagination {
     total: number;
     per_page: number;
 };
+
+interface Order {
+    sort: string | null;
+    dir: string | null;
+};
 interface SearchState {
     search: string;
     pagination: Pagination;
+    order: Order;
 };
 type Props = {};
 
@@ -95,6 +101,10 @@ const Table = (props: Props) => {
             page: 1,
             total: 0,
             per_page: 10
+        },
+        order: {
+            sort: null,
+            dir: null,
         }
     });
     // ComponentDidMount
@@ -179,7 +189,7 @@ const Table = (props: Props) => {
                             ...prevState,
                             pagination: {
                                 ...prevState.pagination,
-                                per_page: perPage 
+                                per_page: perPage
 
                             }
                         }
