@@ -163,7 +163,28 @@ const Table = (props: Props) => {
                             ...prevState,
                             search: value
                         }
-                    )))
+                    ))),
+                    onChangePage: (page: number) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            pagination: {
+                                ...prevState.pagination,
+                                page: page + 1
+
+                            }
+                        }
+                    ))),
+                    onChangeRowsPerPage: (perPage: number) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            pagination: {
+                                ...prevState.pagination,
+                                per_page: perPage 
+
+                            }
+                        }
+                    ))),
+
                 }}
             />
         </MuiThemeProvider>
