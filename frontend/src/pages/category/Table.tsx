@@ -27,7 +27,8 @@ const columnsDefinitions: TableColumn[] = [
     {
         name: 'name',
         label: 'Nome',
-        width: '43%'
+        width: '43%',
+
     },
     {
         name: 'is_active',
@@ -76,9 +77,15 @@ interface Pagination {
     total: number;
     per_page: number;
 };
+
+interface Order {
+    sort: string | null;
+    dir: string | null;
+};
 interface SearchState {
     search: string;
     pagination: Pagination;
+    order: Order;
 };
 type Props = {};
 
@@ -95,7 +102,24 @@ const Table = (props: Props) => {
             page: 1,
             total: 0,
             per_page: 10
+        },
+        order: {
+            sort: null,
+            dir: null,
         }
+    });
+
+    // Find and map sortable column 
+    const columns = columnsDefinitions.map((column) => {
+        return (column.name === searchState.order.sort)
+            //Add property sortDirection  of the object returned.
+            ? {
+                ...column,
+                options: {
+                    ...column.options,
+                    sortDirection: searchState.order.dir as any
+                }
+            } : column;
     });
     // ComponentDidMount
     useEffect(() => {
@@ -110,6 +134,7 @@ const Table = (props: Props) => {
         searchState.search,
         searchState.pagination.page,
         searchState.pagination.per_page,
+        searchState.order,
     ]);
 
     async function getData() {
@@ -120,6 +145,8 @@ const Table = (props: Props) => {
                     search: searchState.search,
                     page: searchState.pagination.page,
                     per_page: searchState.pagination.per_page,
+                    sort: searchState.order.sort,
+                    dir: searchState.order.dir,
                 }
             });
             console.log(subscribed);
@@ -149,7 +176,7 @@ const Table = (props: Props) => {
             <DefaultTable
                 title='Listagem de categorias'
                 data={data}
-                columns={columnsDefinitions}
+                columns={columns}
                 loading={loading}
                 options={{
                     serverSide: true,
@@ -179,15 +206,24 @@ const Table = (props: Props) => {
                             ...prevState,
                             pagination: {
                                 ...prevState.pagination,
-                                per_page: perPage 
+                                per_page: perPage
 
                             }
                         }
                     ))),
-
+                    onColumnSortChange: (changedColumn: string, direction: string) => setSearchState((prevState => (
+                        {
+                            ...prevState,
+                            order: {
+                                sort: changedColumn,
+                                dir: direction,
+                            }
+                        }
+                    ))),
                 }}
             />
         </MuiThemeProvider>
+
     );
 };
 export default Table;
