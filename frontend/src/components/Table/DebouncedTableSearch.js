@@ -33,13 +33,13 @@ const DebouncedTableSearch = ({ options, searchText, onSearch, onHide }) => {
 
     const classes = useStyles();
 
-    //Override constructor
+    // Override constructor
     constructor(props) {
         super(props);
         this.state = {
             text: props.searchText
         };
-    };
+    }
 
 
     const handleTextChange = event => {
