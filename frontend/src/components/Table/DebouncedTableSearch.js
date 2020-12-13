@@ -30,6 +30,15 @@ const useStyles = makeStyles(
 );
 
 const TableSearch = ({ options, searchText, onSearch, onHide }) => {
+
+    //Override constructor
+    constructor(props){
+        super(props);
+        this.state = {
+            text: props.searchText
+        }
+    };
+
     const classes = useStyles();
 
     const handleTextChange = event => {
@@ -41,7 +50,11 @@ const TableSearch = ({ options, searchText, onSearch, onHide }) => {
             onHide();
         }
     };
-
+    //It logic that handle value of the searchText
+    let value = this.state.text;
+    if (searchText && searchText.value !== undefined) {
+        value = searchText.value;
+    };
     return (
         <Grow appear in={true} timeout={300}>
             <div className={classes.main}>
@@ -55,7 +68,7 @@ const TableSearch = ({ options, searchText, onSearch, onHide }) => {
                     inputProps={{
                         'aria-label': options.textLabels.toolbar.search,
                     }}
-                    value={searchText || ''}
+                    value={value || ''}
                     onKeyDown={onKeyDown}
                     onChange={handleTextChange}
                     fullWidth={true}
