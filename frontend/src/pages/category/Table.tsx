@@ -195,7 +195,13 @@ const Table = (props: Props) => {
                     customToolbar: () => (
                         <FilterResetButton
                             handleClick={() => {
-                                setSearchState(initialState);
+                                setSearchState({
+                                    ...initialState,
+                                    search: {
+                                        value: initialState.search,
+                                        updated:true
+                                    } as any
+                                });
                             }}
                         />
                     ),
