@@ -29,17 +29,18 @@ const useStyles = makeStyles(
     { name: 'MUIDataTableSearch' },
 );
 
-const TableSearch = ({ options, searchText, onSearch, onHide }) => {
+const DebouncedTableSearch = ({ options, searchText, onSearch, onHide }) => {
+
+    const classes = useStyles();
 
     //Override constructor
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             text: props.searchText
-        }
+        };
     };
 
-    const classes = useStyles();
 
     const handleTextChange = event => {
         onSearch(event.target.value);
@@ -83,4 +84,4 @@ const TableSearch = ({ options, searchText, onSearch, onHide }) => {
     );
 };
 
-export default TableSearch;
+export default DebouncedTableSearch;
