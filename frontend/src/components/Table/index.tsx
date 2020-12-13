@@ -8,7 +8,8 @@ import DebouncedTableSearch from './DebouncedTableSearch';
 export interface TableColumn extends MUIDataTableColumn {
     width?: string;
 };
-const makeDefaultOptions: MUIDataTableOptions = {
+
+const makeDefaultOptions = (): MUIDataTableOptions => ({
     /* spell-checker: disable */
     print: false,
     download: false,
@@ -57,7 +58,7 @@ const makeDefaultOptions: MUIDataTableOptions = {
          //   debounceTime={debouncedSearchTime}
         />
     }
-};
+});
 /* spell-checker: enable */
 export interface TableProps extends MUIDataTableProps {
     columns: TableColumn[];
