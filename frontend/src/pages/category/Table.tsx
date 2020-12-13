@@ -250,6 +250,7 @@ const Table = (props: Props) => {
                             onSearch={handleSearch}
                             onHide={hideSearch}
                             options={options}
+                           // debounceTime={debouncedSearchTime}
                         />
 
                     },

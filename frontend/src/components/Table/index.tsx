@@ -3,6 +3,7 @@ import * as React from 'react';
 import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions, MUIDataTableProps } from 'mui-datatables';
 import { cloneDeep, merge, omit } from 'lodash';
 import { MuiThemeProvider, Theme, useMediaQuery, useTheme } from '@material-ui/core';
+import DebouncedTableSearch from './DebouncedTableSearch';
 
 export interface TableColumn extends MUIDataTableColumn {
     width?: string;
@@ -44,23 +45,24 @@ const makeDefaultOptions: MUIDataTableOptions = {
             deleteAria: "Excluir regitros selecionados",
         },
     },
-    // customSearchRender: (searchText: string,
-    //     handleSearch: any,
-    //     hideSearch: any,
-    //     options: any) => {
-    //     return <DebouncedTableSearch
-    //         searchText={searchText}
-    //         onSearch={handleSearch}
-    //         onHide={hideSearch}
-    //         options={options}
-    //         debounceTime={debouncedSearchTime}
-    //     />
-    // }
+    customSearchRender: (searchText: string,
+        handleSearch: any,
+        hideSearch: any,
+        options: any) => {
+        return <DebouncedTableSearch
+            searchText={searchText}
+            onSearch={handleSearch}
+            onHide={hideSearch}
+            options={options}
+         //   debounceTime={debouncedSearchTime}
+        />
+    }
 };
 /* spell-checker: enable */
 export interface TableProps extends MUIDataTableProps {
     columns: TableColumn[];
     loading?: boolean;
+    debouncedSearchTime?: number;
 };
 const Table: React.FC<TableProps> = (props: TableProps) => {
 
