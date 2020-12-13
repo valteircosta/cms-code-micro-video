@@ -191,7 +191,12 @@ const Table = (props: Props) => {
                     onSearchChange: (value: any) => setSearchState((prevState => (
                         {
                             ...prevState,
-                            search: value
+                            search: value,
+                            /** Override pagination for back to page 1 */
+                            pagination: {
+                                ...prevState.pagination,
+                                page:1
+                            }
                         }
                     ))),
                     onChangePage: (page: number) => setSearchState((prevState => (
