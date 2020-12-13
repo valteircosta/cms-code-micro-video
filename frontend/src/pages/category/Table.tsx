@@ -92,12 +92,8 @@ type Props = {};
 
 const Table = (props: Props) => {
 
-    const snackbar = useSnackbar();
-    // useRef hook make object content property current = {current:true} 
-    const subscribed = useRef(true);
-    const [data, setData] = useState<Category[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [searchState, setSearchState] = useState<SearchState>({
+    // Initial state of component
+    const initialState = {
         search: '',
         pagination: {
             page: 1,
@@ -108,7 +104,13 @@ const Table = (props: Props) => {
             sort: null,
             dir: null,
         }
-    });
+    };
+    const snackbar = useSnackbar();
+    // useRef hook make object content property current = {current:true} 
+    const subscribed = useRef(true);
+    const [data, setData] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [searchState, setSearchState] = useState<SearchState>(initialState);
 
     // Find and map sortable column 
     const columns = columnsDefinitions.map((column) => {
@@ -189,7 +191,13 @@ const Table = (props: Props) => {
                     page: searchState.pagination.page - 1,
                     rowsPerPage: searchState.pagination.per_page,
                     count: searchState.pagination.total,
-                    customToolbar: () => (<FilterResetButton />),
+                    customToolbar: () => (
+                        <FilterResetButton
+                            handleClick={() => {
+                                setSearchState(initialState);
+                            }}
+                        />
+                    ),
                     onSearchChange: (value: any) => setSearchState((prevState => (
                         {
                             ...prevState,

@@ -6,12 +6,14 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 const useStyles = makeStyles(theme => ({
     iconButton: (theme as any).overrides.MUIDataTableToolbar.icon
 }));
-
-export const FilterResetButton = (props) => {
+interface FilterResetButtonProps {
+    handleClick: () => void;
+}
+export const FilterResetButton: React.FC<FilterResetButtonProps> = (props) => {
     const classes = useStyles();
     return (
         <Tooltip title={'Limpar busca'}>
-            <IconButton className={classes.iconButton}>
+            <IconButton className={classes.iconButton} onClick={props.handleClick} >
                 <ClearAllIcon />
             </IconButton>
         </Tooltip>
