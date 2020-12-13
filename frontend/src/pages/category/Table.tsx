@@ -12,6 +12,7 @@ import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
+import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -238,6 +239,23 @@ const Table = (props: Props) => {
                             }
                         }
                     ))),
+                    customSearchRender: (
+                        searchText: string,
+                        handleSearch: any,
+                        hideSearch: any,
+                        options: any,
+                    ) => {
+                        return <DebouncedTableSearch
+                            searchText={searchText}
+                            onSearch={handleSearch}
+                            onHide={hideSearch}
+                            options={options}
+                           // debounceTime={debouncedSearchTime}
+                        />
+
+                    },
+
+
                 }}
             />
         </MuiThemeProvider>
