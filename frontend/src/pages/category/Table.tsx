@@ -79,14 +79,14 @@ interface Pagination {
     per_page: number;
 };
 
-interface Order {
-    sort: string | null;
-    dir: string | null;
+interface sortOrder {
+    name: string | null;
+    direction: string | null;
 };
 interface SearchState {
     search: string | null;
     pagination: Pagination;
-    order: Order;
+    sortOrder: sortOrder;
 };
 type Props = {};
 
@@ -100,9 +100,9 @@ const Table = (props: Props) => {
             total: 0,
             per_page: 10
         },
-        order: {
-            sort: null,
-            dir: null,
+        sortOrder: {
+            name: null,
+            direction: null,
         }
     };
     const snackbar = useSnackbar();
@@ -114,13 +114,13 @@ const Table = (props: Props) => {
 
     // Find and map sortable column 
     const columns = columnsDefinitions.map((column) => {
-        return (column.name === searchState.order.sort)
+        return (column.name === searchState.sortOrder.name)
             //Add property sortDirection  of the object returned.
             ? {
                 ...column,
                 options: {
                     ...column.options,
-                    sortDirection: searchState.order.dir as any
+                    sortOrder: searchState.sortOrder.direction
                 }
             } : column;
     });
@@ -137,7 +137,7 @@ const Table = (props: Props) => {
         searchState.search,
         searchState.pagination.page,
         searchState.pagination.per_page,
-        searchState.order,
+        searchState.sortOrder,
     ]);
 
     async function getData() {
@@ -148,8 +148,8 @@ const Table = (props: Props) => {
                     search: searchState.search,
                     page: searchState.pagination.page,
                     per_page: searchState.pagination.per_page,
-                    sort: searchState.order.sort,
-                    dir: searchState.order.dir,
+                    sort: searchState.sortOrder.name,
+                    dir: searchState.sortOrder.direction,
                 }
             });
             if (subscribed.current) {
@@ -232,9 +232,9 @@ const Table = (props: Props) => {
                     onColumnSortChange: (changedColumn: string, direction: string) => setSearchState((prevState => (
                         {
                             ...prevState,
-                            order: {
-                                sort: changedColumn,
-                                dir: direction,
+                            sortOrder: {
+                                name: changedColumn,
+                                direction: direction,
                             }
                         }
                     ))),
