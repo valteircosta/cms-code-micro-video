@@ -11,6 +11,7 @@ import { useSnackbar } from 'notistack';
 import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
+import { FilterResetButton } from '../../components/Table/FilterResetButton';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -78,46 +79,48 @@ interface Pagination {
     per_page: number;
 };
 
-interface Order {
-    sort: string | null;
-    dir: string | null;
+interface sortOrder {
+    name: string | null;
+    direction: string | null;
 };
 interface SearchState {
-    search: string;
+    search: string | null;
     pagination: Pagination;
-    order: Order;
+    sortOrder: sortOrder;
 };
 type Props = {};
 
 const Table = (props: Props) => {
 
-    const snackbar = useSnackbar();
-    // useRef hook make object content property current = {current:true} 
-    const subscribed = useRef(true);
-    const [data, setData] = useState<Category[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [searchState, setSearchState] = useState<SearchState>({
-        search: '',
+    // Initial state of component
+    const initialState = {
+        search: null,
         pagination: {
             page: 1,
             total: 0,
             per_page: 10
         },
-        order: {
-            sort: null,
-            dir: null,
+        sortOrder: {
+            name: null,
+            direction: null,
         }
-    });
+    };
+    const snackbar = useSnackbar();
+    // useRef hook make object content property current = {current:true} 
+    const subscribed = useRef(true);
+    const [data, setData] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [searchState, setSearchState] = useState<SearchState>(initialState);
 
     // Find and map sortable column 
     const columns = columnsDefinitions.map((column) => {
-        return (column.name === searchState.order.sort)
+        return (column.name === searchState.sortOrder.name)
             //Add property sortDirection  of the object returned.
             ? {
                 ...column,
                 options: {
                     ...column.options,
-                    sortDirection: searchState.order.dir as any
+                    sortOrder: searchState.sortOrder.direction
                 }
             } : column;
     });
@@ -134,7 +137,7 @@ const Table = (props: Props) => {
         searchState.search,
         searchState.pagination.page,
         searchState.pagination.per_page,
-        searchState.order,
+        searchState.sortOrder,
     ]);
 
     async function getData() {
@@ -145,8 +148,8 @@ const Table = (props: Props) => {
                     search: searchState.search,
                     page: searchState.pagination.page,
                     per_page: searchState.pagination.per_page,
-                    sort: searchState.order.sort,
-                    dir: searchState.order.dir,
+                    sort: searchState.sortOrder.name,
+                    dir: searchState.sortOrder.direction,
                 }
             });
             if (subscribed.current) {
@@ -188,10 +191,22 @@ const Table = (props: Props) => {
                     page: searchState.pagination.page - 1,
                     rowsPerPage: searchState.pagination.per_page,
                     count: searchState.pagination.total,
+                    customToolbar: () => (
+                        <FilterResetButton
+                            handleClick={() => {
+                                setSearchState(initialState);
+                            }}
+                        />
+                    ),
                     onSearchChange: (value: any) => setSearchState((prevState => (
                         {
                             ...prevState,
-                            search: value
+                            search: value,
+                            /** Override pagination for back to page 1 */
+                            pagination: {
+                                ...prevState.pagination,
+                                page: 1
+                            }
                         }
                     ))),
                     onChangePage: (page: number) => setSearchState((prevState => (
@@ -217,9 +232,9 @@ const Table = (props: Props) => {
                     onColumnSortChange: (changedColumn: string, direction: string) => setSearchState((prevState => (
                         {
                             ...prevState,
-                            order: {
-                                sort: changedColumn,
-                                dir: direction,
+                            sortOrder: {
+                                name: changedColumn,
+                                direction: direction,
                             }
                         }
                     ))),
