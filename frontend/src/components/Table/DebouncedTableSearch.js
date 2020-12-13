@@ -33,7 +33,7 @@ class DebouncedTableSearch extends React.Component {
         this.state = {
             text: props.searchState
         }
-        this.dispatchOnSearch = debounce(this.dispatchOnSearch.bind(this), 500);
+        this.dispatchOnSearch = debounce(this.dispatchOnSearch.bind(this), this.props.debounceTime);
     };
 
     handleTextChange = event => {
@@ -68,7 +68,7 @@ class DebouncedTableSearch extends React.Component {
         if (searchText && searchText.value !== undefined) {
             value = searchText.value;
         }
-        
+
         return (
             <Grow appear in={true} timeout={300}>
                 <div className={classes.main} ref={el => (this.rootRef = el)}>
