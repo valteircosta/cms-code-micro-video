@@ -11,6 +11,7 @@ import { useSnackbar } from 'notistack';
 import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
+import { FilterResetButton } from '../../components/Table/FilterResetButton';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -188,6 +189,7 @@ const Table = (props: Props) => {
                     page: searchState.pagination.page - 1,
                     rowsPerPage: searchState.pagination.per_page,
                     count: searchState.pagination.total,
+                    customToolbar: () => (<FilterResetButton />),
                     onSearchChange: (value: any) => setSearchState((prevState => (
                         {
                             ...prevState,
@@ -195,7 +197,7 @@ const Table = (props: Props) => {
                             /** Override pagination for back to page 1 */
                             pagination: {
                                 ...prevState.pagination,
-                                page:1
+                                page: 1
                             }
                         }
                     ))),
