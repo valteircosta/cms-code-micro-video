@@ -84,7 +84,7 @@ interface Order {
     dir: string | null;
 };
 interface SearchState {
-    search: string;
+    search: string | null;
     pagination: Pagination;
     order: Order;
 };
@@ -94,7 +94,7 @@ const Table = (props: Props) => {
 
     // Initial state of component
     const initialState = {
-        search: '',
+        search: null,
         pagination: {
             page: 1,
             total: 0,
