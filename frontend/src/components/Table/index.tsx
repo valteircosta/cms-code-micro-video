@@ -9,7 +9,7 @@ export interface TableColumn extends MUIDataTableColumn {
     width?: string;
 };
 
-const makeDefaultOptions = (): MUIDataTableOptions => ({
+const makeDefaultOptions = (debouncedSearchTime?): MUIDataTableOptions => ({
     /* spell-checker: disable */
     print: false,
     download: false,
@@ -55,7 +55,7 @@ const makeDefaultOptions = (): MUIDataTableOptions => ({
             onSearch={handleSearch}
             onHide={hideSearch}
             options={options}
-         //   debounceTime={debouncedSearchTime}
+            debounceTime={debouncedSearchTime}
         />
     }
 });
@@ -103,10 +103,11 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
 
     /** Detecting screen size change using hook useMediaQuery */
     const isSmOrDown = useMediaQuery(theme.breakpoints.down('sm'));
-
+    //** Include debounce in properties */
+    const defaultOptions = makeDefaultOptions(props.debouncedSearchTime);
     /** Using lodash we are making merge the properties of all objects passed by params  */
     const newProps = merge(
-        { options: cloneDeep(makeDefaultOptions) },
+        { options: cloneDeep(defaultOptions) },
         props,
         { columns: extractMuiDataTableColumns(props.columns) },
     );
