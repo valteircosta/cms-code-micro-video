@@ -95,7 +95,7 @@ const Table = (props: Props) => {
 
     // Initial state of component
     const initialState = {
-        search: null,
+        search: '',
         pagination: {
             page: 1,
             total: 0,
@@ -146,7 +146,7 @@ const Table = (props: Props) => {
         try {
             const { data } = await categoryHttp.list<ListResponse<Category>>({
                 queryParams: {
-                    search: searchState.search,
+                    search: cleanSearchText(searchState.search),
                     page: searchState.pagination.page,
                     per_page: searchState.pagination.per_page,
                     sort: searchState.sortOrder.name,
@@ -178,6 +178,15 @@ const Table = (props: Props) => {
         }
 
     };
+
+    // Clean object passed in search text
+    function cleanSearchText(text) {
+        let newText = text;
+        if (text && text.value !== undefined) {
+            newText = text.value;
+        }
+        return newText;
+    }
     return (
         <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
@@ -199,7 +208,7 @@ const Table = (props: Props) => {
                                     ...initialState,
                                     search: {
                                         value: initialState.search,
-                                        updated:true
+                                        updated: true
                                     } as any
                                 });
                             }}
@@ -256,7 +265,7 @@ const Table = (props: Props) => {
                             onSearch={handleSearch}
                             onHide={hideSearch}
                             options={options}
-                           // debounceTime={debouncedSearchTime}
+                        // debounceTime={debouncedSearchTime}
                         />
 
                     },
