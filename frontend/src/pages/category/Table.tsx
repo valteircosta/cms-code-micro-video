@@ -73,7 +73,6 @@ const columnsDefinitions: TableColumn[] = [
     },
 
 ];
-
 interface Pagination {
     page: number;
     total: number;
@@ -89,6 +88,7 @@ interface SearchState {
     pagination: Pagination;
     sortOrder: sortOrder;
 };
+
 type Props = {};
 
 const Table = (props: Props) => {
