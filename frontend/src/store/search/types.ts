@@ -11,7 +11,7 @@ export interface SortOrder {
   direction: string | null;
 }
 export interface State {
-  search: string | null;
+  search: string | { value; [key: string]: any };
   pagination: Pagination;
   sortOrder: SortOrder;
 }
@@ -37,3 +37,9 @@ export interface SetSortOrderAction extends AnyAction {
     direction: string | null;
   };
 }
+
+export type Actions =
+  | SetPageAction
+  | SetPerPageAction
+  | SetSearchAction
+  | SetSortOrderAction;

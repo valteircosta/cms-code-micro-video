@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useReducer } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import categoryHttp from '../../util/http/category-http';
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
+import reducer, { INITIAL_STATE, Creators } from '../../store/search';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -73,45 +74,18 @@ const columnsDefinitions: TableColumn[] = [
     },
 
 ];
-interface Pagination {
-    page: number;
-    total: number;
-    per_page: number;
-};
-
-interface sortOrder {
-    name: string | null;
-    direction: string | null;
-};
-interface SearchState {
-    search: string | null;
-    pagination: Pagination;
-    sortOrder: sortOrder;
-};
-
 type Props = {};
 
 const Table = (props: Props) => {
 
-    // Initial state of component
-    const initialState = {
-        search: '',
-        pagination: {
-            page: 1,
-            total: 0,
-            per_page: 10
-        },
-        sortOrder: {
-            name: null,
-            direction: null,
-        }
-    };
+
     const snackbar = useSnackbar();
     // useRef hook make object content property current = {current:true} 
     const subscribed = useRef(true);
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [searchState, setSearchState] = useState<SearchState>(initialState);
+    const [searchState, dispatch] = useReducer(reducer, INITIAL_STATE);
+    //const [searchState, setSearchState] = useState<SearchState>(initialState);
 
     // Find and map sortable column 
     const columns = columnsDefinitions.map((column) => {
@@ -155,13 +129,13 @@ const Table = (props: Props) => {
             });
             if (subscribed.current) {
                 setData(data.data);
-                setSearchState((prevState => ({
-                    ...prevState,
-                    pagination: {
-                        ...prevState.pagination,
-                        total: data.meta.total
-                    }
-                })));
+                // setSearchState((prevState => ({
+                //     ...prevState,
+                //     pagination: {
+                //         ...prevState.pagination,
+                //         total: data.meta.total
+                //     }
+                // })));
             };
         } catch (error) {
             console.error(error);
@@ -205,56 +179,23 @@ const Table = (props: Props) => {
                     customToolbar: () => (
                         <FilterResetButton
                             handleClick={() => {
-                                setSearchState({
-                                    ...initialState,
-                                    search: {
-                                        value: initialState.search,
-                                        updated: true
-                                    } as any
-                                });
+                                // setSearchState({
+                                //     ...initialState,
+                                //     search: {
+                                //         value: initialState.search,
+                                //         updated: true
+                                //     } as any
+                                // });
                             }}
                         />
                     ),
-                    onSearchChange: (value: any) => setSearchState((prevState => (
-                        {
-                            ...prevState,
-                            search: value,
-                            /** Override pagination for back to page 1 */
-                            pagination: {
-                                ...prevState.pagination,
-                                page: 1
-                            }
-                        }
-                    ))),
-                    onChangePage: (page: number) => setSearchState((prevState => (
-                        {
-                            ...prevState,
-                            pagination: {
-                                ...prevState.pagination,
-                                page: page + 1
-
-                            }
-                        }
-                    ))),
-                    onChangeRowsPerPage: (perPage: number) => setSearchState((prevState => (
-                        {
-                            ...prevState,
-                            pagination: {
-                                ...prevState.pagination,
-                                per_page: perPage
-
-                            }
-                        }
-                    ))),
-                    onColumnSortChange: (changedColumn: string, direction: string) => setSearchState((prevState => (
-                        {
-                            ...prevState,
-                            sortOrder: {
+                    onSearchChange: (value: any) => dispatch(Creators.setSearch({ search: value })),
+                    onChangePage: (page: number) => dispatch(Creators.setPage({ page: page + 1 })),
+                    onChangeRowsPerPage: (perPage: number) => dispatch(Creators.setPerPage({ per_page: perPage })),
+                    onColumnSortChange: (changedColumn: string, direction: string) => dispatch(Creators.setSortOrder({
                                 name: changedColumn,
-                                direction: direction,
-                            }
-                        }
-                    ))),
+                                direction: direction
+                            })),
                     customSearchRender: (
                         searchText: string,
                         handleSearch: any,
