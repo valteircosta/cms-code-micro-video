@@ -85,6 +85,7 @@ const Table = (props: Props) => {
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [searchState, dispatch] = useReducer(reducer, INITIAL_STATE);
+    const [totalRecords, setTotalRecords] = useState<number>(0);
     //const [searchState, setSearchState] = useState<SearchState>(initialState);
 
     // Find and map sortable column 
@@ -129,6 +130,7 @@ const Table = (props: Props) => {
             });
             if (subscribed.current) {
                 setData(data.data);
+                setTotalRecords(data.meta.total);
                 // setSearchState((prevState => ({
                 //     ...prevState,
                 //     pagination: {
@@ -175,7 +177,7 @@ const Table = (props: Props) => {
                     searchText: searchState.search as string,
                     page: searchState.pagination.page - 1,
                     rowsPerPage: searchState.pagination.per_page,
-                    count: searchState.pagination.total,
+                    count: totalRecords,
                     customToolbar: () => (
                         <FilterResetButton
                             handleClick={() => dispatch(Creators.setReset())}
@@ -185,9 +187,9 @@ const Table = (props: Props) => {
                     onChangePage: (page: number) => dispatch(Creators.setPage({ page: page + 1 })),
                     onChangeRowsPerPage: (perPage: number) => dispatch(Creators.setPerPage({ per_page: perPage })),
                     onColumnSortChange: (changedColumn: string, direction: string) => dispatch(Creators.setSortOrder({
-                                name: changedColumn,
-                                direction: direction
-                            })),
+                        name: changedColumn,
+                        direction: direction
+                    })),
                     customSearchRender: (
                         searchText: string,
                         handleSearch: any,
@@ -199,7 +201,7 @@ const Table = (props: Props) => {
                             onSearch={handleSearch}
                             onHide={hideSearch}
                             options={options}
-                        // debounceTime={debouncedSearchTime}
+                        //  debounceTime={debouncedSearchTime}
                         />
 
                     },
