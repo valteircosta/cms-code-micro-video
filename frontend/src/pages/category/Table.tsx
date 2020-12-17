@@ -178,15 +178,7 @@ const Table = (props: Props) => {
                     count: searchState.pagination.total,
                     customToolbar: () => (
                         <FilterResetButton
-                            handleClick={() => {
-                                // setSearchState({
-                                //     ...initialState,
-                                //     search: {
-                                //         value: initialState.search,
-                                //         updated: true
-                                //     } as any
-                                // });
-                            }}
+                            handleClick={() => dispatch(Creators.setReset())}
                         />
                     ),
                     onSearchChange: (value: any) => dispatch(Creators.setSearch({ search: value })),

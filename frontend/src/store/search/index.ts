@@ -10,6 +10,7 @@ export const { Types, Creators } = createActions<
     SET_PAGE: string;
     SET_PER_PAGE: string;
     SET_SORT_ORDER: string;
+    SET_RESET: string;
   },
   {
     setSearch(
@@ -22,12 +23,14 @@ export const { Types, Creators } = createActions<
     setSortOrder(
       payload: Typings.SetSortOrderAction["payload"]
     ): Typings.SetSortOrderAction;
+    setReset();
   }
 >({
   setSearch: ["payload"],
   setPage: ["payload"],
   setPerPage: ["payload"],
   setSortOrder: ["payload"],
+  setReset: [],
 });
 // Initial state of component
 export const INITIAL_STATE: Typings.State = {
@@ -48,6 +51,7 @@ const reducer = createReducer<Typings.State, Typings.Actions>(INITIAL_STATE, {
   [Types.SET_PAGE]: setPage as any,
   [Types.SET_PER_PAGE]: setPerPage as any,
   [Types.SET_SORT_ORDER]: setSortOrder as any,
+  [Types.SET_RESET]: setReset as any,
 });
 export default reducer;
 function setSearch(
@@ -99,4 +103,7 @@ function setSortOrder(
       direction: action.payload.direction,
     },
   };
+}
+function setReset(state = INITIAL_STATE): Typings.State {
+  return { ...INITIAL_STATE, search: { value: null, updated: true } };
 }
