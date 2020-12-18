@@ -33,23 +33,31 @@ class DebouncedTableSearch extends React.Component {
         this.state = {
             text: props.searchState
         }
-        this.dispatchOnSearch = debounce(this.dispatchOnSearch.bind(this), this.props.debounceTime);
+        this.debouncedOnSearch = debounce(this.debouncedOnSearch.bind(this), this.props.debounceTime);
     };
 
     handleTextChange = event => {
         const value = event.target.value;
+        console.log(value);
         this.setState({
             text: value
-        }, () => this.dispatchOnSearch(value))
+        }, () => this.debouncedOnSearch(value))
     };
 
-    dispatchOnSearch = value => {
+    debouncedOnSearch = value => {
         this.props.onSearch(value)
     };
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { searchText } = this.props;
+        if (searchText && searchText.value !== undefined && prevProps.searchText !== this.props.searchText) {
+            const value = searchText.value;
+            this.props.onSearch(value);
+        }
 
+    };
     componentDidMount() {
         document.addEventListener('keydown', this.onKeyDown, false);
-    }
+    };
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.onKeyDown, false);
@@ -68,7 +76,7 @@ class DebouncedTableSearch extends React.Component {
         if (searchText && searchText.value !== undefined) {
             value = searchText.value;
         }
-
+        console.log(value, searchText);
         return (
             <Grow appear in={true} timeout={300}>
                 <div className={classes.main} ref={el => (this.rootRef = el)}>
