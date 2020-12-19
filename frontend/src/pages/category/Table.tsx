@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
-import reducer, { INITIAL_STATE, Creators } from '../../store/search';
+import reducer, { INITIAL_STATE, Creators } from '../../store/filter';
 
 /**
  * Using type defined in component Table for definition the column with width property 
