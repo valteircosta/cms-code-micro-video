@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
-import reducer, { INITIAL_STATE, Creators } from '../../store/search';
+import { Creators } from '../../store/filter';
+import useFilter from '../../hooks/useFilter';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -84,19 +85,24 @@ const Table = (props: Props) => {
     const subscribed = useRef(true);
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [searchState, dispatch] = useReducer(reducer, INITIAL_STATE);
-    const [totalRecords, setTotalRecords] = useState<number>(0);
-    //const [searchState, setSearchState] = useState<SearchState>(initialState);
+    const {
+        filterState,
+        dispatch,
+        totalRecords,
+        setTotalRecords,
+
+    } = useFilter();
+    //const [filterState, filterState] = useState<filterState>(initialState);
 
     // Find and map sortable column 
     const columns = columnsDefinitions.map((column) => {
-        return (column.name === searchState.sortOrder.name)
+        return (column.name === filterState.sortOrder.name)
             //Add property sortDirection  of the object returned.
             ? {
                 ...column,
                 options: {
                     ...column.options,
-                    sortOrder: searchState.sortOrder.direction
+                    sortOrder: filterState.sortOrder.direction
                 }
             } : column;
     });
@@ -110,10 +116,10 @@ const Table = (props: Props) => {
         };
 
     }, [
-        searchState.search,
-        searchState.pagination.page,
-        searchState.pagination.per_page,
-        searchState.sortOrder,
+        filterState.search,
+        filterState.pagination.page,
+        filterState.pagination.per_page,
+        filterState.sortOrder,
     ]);
 
     async function getData() {
@@ -121,17 +127,17 @@ const Table = (props: Props) => {
         try {
             const { data } = await categoryHttp.list<ListResponse<Category>>({
                 queryParams: {
-                    search: cleanSearchText(searchState.search),
-                    page: searchState.pagination.page,
-                    per_page: searchState.pagination.per_page,
-                    sort: searchState.sortOrder.name,
-                    dir: searchState.sortOrder.direction,
+                    search: cleanSearchText(filterState.search),
+                    page: filterState.pagination.page,
+                    per_page: filterState.pagination.per_page,
+                    sort: filterState.sortOrder.name,
+                    dir: filterState.sortOrder.direction,
                 }
             });
             if (subscribed.current) {
                 setData(data.data);
                 setTotalRecords(data.meta.total);
-                // setSearchState((prevState => ({
+                // filterState((prevState => ({
                 //     ...prevState,
                 //     pagination: {
                 //         ...prevState.pagination,
@@ -170,13 +176,13 @@ const Table = (props: Props) => {
                 data={data}
                 columns={columns}
                 loading={loading}
-                debouncedSearchTime={750}
+                debouncedSearchTime={500}
                 options={{
                     serverSide: true,
                     responsive: 'standard',
-                    searchText: searchState.search as string,
-                    page: searchState.pagination.page - 1,
-                    rowsPerPage: searchState.pagination.per_page,
+                    searchText: filterState.search as string,
+                    page: filterState.pagination.page - 1,
+                    rowsPerPage: filterState.pagination.per_page,
                     count: totalRecords,
                     customToolbar: () => (
                         <FilterResetButton
