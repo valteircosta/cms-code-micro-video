@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
-import reducer, { INITIAL_STATE, Creators } from '../../store/filter';
+import { Creators } from '../../store/filter';
+import useFilter from '../../hooks/useFilter';
 
 /**
  * Using type defined in component Table for definition the column with width property 
@@ -84,8 +85,13 @@ const Table = (props: Props) => {
     const subscribed = useRef(true);
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [filterState, dispatch] = useReducer(reducer, INITIAL_STATE);
-    const [totalRecords, setTotalRecords] = useState<number>(0);
+    const {
+        filterState,
+        dispatch,
+        totalRecords,
+        setTotalRecords,
+
+    } = useFilter();
     //const [filterState, filterState] = useState<filterState>(initialState);
 
     // Find and map sortable column 
