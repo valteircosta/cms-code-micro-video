@@ -170,7 +170,7 @@ const Table = (props: Props) => {
                 data={data}
                 columns={columns}
                 loading={loading}
-                debouncedSearchTime={750}
+                debouncedSearchTime={500}
                 options={{
                     serverSide: true,
                     responsive: 'standard',
