@@ -89,6 +89,7 @@ const Table = (props: Props) => {
         columns,
         filterManager,
         filterState,
+        debouncedFilterState,
         dispatch,
         totalRecords,
         setTotalRecords,
@@ -110,10 +111,10 @@ const Table = (props: Props) => {
         };
 
     }, [
-        filterState.search,
-        filterState.pagination.page,
-        filterState.pagination.per_page,
-        filterState.sortOrder,
+        debouncedFilterState.search,
+        debouncedFilterState.pagination.page,
+        debouncedFilterState.pagination.per_page,
+        debouncedFilterState.sortOrder,
     ]);
 
     async function getData() {
