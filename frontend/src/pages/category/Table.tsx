@@ -113,7 +113,7 @@ const Table = () => {
         };
 
     }, [
-        debouncedFilterState.search,
+        filterManager.cleanSearchText(debouncedFilterState.search),
         debouncedFilterState.pagination.page,
         debouncedFilterState.pagination.per_page,
         debouncedFilterState.sortOrder,
@@ -158,7 +158,7 @@ const Table = () => {
 
     };
 
-   return (
+    return (
         <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
                 title='Listagem de categorias'
