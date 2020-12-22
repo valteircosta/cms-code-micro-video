@@ -5,7 +5,7 @@ import {
   Actions as FilterActions,
   State as FilterState,
 } from "../store/filter/types";
-
+import { useDebounce } from "use-debounce";
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
   rowsPerPage: number;
@@ -23,7 +23,7 @@ export default function useFilter(options: FilterManagerOptions) {
   filterManager.state = filterState;
   filterManager.dispatch = dispatch;
   filterManager.applyOrderInColumns();
-  
+
   return {
     columns: filterManager.columns,
     filterManager,
