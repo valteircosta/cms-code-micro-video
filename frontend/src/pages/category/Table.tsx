@@ -75,9 +75,11 @@ const columnsDefinitions: TableColumn[] = [
     },
 
 ];
-type Props = {};
 
-const Table = (props: Props) => {
+const debounceTime = 300;
+const debouncedSearchTime = 300;
+
+const Table = () => {
 
 
     const snackbar = useSnackbar();
@@ -98,7 +100,7 @@ const Table = (props: Props) => {
         columns: columnsDefinitions,
         rowsPerPage: 10,
         rowsPerPageOptions: [10, 25, 50],
-        debounceTime: 500
+        debounceTime: debounceTime,
     });
 
     // ComponentDidMount
@@ -171,7 +173,7 @@ const Table = (props: Props) => {
                 data={data}
                 columns={columns}
                 loading={loading}
-                debouncedSearchTime={500}
+                debouncedSearchTime={debouncedSearchTime}
                 options={{
                     serverSide: true,
                     responsive: 'standard',
