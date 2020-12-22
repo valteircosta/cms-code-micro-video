@@ -86,4 +86,12 @@ export class FilterManager {
         : column;
     });
   }
+  // Clean object passed in search text
+  cleanSearchText(text) {
+    let newText = text;
+    if (text && text.value !== undefined) {
+      newText = text.value;
+    }
+    return newText;
+  }
 }

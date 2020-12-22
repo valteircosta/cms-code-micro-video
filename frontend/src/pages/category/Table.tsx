@@ -124,7 +124,7 @@ const Table = () => {
         try {
             const { data } = await categoryHttp.list<ListResponse<Category>>({
                 queryParams: {
-                    search: cleanSearchText(filterState.search),
+                    search: filterManager.cleanSearchText(filterState.search),
                     page: filterState.pagination.page,
                     per_page: filterState.pagination.per_page,
                     sort: filterState.sortOrder.name,
@@ -158,15 +158,7 @@ const Table = () => {
 
     };
 
-    // Clean object passed in search text
-    function cleanSearchText(text) {
-        let newText = text;
-        if (text && text.value !== undefined) {
-            newText = text.value;
-        }
-        return newText;
-    }
-    return (
+   return (
         <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
                 title='Listagem de categorias'
