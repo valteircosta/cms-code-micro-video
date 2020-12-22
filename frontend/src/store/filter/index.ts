@@ -41,7 +41,7 @@ export const INITIAL_STATE: Typings.State = {
   },
   sortOrder: {
     name: null,
-    direction: null,
+    direction:  null,
   },
 };
 
