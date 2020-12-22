@@ -86,26 +86,20 @@ const Table = (props: Props) => {
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const {
+        columns,
+        filterManager,
         filterState,
         dispatch,
         totalRecords,
         setTotalRecords,
 
-    } = useFilter();
-    //const [filterState, filterState] = useState<filterState>(initialState);
-
-    // Find and map sortable column 
-    const columns = columnsDefinitions.map((column) => {
-        return (column.name === filterState.sortOrder.name)
-            //Add property sortDirection  of the object returned.
-            ? {
-                ...column,
-                options: {
-                    ...column.options,
-                    sortOrder: filterState.sortOrder.direction
-                }
-            } : column;
+    } = useFilter({
+        columns: columnsDefinitions,
+        rowsPerPage: 10,
+        rowsPerPageOptions: [10, 25, 50],
+        debounceTime: 500
     });
+
     // ComponentDidMount
     useEffect(() => {
         subscribed.current = true;
@@ -189,13 +183,11 @@ const Table = (props: Props) => {
                             handleClick={() => dispatch(Creators.setReset())}
                         />
                     ),
-                    onSearchChange: (value: any) => dispatch(Creators.setSearch({ search: value })),
-                    onChangePage: (page: number) => dispatch(Creators.setPage({ page: page + 1 })),
-                    onChangeRowsPerPage: (perPage: number) => dispatch(Creators.setPerPage({ per_page: perPage })),
-                    onColumnSortChange: (changedColumn: string, direction: string) => dispatch(Creators.setSortOrder({
-                        name: changedColumn,
-                        direction: direction
-                    })),
+                    onSearchChange: (value: any) => filterManager.changeSearch(value),
+                    onChangePage: (page: number) => filterManager.changePage(page),
+                    onChangeRowsPerPage: (perPage: number) => filterManager.changeRowsPerPage(perPage),
+                    onColumnSortChange: (changedColumn: string, direction: string) =>
+                        filterManager.changeColumnSort(changedColumn, direction),
                     customSearchRender: (
                         searchText: string,
                         handleSearch: any,

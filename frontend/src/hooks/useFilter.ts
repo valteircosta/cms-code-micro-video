@@ -1,6 +1,6 @@
 import { MUIDataTableColumn } from "mui-datatables";
 import { useState, useReducer, Dispatch, Reducer } from "react";
-import reducer, { INITIAL_STATE } from "../store/filter";
+import reducer, { Creators, INITIAL_STATE } from "../store/filter";
 import {
   Actions as FilterActions,
   State as FilterState,
@@ -15,7 +15,6 @@ interface FilterManagerOptions {
 export default function useFilter(options: FilterManagerOptions) {
   console.log("useFilter");
   const filterManager = new FilterManager(options);
-
   // Get  the state of the URL
   const [filterState, dispatch] = useReducer<
     Reducer<FilterState, FilterActions>
@@ -23,7 +22,10 @@ export default function useFilter(options: FilterManagerOptions) {
   const [totalRecords, setTotalRecords] = useState<number>(0);
   filterManager.state = filterState;
   filterManager.dispatch = dispatch;
+  filterManager.applyOrderInColumns();
+  
   return {
+    columns: filterManager.columns,
     filterManager,
     filterState,
     dispatch,
@@ -49,5 +51,38 @@ export class FilterManager {
     this.rowsPerPage = rowsPerPage;
     this.rowsPerPageOptions = rowsPerPageOptions;
     this.debounceTime = debounceTime;
+  }
+  changeSearch(value: any) {
+    this.dispatch(Creators.setSearch({ search: value }));
+  }
+  changePage(page: number) {
+    this.dispatch(Creators.setPage({ page: page + 1 }));
+  }
+  changeRowsPerPage(perPage: number) {
+    this.dispatch(Creators.setPerPage({ per_page: perPage }));
+  }
+  changeColumnSort(changedColumn: string, direction: string) {
+    this.dispatch(
+      Creators.setSortOrder({
+        name: changedColumn,
+        direction: direction,
+      })
+    );
+  }
+  applyOrderInColumns() {
+    // Find and map sortable column
+    // Overriding columns object local
+    this.columns = this.columns.map((column) => {
+      return column.name === this.state.sortOrder.name
+        ? //Add property sortDirection  of the object returned.
+          {
+            ...column,
+            options: {
+              ...column.options,
+              sortOrder: this.state.sortOrder.direction,
+            },
+          }
+        : column;
+    });
   }
 }
