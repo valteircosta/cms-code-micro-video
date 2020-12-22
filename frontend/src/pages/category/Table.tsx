@@ -75,9 +75,11 @@ const columnsDefinitions: TableColumn[] = [
     },
 
 ];
-type Props = {};
 
-const Table = (props: Props) => {
+const debounceTime = 300;
+const debouncedSearchTime = 300;
+
+const Table = () => {
 
 
     const snackbar = useSnackbar();
@@ -89,6 +91,7 @@ const Table = (props: Props) => {
         columns,
         filterManager,
         filterState,
+        debouncedFilterState,
         dispatch,
         totalRecords,
         setTotalRecords,
@@ -97,7 +100,7 @@ const Table = (props: Props) => {
         columns: columnsDefinitions,
         rowsPerPage: 10,
         rowsPerPageOptions: [10, 25, 50],
-        debounceTime: 500
+        debounceTime: debounceTime,
     });
 
     // ComponentDidMount
@@ -110,10 +113,10 @@ const Table = (props: Props) => {
         };
 
     }, [
-        filterState.search,
-        filterState.pagination.page,
-        filterState.pagination.per_page,
-        filterState.sortOrder,
+        filterManager.cleanSearchText(debouncedFilterState.search),
+        debouncedFilterState.pagination.page,
+        debouncedFilterState.pagination.per_page,
+        debouncedFilterState.sortOrder,
     ]);
 
     async function getData() {
@@ -121,7 +124,7 @@ const Table = (props: Props) => {
         try {
             const { data } = await categoryHttp.list<ListResponse<Category>>({
                 queryParams: {
-                    search: cleanSearchText(filterState.search),
+                    search: filterManager.cleanSearchText(filterState.search),
                     page: filterState.pagination.page,
                     per_page: filterState.pagination.per_page,
                     sort: filterState.sortOrder.name,
@@ -155,14 +158,6 @@ const Table = (props: Props) => {
 
     };
 
-    // Clean object passed in search text
-    function cleanSearchText(text) {
-        let newText = text;
-        if (text && text.value !== undefined) {
-            newText = text.value;
-        }
-        return newText;
-    }
     return (
         <MuiThemeProvider theme={makeActionStyle(columnsDefinitions.length - 1)} >
             <DefaultTable
@@ -170,7 +165,7 @@ const Table = (props: Props) => {
                 data={data}
                 columns={columns}
                 loading={loading}
-                debouncedSearchTime={500}
+                debouncedSearchTime={debouncedSearchTime}
                 options={{
                     serverSide: true,
                     responsive: 'standard',
