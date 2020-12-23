@@ -8,6 +8,7 @@ import {
 import { useDebounce } from "use-debounce";
 import { useHistory } from "react-router";
 import { History } from "history";
+import { isEqual } from "lodash";
 
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
@@ -116,6 +117,11 @@ export class FilterManager {
         search: this.cleanSearchText(this.state.search),
       },
     };
+    const oldState = this.history.location.state;
+    const newState = this.state;
+    if (isEqual(newState, oldState)) {
+      return;
+    }
     this.history.push(newLocation);
   }
   private formatSearchParams() {
