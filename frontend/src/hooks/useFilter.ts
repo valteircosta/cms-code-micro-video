@@ -106,13 +106,32 @@ export class FilterManager {
     }
     return newText;
   }
-  //Manipulate history state
+  //Manipulate the state history
   pushHistory() {
     const newLocation = {
-      pathname: "endereco",
-      search: "?search=teste&page=1&sort=name&order=asc",
-      state: {},
+      pathname: this.history.location.pathname,
+      search: "?" + new URLSearchParams(this.formatSearchParams() as any),
+      state: {
+        ...this.state,
+        search: this.cleanSearchText(this.state.search),
+      },
     };
     this.history.push(newLocation);
+  }
+  private formatSearchParams() {
+    const search = this.cleanSearchText(this.state.search);
+    return {
+      ...(search && search !== "" && { search: search }),
+      ...(this.state.pagination.page !== 1 && {
+        page: this.state.pagination.page,
+      }),
+      ...(this.state.pagination.per_page !== 15 && {
+        per_page: this.state.pagination.per_page,
+      }),
+      ...(this.state.sortOrder.name && {
+        name: this.state.sortOrder.name,
+        direction: this.state.sortOrder.direction,
+      }),
+    };
   }
 }

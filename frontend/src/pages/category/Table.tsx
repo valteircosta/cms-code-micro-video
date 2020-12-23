@@ -106,6 +106,7 @@ const Table = () => {
     // ComponentDidMount
     useEffect(() => {
         subscribed.current = true;
+        filterManager.pushHistory();
         getData();
         // Cleanup function
         return () => {
