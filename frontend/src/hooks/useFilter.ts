@@ -6,16 +6,26 @@ import {
   State as FilterState,
 } from "../store/filter/types";
 import { useDebounce } from "use-debounce";
+import { useHistory } from "react-router";
+import { History } from "history";
 
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
   rowsPerPage: number;
   rowsPerPageOptions: number[];
   debounceTime: number;
+  history: History;
 }
-export default function useFilter(options: FilterManagerOptions) {
+interface useFilterOptions extends Omit<FilterManagerOptions, "history"> {
+  columns: MUIDataTableColumn[];
+  rowsPerPage: number;
+  rowsPerPageOptions: number[];
+  debounceTime: number;
+}
+export default function useFilter(options: useFilterOptions) {
   console.log("useFilter");
-  const filterManager = new FilterManager(options);
+  const history = useHistory();
+  const filterManager = new FilterManager({ ...options, history });
   // Get  the state of the URL
   const [filterState, dispatch] = useReducer<
     Reducer<FilterState, FilterActions>
@@ -46,12 +56,14 @@ export class FilterManager {
   columns: MUIDataTableColumn[];
   rowsPerPage: number;
   rowsPerPageOptions: number[];
+  history: History;
 
   constructor(options: FilterManagerOptions) {
-    const { columns, rowsPerPage, rowsPerPageOptions, debounceTime } = options;
+    const { columns, rowsPerPage, rowsPerPageOptions, history } = options;
     this.columns = columns;
     this.rowsPerPage = rowsPerPage;
     this.rowsPerPageOptions = rowsPerPageOptions;
+    this.history = history;
   }
   changeSearch(value: any) {
     this.dispatch(Creators.setSearch({ search: value }));
@@ -93,5 +105,14 @@ export class FilterManager {
       newText = text.value;
     }
     return newText;
+  }
+  //Manipulate history state
+  pushHistory() {
+    const newLocation = {
+      pathname: "endereco",
+      search: "?search=teste&page=1&sort=name&order=asc",
+      state: {},
+    };
+    this.history.push(newLocation);
   }
 }
