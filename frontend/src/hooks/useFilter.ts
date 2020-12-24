@@ -9,6 +9,7 @@ import { useDebounce } from "use-debounce";
 import { useHistory } from "react-router";
 import { History } from "history";
 import { isEqual } from "lodash";
+import * as yup from '../util/vendor/yup';
 
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
@@ -139,5 +140,56 @@ export class FilterManager {
         direction: this.state.sortOrder.direction,
       }),
     };
+  }
+
+  private createValidationSchema() {
+    this.schema = yup.object().shape({
+      search: yup
+        .string()
+        .transform((value) => (!value ? undefined : value))
+        .default(""),
+      pagination: yup.object().shape({
+        page: yup
+          .number()
+          .transform((value) =>
+            isNaN(value) || parseInt(value) < 1 ? undefined : value
+          )
+          .default(1),
+        per_page: yup
+          .number()
+          .transform((value) =>
+            isNaN(value) || !this.rowsPerPageOptions.includes(parseInt(value))
+              ? undefined
+              : value
+          )
+          .default(this.rowsPerPage),
+      }),
+      order: yup.object().shape({
+        sort: yup
+          .string()
+          .nullable()
+          .transform((value) => {
+            const columnsName = this.columns
+              .filter(
+                (column) => !column.options || column.options.sort !== false
+              )
+              .map((column) => column.name);
+            return columnsName.includes(value) ? value : undefined;
+          })
+          .default(null),
+        dir: yup
+          .string()
+          .nullable()
+          .transform((value) =>
+            !value || !["asc", "desc"].includes(value.toLowerCase())
+              ? undefined
+              : value
+          )
+          .default(null),
+      }),
+      // ...(this.extraFilter && {
+      //   extraFilter: this.extraFilter.createValidationSchema(),
+      // }),
+    });
   }
 }
