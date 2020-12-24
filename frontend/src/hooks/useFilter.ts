@@ -9,7 +9,7 @@ import { useDebounce } from "use-debounce";
 import { useHistory } from "react-router";
 import { History } from "history";
 import { isEqual } from "lodash";
-import * as yup from '../util/vendor/yup';
+import * as yup from "../util/vendor/yup";
 
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
@@ -158,12 +158,9 @@ export class FilterManager {
           .default(1),
         per_page: yup
           .number()
-          .transform((value) =>
-            isNaN(value) || !this.rowsPerPageOptions.includes(parseInt(value))
-              ? undefined
-              : value
-          )
-          .default(this.rowsPerPage),
+          .oneOf([10, 15, 100])
+          .transform((value) => (isNaN(value) ? undefined : value))
+          .default(15),
       }),
       sortOrder: yup.object().shape({
         name: yup
