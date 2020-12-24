@@ -158,9 +158,9 @@ export class FilterManager {
           .default(1),
         per_page: yup
           .number()
-          .oneOf([10, 15, 100])
+          .oneOf(this.rowsPerPageOptions)
           .transform((value) => (isNaN(value) ? undefined : value))
-          .default(15),
+          .default(this.rowsPerPage),
       }),
       sortOrder: yup.object().shape({
         name: yup
