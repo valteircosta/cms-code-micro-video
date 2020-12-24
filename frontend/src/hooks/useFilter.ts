@@ -53,6 +53,7 @@ export default function useFilter(options: useFilterOptions) {
  * Class for manager all search system
  */
 export class FilterManager {
+  schema;
   state: FilterState = null as any;
   dispatch: Dispatch<FilterActions> = null as any;
   columns: MUIDataTableColumn[];
@@ -164,8 +165,8 @@ export class FilterManager {
           )
           .default(this.rowsPerPage),
       }),
-      order: yup.object().shape({
-        sort: yup
+      sortOrder: yup.object().shape({
+        name: yup
           .string()
           .nullable()
           .transform((value) => {
@@ -177,7 +178,7 @@ export class FilterManager {
             return columnsName.includes(value) ? value : undefined;
           })
           .default(null),
-        dir: yup
+        direction: yup
           .string()
           .nullable()
           .transform((value) =>
