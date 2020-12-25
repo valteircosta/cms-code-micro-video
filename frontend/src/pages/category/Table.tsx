@@ -78,7 +78,8 @@ const columnsDefinitions: TableColumn[] = [
 
 const debounceTime = 300;
 const debouncedSearchTime = 300;
-
+const rowsPerPage = 15;
+const rowsPerPageOptions = [15, 25, 50];
 const Table = () => {
 
 
@@ -98,12 +99,11 @@ const Table = () => {
 
     } = useFilter({
         columns: columnsDefinitions,
-        rowsPerPage: 10,
-        rowsPerPageOptions: [10, 25, 50],
         debounceTime: debounceTime,
+        rowsPerPage: rowsPerPage,
+        rowsPerPageOptions,
     });
-
-    // ComponentDidMount
+      // ComponentDidMount
     useEffect(() => {
         subscribed.current = true;
         filterManager.pushHistory();
@@ -173,6 +173,7 @@ const Table = () => {
                     searchText: filterState.search as string,
                     page: filterState.pagination.page - 1,
                     rowsPerPage: filterState.pagination.per_page,
+                    rowsPerPageOptions: rowsPerPageOptions,
                     count: totalRecords,
                     customToolbar: () => (
                         <FilterResetButton

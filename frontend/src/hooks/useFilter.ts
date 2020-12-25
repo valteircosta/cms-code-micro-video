@@ -1,5 +1,5 @@
 import { MUIDataTableColumn } from "mui-datatables";
-import { useState, useReducer, Dispatch, Reducer } from "react";
+import { useState, useReducer, Dispatch, Reducer, useEffect } from "react";
 import reducer, { Creators, INITIAL_STATE } from "../store/filter";
 import {
   Actions as FilterActions,
@@ -38,6 +38,9 @@ export default function useFilter(options: useFilterOptions) {
   filterManager.state = filterState;
   filterManager.dispatch = dispatch;
   filterManager.applyOrderInColumns();
+  useEffect(() => {
+    filterManager.replaceHistory();
+  }, []);
 
   return {
     columns: filterManager.columns,
@@ -111,8 +114,16 @@ export class FilterManager {
     }
     return newText;
   }
+  replaceHistory() {
+    this.history.replace({
+      pathname: this.history.location.pathname,
+      search: "?" + new URLSearchParams(this.formatSearchParams() as any),
+      state: this.state,
+    });
+  }
   //Manipulate the state history
   pushHistory() {
+    console.log("pushHistory");
     const newLocation = {
       pathname: this.history.location.pathname,
       search: "?" + new URLSearchParams(this.formatSearchParams() as any),
@@ -123,7 +134,9 @@ export class FilterManager {
     };
     const oldState = this.history.location.state;
     const newState = this.state;
+
     if (isEqual(newState, oldState)) {
+      console.log("isEquals");
       return;
     }
     this.history.push(newLocation);
@@ -149,7 +162,7 @@ export class FilterManager {
     const queryParams = new URLSearchParams(
       this.history.location.search.substr(1)
     );
-    this.schema.cast({
+    return this.schema.cast({
       search: queryParams.get("search"),
       pagination: {
         page: queryParams.get("page"),
