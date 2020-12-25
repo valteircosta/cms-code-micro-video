@@ -29,6 +29,7 @@ export default function useFilter(options: useFilterOptions) {
   const history = useHistory();
   const filterManager = new FilterManager({ ...options, history });
   // Get  the state of the URL
+  const INITIAL_STATE = filterManager.getStateFromURL() as any;
   const [filterState, dispatch] = useReducer<
     Reducer<FilterState, FilterActions>
   >(reducer, INITIAL_STATE);
@@ -67,6 +68,7 @@ export class FilterManager {
     this.rowsPerPage = rowsPerPage;
     this.rowsPerPageOptions = rowsPerPageOptions;
     this.history = history;
+    this.createValidationSchema();
   }
   changeSearch(value: any) {
     this.dispatch(Creators.setSearch({ search: value }));
@@ -143,6 +145,22 @@ export class FilterManager {
     };
   }
 
+  public getStateFromURL() {
+    const queryParams = new URLSearchParams(
+      this.history.location.search.substr(1)
+    );
+    this.schema.cast({
+      search: queryParams.get("search"),
+      pagination: {
+        page: queryParams.get("page"),
+        per_page: queryParams.get("per_page"),
+      },
+      sortOrder: {
+        name: queryParams.get("name"),
+        direction: queryParams.get("direction"),
+      },
+    });
+  }
   private createValidationSchema() {
     this.schema = yup.object().shape({
       search: yup
