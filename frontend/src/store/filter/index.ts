@@ -23,14 +23,14 @@ export const { Types, Creators } = createActions<
     setSortOrder(
       payload: Typings.SetSortOrderAction["payload"]
     ): Typings.SetSortOrderAction;
-    setReset();
+    setReset(payload: Typings.SetResetAction['payload']): Typings.SetResetAction;
   }
 >({
   setSearch: ["payload"],
   setPage: ["payload"],
   setPerPage: ["payload"],
   setSortOrder: ["payload"],
-  setReset: [],
+  setReset: ["payload"],
 });
 // Initial state of component
 export const INITIAL_STATE: Typings.State = {
@@ -103,6 +103,6 @@ function setSortOrder(
     },
   };
 }
-function setReset(state = INITIAL_STATE): Typings.State {
-  return { ...INITIAL_STATE, search: { value: null, updated: true } };
+function setReset(state = INITIAL_STATE, action: Typings.SetResetAction) {
+  return action.payload.state;
 }

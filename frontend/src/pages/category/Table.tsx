@@ -6,7 +6,7 @@ import parseISO from 'date-fns/parseISO';
 import categoryHttp from '../../util/http/category-http';
 import { BadgeNo, BadgeYes } from '../../components/Badge';
 import { Category, ListResponse } from '../../util/models';
-import DefaultTable, { makeActionStyle, TableColumn } from '../../components/Table';
+import DefaultTable, { makeActionStyle, TableColumn, MuiDataTableRefComponent } from '../../components/Table';
 import { useSnackbar } from 'notistack';
 import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -88,6 +88,8 @@ const Table = () => {
     const subscribed = useRef(true);
     const [data, setData] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    // Piking up reference of the component React
+    const tableRef = useRef() as React.MutableRefObject<MuiDataTableRefComponent>;
     const {
         columns,
         filterManager,
@@ -101,9 +103,10 @@ const Table = () => {
         columns: columnsDefinitions,
         debounceTime: debounceTime,
         rowsPerPage: rowsPerPage,
-        rowsPerPageOptions,
+        rowsPerPageOptions: rowsPerPageOptions,
+        tableRef: tableRef,
     });
-      // ComponentDidMount
+    // ComponentDidMount
     useEffect(() => {
         subscribed.current = true;
         filterManager.pushHistory();
@@ -167,6 +170,7 @@ const Table = () => {
                 columns={columns}
                 loading={loading}
                 debouncedSearchTime={debouncedSearchTime}
+                ref={tableRef}
                 options={{
                     serverSide: true,
                     responsive: 'standard',
@@ -177,7 +181,7 @@ const Table = () => {
                     count: totalRecords,
                     customToolbar: () => (
                         <FilterResetButton
-                            handleClick={() => dispatch(Creators.setReset())}
+                            handleClick={() => filterManager.resetFilter()}
                         />
                     ),
                     onSearchChange: (value: any) => filterManager.changeSearch(value),
