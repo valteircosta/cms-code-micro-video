@@ -36,9 +36,14 @@ export interface SetSortOrderAction extends AnyAction {
     direction: string | null;
   };
 }
-
+export interface SetResetAction extends AnyAction {
+  payload: {
+    state: State;
+  };
+}
 export type Actions =
   | SetPageAction
   | SetPerPageAction
   | SetSearchAction
-  | SetSortOrderAction;
+  | SetSortOrderAction
+  | SetResetAction;
