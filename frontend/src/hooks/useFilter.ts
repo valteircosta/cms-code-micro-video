@@ -27,13 +27,9 @@ interface ExtraFilter {
   formatSearchParams: (debounceState: FilterState) => any;
   createValidationSchema: () => any;
 }
-interface useFilterOptions extends Omit<FilterManagerOptions, "history"> {
-  columns: MUIDataTableColumn[];
-  rowsPerPage: number;
-  rowsPerPageOptions: number[];
-  debounceTime: number;
-  tableRef: React.MutableRefObject<MuiDataTableRefComponent>;
-}
+//Used for remove history from interface original
+interface useFilterOptions extends Omit<FilterManagerOptions, "history"> {}
+
 export default function useFilter(options: useFilterOptions) {
   console.log("useFilter");
   const history = useHistory();
