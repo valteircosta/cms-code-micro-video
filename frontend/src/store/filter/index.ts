@@ -1,5 +1,6 @@
 import * as Typings from "./types";
 import { createActions, createReducer } from "reduxsauce";
+
 /**
  * Using reduxsauce will make types and constant action name 'SET_SEARCH']
  * Not will need  name type 'SetSearchAction' complete also the payload is added automatic
@@ -11,6 +12,7 @@ export const { Types, Creators } = createActions<
     SET_PER_PAGE: string;
     SET_SORT_ORDER: string;
     SET_RESET: string;
+    UPDATE_EXTRA_FILTER: string;
   },
   {
     setSearch(
@@ -23,7 +25,12 @@ export const { Types, Creators } = createActions<
     setSortOrder(
       payload: Typings.SetSortOrderAction["payload"]
     ): Typings.SetSortOrderAction;
-    setReset(payload: Typings.SetResetAction['payload']): Typings.SetResetAction;
+    setReset(
+      payload: Typings.SetResetAction["payload"]
+    ): Typings.SetResetAction;
+    updateExtraFilter(
+      payload: Typings.UpdateExtraFilterAction["payload"]
+    ): Typings.UpdateExtraFilterAction;
   }
 >({
   setSearch: ["payload"],
@@ -31,6 +38,7 @@ export const { Types, Creators } = createActions<
   setPerPage: ["payload"],
   setSortOrder: ["payload"],
   setReset: ["payload"],
+  updateExtraFilter: ["payload"],
 });
 // Initial state of component
 export const INITIAL_STATE: Typings.State = {
@@ -41,7 +49,7 @@ export const INITIAL_STATE: Typings.State = {
   },
   sortOrder: {
     name: null,
-    direction:  null,
+    direction: null,
   },
 };
 
@@ -51,8 +59,10 @@ const reducer = createReducer<Typings.State, Typings.Actions>(INITIAL_STATE, {
   [Types.SET_PER_PAGE]: setPerPage as any,
   [Types.SET_SORT_ORDER]: setSortOrder as any,
   [Types.SET_RESET]: setReset as any,
+  [Types.UPDATE_EXTRA_FILTER]: updateExtraFilter as any,
 });
 export default reducer;
+
 function setSearch(
   state = INITIAL_STATE,
   action: Typings.SetSearchAction
@@ -105,4 +115,16 @@ function setSortOrder(
 }
 function setReset(state = INITIAL_STATE, action: Typings.SetResetAction) {
   return action.payload.state;
+}
+function updateExtraFilter(
+  state = INITIAL_STATE,
+  action: Typings.UpdateExtraFilterAction
+): Typings.State {
+  return {
+    ...state,
+    extraFilter: {
+      ...state.extraFilter,
+      ...action.payload,
+    },
+  };
 }
