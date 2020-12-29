@@ -73,6 +73,7 @@ export class FilterManager {
   rowsPerPageOptions: number[];
   history: History;
   tableRef: React.MutableRefObject<MuiDataTableRefComponent>;
+  extraFilter?: ExtraFilter;
 
   constructor(options: FilterManagerOptions) {
     const {
@@ -81,12 +82,14 @@ export class FilterManager {
       rowsPerPageOptions,
       history,
       tableRef,
+      extraFilter,
     } = options;
     this.columns = columns;
     this.rowsPerPage = rowsPerPage;
     this.rowsPerPageOptions = rowsPerPageOptions;
     this.history = history;
     this.tableRef = tableRef;
+    this.extraFilter = extraFilter;
     this.createValidationSchema();
   }
   private resetTablePagination() {
@@ -187,6 +190,9 @@ export class FilterManager {
         name: this.debouncedState.sortOrder.name,
         direction: this.debouncedState.sortOrder.direction,
       }),
+      ...(this.extraFilter && {
+        extraFilter: this.extraFilter.formatSearchParams(this.debouncedState),
+      }),
     };
   }
 
@@ -204,6 +210,9 @@ export class FilterManager {
         name: queryParams.get("name"),
         direction: queryParams.get("direction"),
       },
+      ...(this.extraFilter && {
+        extraFilter: this.extraFilter.getStateFromURL(queryParams),
+      }),
     });
   }
   private createValidationSchema() {
@@ -251,9 +260,9 @@ export class FilterManager {
           )
           .default(null),
       }),
-      // ...(this.extraFilter && {
-      //   extraFilter: this.extraFilter.createValidationSchema(),
-      // }),
+      ...(this.extraFilter && {
+        extraFilter: this.extraFilter.createValidationSchema(),
+      }),
     });
   }
 }
