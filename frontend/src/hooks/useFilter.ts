@@ -4,6 +4,7 @@ import reducer, { Creators, INITIAL_STATE } from "../store/filter";
 import {
   Actions as FilterActions,
   State as FilterState,
+  UpdateExtraFilterAction,
 } from "../store/filter/types";
 import { useDebounce } from "use-debounce";
 import { useHistory } from "react-router";
@@ -19,6 +20,12 @@ interface FilterManagerOptions {
   debounceTime: number;
   history: History;
   tableRef: React.MutableRefObject<MuiDataTableRefComponent>;
+  extraFilter?: ExtraFilter;
+}
+interface ExtraFilter {
+  getStateFromURL: (queryParams: URLSearchParams) => any;
+  formatSearchParams: (debounceState: FilterState) => any;
+  createValidationSchema: () => any;
 }
 interface useFilterOptions extends Omit<FilterManagerOptions, "history"> {
   columns: MUIDataTableColumn[];
@@ -218,7 +225,11 @@ export class FilterManager {
           .default(1),
         per_page: yup
           .number()
-          .transform((value) => ( isNaN(value) || !this.rowsPerPageOptions.includes(parseInt(value)) ? undefined : value))
+          .transform((value) =>
+            isNaN(value) || !this.rowsPerPageOptions.includes(parseInt(value))
+              ? undefined
+              : value
+          )
           .default(this.rowsPerPage),
       }),
       sortOrder: yup.object().shape({
