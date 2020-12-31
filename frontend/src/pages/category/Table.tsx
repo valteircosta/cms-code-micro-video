@@ -189,21 +189,20 @@ const Table = () => {
                     onChangeRowsPerPage: (perPage: number) => filterManager.changeRowsPerPage(perPage),
                     onColumnSortChange: (changedColumn: string, direction: string) =>
                         filterManager.changeColumnSort(changedColumn, direction),
-                    customSearchRender: (
-                        searchText: string,
-                        handleSearch: any,
-                        hideSearch: any,
-                        options: any,
-                    ) => {
-                        return <DebouncedTableSearch
-                            searchText={searchText}
-                            onSearch={handleSearch}
-                            onHide={hideSearch}
-                            options={options}
-                        //  debounceTime={debouncedSearchTime}
-                        />
-
-                    },
+                    // customSearchRender: (
+                    //     searchText: string,
+                    //     handleSearch: any,
+                    //     hideSearch: any,
+                    //     options: any,
+                    // ) => {
+                    //     return <DebouncedTableSearch
+                    //         searchText={searchText}
+                    //         onSearch={handleSearch}
+                    //         onHide={hideSearch}
+                    //         options={options}
+                    //     //  debounceTime={debouncedSearchTime}
+                    //     />
+                    // },
 
 
                 }}
