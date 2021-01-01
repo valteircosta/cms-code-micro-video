@@ -11,6 +11,7 @@ import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import useFilter from '../../hooks/useFilter';
+import * as yup from '../../util/vendor/yup';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 
 
@@ -102,6 +103,31 @@ const Table = () => {
         rowsPerPage: rowsPerPage,
         rowsPerPageOptions: rowsPerPageOptions,
         tableRef: tableRef,
+        extraFilter: {
+            createValidationSchema: () => {
+                return yup.object().shape({
+                    categories: yup.mixed()
+                        .nullable()
+                        .transform(value => {
+                            return !value || value === '' ? undefined : value.split(',');
+                        })
+                        .default(null),
+                })
+            },
+            formatSearchParams: (debouncedState) => {
+                return debouncedState.extraFilter ? {
+                    ...(
+                        debouncedState.extraFilter.categories &&
+                        {categories: debouncedState.extraFilter.categories.join(',')}
+                    )
+                } : undefined
+            },
+            getStateFromURL: (queryParams) => {
+                return {
+                    categories: queryParams.get('categories')
+                }
+            }
+        }
     });
 
     useEffect(() => {

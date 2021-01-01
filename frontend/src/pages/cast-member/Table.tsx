@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import castMemberHttp from '../../util/http/cast-member-http';
-import { CastMember, ListResponse } from '../../util/models';
+import { CastMember, CastMemberTypeMap, ListResponse } from '../../util/models';
 import DefaultTable, { makeActionStyle, MuiDataTableRefComponent, TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
 import { IconButton, MuiThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import useFilter from '../../hooks/useFilter';
+import * as yup from '../../util/vendor/yup';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
 
@@ -22,10 +23,9 @@ import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
 // };
 /* eslint-enable */
 
-const CastMemberTypeMap = {
-    1: "Diretor",
-    2: "Ator",
-};
+
+
+const castMemberNames = Object.values(CastMemberTypeMap);
 
 const columnsDefinitions: TableColumn[] = [
     {
@@ -110,6 +110,34 @@ const Table = () => {
         rowsPerPage: rowsPerPage,
         rowsPerPageOptions: rowsPerPageOptions,
         tableRef: tableRef,
+        extraFilter: {
+            createValidationSchema: () => {
+                return yup.object().shape({
+                    type: yup.string()
+                        .nullable()
+                        .transform(value => {
+                            return !value || !castMemberNames.includes(value) ? undefined : value;
+                        })
+                        .default(null)
+                })
+            },
+            formatSearchParams: (debouncedState) => {
+                return debouncedState.extraFilter
+                    ? {
+                        ...(
+                            debouncedState.extraFilter.type &&
+                            {type: debouncedState.extraFilter.type}
+                        ),
+                    }
+                    : undefined
+            },
+            getStateFromURL: (queryParams) => {
+                return {
+                    type: queryParams.get('type')
+                }
+            }
+        }
+
     });
 
     useEffect(() => {
