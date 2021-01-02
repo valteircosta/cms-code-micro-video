@@ -183,11 +183,11 @@ const Table = () => {
         try {
             const { data } = await castMemberHttp.list<ListResponse<CastMember>>({
                 queryParams: {
-                    search: filterManager.cleanSearchText(filterState.search),
-                    page: filterState.pagination.page,
-                    per_page: filterState.pagination.per_page,
-                    sort: filterState.order.sort,
-                    dir: filterState.order.dir,
+                    search: filterManager.cleanSearchText(debouncedFilterState.search),
+                    page: debouncedFilterState.pagination.page,
+                    per_page: debouncedFilterState.pagination.per_page,
+                    sort: debouncedFilterState.order.sort,
+                    dir: debouncedFilterState.order.dir,
                     ...(
                         debouncedFilterState.extraFilter &&
                         debouncedFilterState.extraFilter.type &&
