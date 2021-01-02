@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import genreHttp from '../../util/http/genre-http';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category, Genre } from '../../util/models';

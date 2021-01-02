@@ -13,7 +13,6 @@ import {
 import { useForm } from 'react-hook-form';
 import castMemberHttp from '../../util/http/cast-member-http';
 import * as yup from '../../util/vendor/yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category } from '../../util/models';
