@@ -1,17 +1,17 @@
-import { MUIDataTableColumn } from "mui-datatables";
-import { useState, useReducer, Dispatch, Reducer, useEffect } from "react";
-import reducer, { Creators, INITIAL_STATE } from "../store/filter";
+import { MUIDataTableColumn } from 'mui-datatables';
+import { useState, useReducer, Dispatch, Reducer, useEffect } from 'react';
+import reducer, { Creators, INITIAL_STATE } from '../store/filter';
 import {
   Actions as FilterActions,
   State as FilterState,
   UpdateExtraFilterAction,
-} from "../store/filter/types";
-import { useDebounce } from "use-debounce";
-import { useHistory } from "react-router";
-import { History } from "history";
-import { isEqual } from "lodash";
-import * as yup from "../util/vendor/yup";
-import { MuiDataTableRefComponent } from "../components/Table";
+} from '../store/filter/types';
+import { useDebounce } from 'use-debounce'
+import { useHistory } from 'react-router';
+import { History } from 'history';
+import { isEqual } from 'lodash';
+import * as yup from '../util/vendor/yup';
+import { MuiDataTableRefComponent } from '../components/Table';
 
 interface FilterManagerOptions {
   columns: MUIDataTableColumn[];
@@ -28,10 +28,10 @@ interface ExtraFilter {
   createValidationSchema: () => any;
 }
 //Used for remove history from interface original
-interface useFilterOptions extends Omit<FilterManagerOptions, "history"> {}
+interface useFilterOptions extends Omit<FilterManagerOptions, 'history'> {}
 
 export default function useFilter(options: useFilterOptions) {
-  console.log("useFilter");
+  console.log('useFilter');
   const history = useHistory();
   const filterManager = new FilterManager({ ...options, history });
   // Get  the state of the URL
@@ -125,6 +125,9 @@ export class FilterManager {
     this.dispatch(Creators.setReset({ state: INITIAL_STATE }));
     this.resetTablePagination();
   }
+  changeExtraFilter(data){
+    this.dispatch(Creators.updateExtraFilter(data));
+  }
   applyOrderInColumns() {
     // Find and map sortable column
     // Overriding columns object local
@@ -152,16 +155,16 @@ export class FilterManager {
   replaceHistory() {
     this.history.replace({
       pathname: this.history.location.pathname,
-      search: "?" + new URLSearchParams(this.formatSearchParams() as any),
+      search: '?' + new URLSearchParams(this.formatSearchParams() as any),
       state: this.debouncedState,
     });
   }
   //Manipulate the state history
   pushHistory() {
-    console.log("pushHistory");
+    console.log('pushHistory');
     const newLocation = {
       pathname: this.history.location.pathname,
-      search: "?" + new URLSearchParams(this.formatSearchParams() as any),
+      search: '?' + new URLSearchParams(this.formatSearchParams() as any),
       state: {
         ...this.debouncedState,
         search: this.cleanSearchText(this.state.search),
@@ -171,7 +174,7 @@ export class FilterManager {
     const newState = this.debouncedState;
 
     if (isEqual(newState, oldState)) {
-      console.log("isEquals");
+      console.log('isEquals');
       return;
     }
     this.history.push(newLocation);
@@ -179,7 +182,7 @@ export class FilterManager {
   private formatSearchParams() {
     const search = this.cleanSearchText(this.debouncedState.search);
     return {
-      ...(search && search !== "" && { search: search }),
+      ...(search && search !== '' && { search: search }),
       ...(this.debouncedState.pagination.page !== 1 && {
         page: this.debouncedState.pagination.page,
       }),
@@ -201,14 +204,14 @@ export class FilterManager {
       this.history.location.search.substr(1)
     );
     return this.schema.cast({
-      search: queryParams.get("search"),
+      search: queryParams.get('search'),
       pagination: {
-        page: queryParams.get("page"),
-        per_page: queryParams.get("per_page"),
+        page: queryParams.get('page'),
+        per_page: queryParams.get('per_page'),
       },
       sortOrder: {
-        name: queryParams.get("name"),
-        direction: queryParams.get("direction"),
+        name: queryParams.get('name'),
+        direction: queryParams.get('direction'),
       },
       ...(this.extraFilter && {
         extraFilter: this.extraFilter.getStateFromURL(queryParams),
@@ -220,7 +223,7 @@ export class FilterManager {
       search: yup
         .string()
         .transform((value) => (!value ? undefined : value))
-        .default(""),
+        .default(''),
       pagination: yup.object().shape({
         page: yup
           .number()
@@ -254,7 +257,7 @@ export class FilterManager {
           .string()
           .nullable()
           .transform((value) =>
-            !value || !["asc", "desc"].includes(value.toLowerCase())
+            !value || !['asc', 'desc'].includes(value.toLowerCase())
               ? undefined
               : value
           )
