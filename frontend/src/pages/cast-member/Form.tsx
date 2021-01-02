@@ -41,13 +41,9 @@ export const Form = () => {
         watch,
         errors,
         reset,
-        trigger,
+        triggerValidation,
     } = useForm({
-        defaultValues: {
-            name: null,
-            type: null
-        },
-        resolver: yupResolver(validationSchema),
+        validationSchema
     });
 
     const snackbar = useSnackbar();
@@ -167,7 +163,7 @@ export const Form = () => {
             <SubmitActions
                 disableButtons={loading}
                 handleSave={() =>
-                    trigger().then(isValid => {
+                    triggerValidation().then(isValid => {
                         isValid && onSubmit(getValues(), null)
                     })
                 }

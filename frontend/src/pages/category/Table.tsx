@@ -182,7 +182,7 @@ const Table = () => {
                 ref={tableRef}
                 options={{
                     serverSide: true,
-                    responsive: 'standard',
+                    responsive: 'scrollMaxHeight',
                     searchText: filterState.search as string,
                     page: filterState.pagination.page - 1,
                     rowsPerPage: filterState.pagination.per_page,
