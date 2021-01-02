@@ -125,6 +125,9 @@ export class FilterManager {
     this.dispatch(Creators.setReset({ state: INITIAL_STATE }));
     this.resetTablePagination();
   }
+  changeExtraFilter(data){
+    this.dispatch(Creators.updateExtraFilter(data));
+  }
   applyOrderInColumns() {
     // Find and map sortable column
     // Overriding columns object local

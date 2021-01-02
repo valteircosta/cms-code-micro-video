@@ -14,6 +14,7 @@ import useFilter from '../../hooks/useFilter';
 import * as yup from '../../util/vendor/yup';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import DebouncedTableSearch from '../../components/Table/DebouncedTableSearch';
+import { invert } from 'lodash';
 
 /* eslint-disable */
 // With noImplicintAny = true must declare type
@@ -34,18 +35,25 @@ const columnsDefinitions: TableColumn[] = [
         width: '25%',
         options: {
             sort: false,
+            filter:false,
         }
     },
     {
         name: 'name',
         label: 'Nome',
         width: '40%',
+        options:{
+            filter:false,
+        }
     },
     {
         name: 'type',
         label: 'Tipo',
         width: '12%',
         options: {
+            filterOptions:{
+                names: castMemberNames
+            },
             customBodyRender(value, tableMeta, updateValue) {
                 return CastMemberTypeMap[value];
             }
@@ -56,6 +64,7 @@ const columnsDefinitions: TableColumn[] = [
         label: 'Criado em',
         width: '10%',
         options: {
+            filter:false,
             customBodyRender(value, tableMeta, updateValue) {
                 return <span>{format(parseISO(value), 'dd/MM/yyyy')}</span>;
             }
@@ -67,6 +76,7 @@ const columnsDefinitions: TableColumn[] = [
         width: '13%',
         options: {
             sort: false,
+            filter:false,
             customBodyRender(value, tableMeta) {
                 return (
                     <IconButton
@@ -140,6 +150,16 @@ const Table = () => {
 
     });
 
+    //?type=Diretor
+    const indexColumnType = columns.findIndex(c => c.name === 'type');
+    const columnType = columns[indexColumnType];
+    const typeFilterValue = filterState.extraFilter && filterState.extraFilter.type as never;
+    (columnType.options as any).filterList = typeFilterValue ? [typeFilterValue] : [];
+    //Make array with all columns 
+    const serverSideFilterList = columns.map(column => []);
+    if (typeFilterValue) {
+        serverSideFilterList[indexColumnType] = [typeFilterValue];
+    }
     useEffect(() => {
 
         subscribed.current = true;
@@ -167,6 +187,11 @@ const Table = () => {
                     per_page: filterState.pagination.per_page,
                     sort: filterState.sortOrder.name,
                     dir: filterState.sortOrder.direction,
+                    ...(
+                        debouncedFilterState.extraFilter &&
+                        debouncedFilterState.extraFilter.type &&
+                        {type: invert(CastMemberTypeMap)[debouncedFilterState.extraFilter.type]}
+                    )
                 }
 
             });
@@ -199,6 +224,7 @@ const Table = () => {
                 debouncedSearchTime={debouncedSearchTime}
                 ref={tableRef}
                 options={{
+                    serverSideFilterList,
                     serverSide: true,
                     responsive: 'standard',
                     searchText: filterState.search as string,
@@ -206,6 +232,13 @@ const Table = () => {
                     rowsPerPage: filterState.pagination.per_page,
                     rowsPerPageOptions: rowsPerPageOptions,
                     count: totalRecords,
+                    onFilterChange: (column, filterList, type) => {
+                        const columnIndex = columns.findIndex(c => c.name === column);
+                        //[ [], [], ['Diretor'], [], []  ]
+                        filterManager.changeExtraFilter({
+                            [column]: filterList[columnIndex].length ? filterList[columnIndex][0] : null
+                        })
+                    },
                     customToolbar: () => (
                         <FilterResetButton
                             handleClick={() => filterManager.resetFilter()}
