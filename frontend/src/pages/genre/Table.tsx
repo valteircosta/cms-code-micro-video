@@ -14,9 +14,7 @@ import useFilter from '../../hooks/useFilter';
 import * as yup from '../../util/vendor/yup';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
 import categoryHttp from '../../util/http/category-http';
-
-
-
+import { BadgeNo, BadgeYes } from '../../components/Badge';
 
 const columnsDefinitions: TableColumn[] = [
     {
@@ -31,14 +29,31 @@ const columnsDefinitions: TableColumn[] = [
         name: 'name',
         label: 'Nome',
         width: '30%',
+        options: {
+            filter: false,
+        }
+    },    {
+        name: "is_active",
+        label: "Ativo?",
+        options: {
+            customBodyRender(value, tableMeta, updateValue) {
+                return value ? <BadgeYes/> : <BadgeNo/>;
+            }
+        },
+        width: '4%',
     },
     {
-        name: 'categories',
-        label: 'Categorias',
-        width: '22%',
+        name: "categories",
+        label: "Categorias",
+        width: '20%',
         options: {
-            customBodyRender: (value, tableMeta, updateValue) =>
-                value.map((value: { name: string }) => value.name).join(', ')
+            filterType: 'multiselect',
+            filterOptions: {
+                names: []
+            },
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return value.map(value => value.name).join(', ');
+            }
         }
     },
     {
@@ -51,11 +66,7 @@ const columnsDefinitions: TableColumn[] = [
             }
         }
     },
-    {
-        name: 'actions',
-        label: 'Ações',
-        width: '13%'
-    },{
+   {
         name: 'actions',
         label: 'Ações',
         width: '13%',
@@ -186,11 +197,16 @@ const Table = () => {
         try {
             const { data } = await genreHttp.list<ListResponse<Genre>>({
                 queryParams: {
-                    search: filterManager.cleanSearchText(filterState.search),
-                    page: filterState.pagination.page,
-                    per_page: filterState.pagination.per_page,
-                    sort: filterState.order.sort,
-                    dir: filterState.order.dir,
+                    search: filterManager.cleanSearchText(debouncedFilterState.search),
+                    page:debouncedFilterState.pagination.page,
+                    per_page: debouncedFilterState.pagination.per_page,
+                    sort: debouncedFilterState.order.sort,
+                    dir: debouncedFilterState.order.dir,
+                    ...(
+                        debouncedFilterState.extraFilter &&
+                        debouncedFilterState.extraFilter.categories &&
+                        {categories: debouncedFilterState.extraFilter.categories.join(',')}
+                    )
                 }
 
             });
