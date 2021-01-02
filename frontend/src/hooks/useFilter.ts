@@ -107,9 +107,9 @@ export class FilterManager {
   }
   changeColumnSort(changedColumn: string, direction: string) {
     this.dispatch(
-      Creators.setSortOrder({
-        name: changedColumn,
-        direction: direction,
+      Creators.setOrder({
+        sort: changedColumn,
+        dir: direction.includes("desc") ? "desc" : "asc",
       })
     );
     this.resetTablePagination();
@@ -129,21 +129,18 @@ export class FilterManager {
     this.dispatch(Creators.updateExtraFilter(data));
   }
   applyOrderInColumns() {
-    // Find and map sortable column
-    // Overriding columns object local
-    this.columns = this.columns.map((column) => {
-      return column.name === this.state.sortOrder.name
-        ? //Add property sortDirection  of the object returned.
-          {
-            ...column,
-            options: {
-              ...column.options,
-              sortOrder: this.state.sortOrder.direction,
-            },
-          }
-        : column;
+    this.columns = this.columns.map(column => {
+        return column.name === this.state.order.sort
+            ? {
+                ...column,
+                options: {
+                    ...column.options,
+                    sortDirection: this.state.order.dir as any
+                }
+            }
+            : column;
     });
-  }
+}
   // Clean object passed in search text
   cleanSearchText(text) {
     let newText = text;
@@ -189,9 +186,9 @@ export class FilterManager {
       ...(this.debouncedState.pagination.per_page !== 15 && {
         per_page: this.debouncedState.pagination.per_page,
       }),
-      ...(this.debouncedState.sortOrder.name && {
-        name: this.debouncedState.sortOrder.name,
-        direction: this.debouncedState.sortOrder.direction,
+      ...(this.debouncedState.order.sort && {
+        sort: this.debouncedState.order.sort,
+        dir: this.debouncedState.order.dir,
       }),
       ...(this.extraFilter && {
         extraFilter: this.extraFilter.formatSearchParams(this.debouncedState),
@@ -209,9 +206,9 @@ export class FilterManager {
         page: queryParams.get('page'),
         per_page: queryParams.get('per_page'),
       },
-      sortOrder: {
-        name: queryParams.get('name'),
-        direction: queryParams.get('direction'),
+      order: {
+        sort: queryParams.get('sort'),
+        dir: queryParams.get('dir'),
       },
       ...(this.extraFilter && {
         extraFilter: this.extraFilter.getStateFromURL(queryParams),
@@ -240,8 +237,8 @@ export class FilterManager {
           )
           .default(this.rowsPerPage),
       }),
-      sortOrder: yup.object().shape({
-        name: yup
+      order: yup.object().shape({
+        sort: yup
           .string()
           .nullable()
           .transform((value) => {
@@ -253,7 +250,7 @@ export class FilterManager {
             return columnsName.includes(value) ? value : undefined;
           })
           .default(null),
-        direction: yup
+        dir: yup
           .string()
           .nullable()
           .transform((value) =>

@@ -174,7 +174,8 @@ const Table = () => {
         filterManager.cleanSearchText(debouncedFilterState.search),
         debouncedFilterState.pagination.page,
         debouncedFilterState.pagination.per_page,
-        debouncedFilterState.sortOrder,
+        debouncedFilterState.order,
+        JSON.stringify(debouncedFilterState.extraFilter)
     ]);
 
     async function getData() {
@@ -185,8 +186,8 @@ const Table = () => {
                     search: filterManager.cleanSearchText(filterState.search),
                     page: filterState.pagination.page,
                     per_page: filterState.pagination.per_page,
-                    sort: filterState.sortOrder.name,
-                    dir: filterState.sortOrder.direction,
+                    sort: filterState.order.sort,
+                    dir: filterState.order.dir,
                     ...(
                         debouncedFilterState.extraFilter &&
                         debouncedFilterState.extraFilter.type &&
