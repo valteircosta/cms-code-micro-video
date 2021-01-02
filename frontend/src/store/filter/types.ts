@@ -5,14 +5,14 @@ export interface Pagination {
   per_page: number;
 }
 
-export interface SortOrder {
-  name: string | null;
-  direction: string | null;
+export interface Order {
+  sort: string | null;
+  dir: string | null;
 }
 export interface State {
   search: string | { value; [key: string]: any };
   pagination: Pagination;
-  sortOrder: SortOrder;
+  order: Order;
   extraFilter?: { [key: string]: any };
 }
 export interface SetSearchAction extends AnyAction {
@@ -31,10 +31,10 @@ export interface SetPerPageAction extends AnyAction {
     per_page: number;
   };
 }
-export interface SetSortOrderAction extends AnyAction {
+export interface SetOrderAction extends AnyAction {
   payload: {
-    name: string | null;
-    direction: string | null;
+    sort: string | null;
+    dir: string | null;
   };
 }
 export interface UpdateExtraFilterAction extends AnyAction {
@@ -49,6 +49,6 @@ export type Actions =
   | SetPageAction
   | SetPerPageAction
   | SetSearchAction
-  | SetSortOrderAction
+  | SetOrderAction
   | UpdateExtraFilterAction
   | SetResetAction;

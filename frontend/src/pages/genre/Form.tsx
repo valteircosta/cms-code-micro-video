@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import genreHttp from '../../util/http/genre-http';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { Category, Genre } from '../../util/models';
@@ -35,13 +34,9 @@ export const Form = () => {
         watch,
         errors,
         reset,
-        trigger,
+        triggerValidation,
     } = useForm({
-        defaultValues: {
-            name: null,
-            categories_id: []
-        },
-        resolver: yupResolver(validationSchema),
+        validationSchema
     });
 
     const snackbar = useSnackbar();
@@ -187,7 +182,7 @@ export const Form = () => {
             <SubmitActions
                 disableButtons={loading}
                 handleSave={() =>
-                    trigger().then(isValid => {
+                    triggerValidation().then(isValid => {
                         isValid && onSubmit(getValues(), null)
                     })
                 }

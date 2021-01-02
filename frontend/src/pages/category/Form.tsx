@@ -3,7 +3,6 @@ import { Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
 import categoryHttp from '../../util/http/category-http';
 import * as yup from '../../util/vendor/yup';
 import { useHistory, useParams } from 'react-router';
@@ -30,13 +29,9 @@ export const Form = () => {
         errors,
         reset,
         watch,
-        trigger,
+        triggerValidation,
     } = useForm({
-        defaultValues: {
-            name: null,
-            is_active: true
-        },
-        resolver: yupResolver(validationSchema),
+        validationSchema
     });
 
     const snackbar = useSnackbar();
@@ -164,7 +159,7 @@ export const Form = () => {
             <SubmitActions
                 disableButtons={loading}
                 handleSave={() =>
-                    trigger().then(isValid => {
+                    triggerValidation().then(isValid => {
                         onSubmit(getValues(), null)
                     })
                 }

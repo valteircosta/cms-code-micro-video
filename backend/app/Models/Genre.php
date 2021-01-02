@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Genre extends Model
 {
-    use SoftDeletes, Traits\Uuid, Filterable,
+    use SoftDeletes, Traits\Uuid, Filterable;
 
     protected $fillable = ['name', 'is_active'];
     protected $dates = ['deleted_at'];

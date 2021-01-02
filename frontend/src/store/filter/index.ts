@@ -10,7 +10,7 @@ export const { Types, Creators } = createActions<
     SET_SEARCH: string;
     SET_PAGE: string;
     SET_PER_PAGE: string;
-    SET_SORT_ORDER: string;
+    SET_ORDER: string;
     SET_RESET: string;
     UPDATE_EXTRA_FILTER: string;
   },
@@ -22,9 +22,9 @@ export const { Types, Creators } = createActions<
     setPerPage(
       payload: Typings.SetPerPageAction["payload"]
     ): Typings.SetPerPageAction;
-    setSortOrder(
-      payload: Typings.SetSortOrderAction["payload"]
-    ): Typings.SetSortOrderAction;
+    setOrder(
+      payload: Typings.SetOrderAction["payload"]
+    ): Typings.SetOrderAction;
     setReset(
       payload: Typings.SetResetAction["payload"]
     ): Typings.SetResetAction;
@@ -36,7 +36,7 @@ export const { Types, Creators } = createActions<
   setSearch: ["payload"],
   setPage: ["payload"],
   setPerPage: ["payload"],
-  setSortOrder: ["payload"],
+  setOrder: ["payload"],
   setReset: ["payload"],
   updateExtraFilter: ["payload"],
 });
@@ -47,9 +47,9 @@ export const INITIAL_STATE: Typings.State = {
     page: 1,
     per_page: 10,
   },
-  sortOrder: {
-    name: null,
-    direction: null,
+  order: {
+    sort: null,
+    dir: null,
   },
 };
 
@@ -57,7 +57,7 @@ const reducer = createReducer<Typings.State, Typings.Actions>(INITIAL_STATE, {
   [Types.SET_SEARCH]: setSearch as any,
   [Types.SET_PAGE]: setPage as any,
   [Types.SET_PER_PAGE]: setPerPage as any,
-  [Types.SET_SORT_ORDER]: setSortOrder as any,
+  [Types.SET_ORDER]: setOrder as any,
   [Types.SET_RESET]: setReset as any,
   [Types.UPDATE_EXTRA_FILTER]: updateExtraFilter as any,
 });
@@ -101,15 +101,15 @@ function setPerPage(
     },
   };
 }
-function setSortOrder(
+function setOrder(
   state = INITIAL_STATE,
-  action: Typings.SetSortOrderAction
+  action: Typings.SetOrderAction
 ): Typings.State {
   return {
     ...state,
-    sortOrder: {
-      name: action.payload.name,
-      direction: action.payload.direction,
+    order: {
+      sort: action.payload.sort,
+      dir: action.payload.dir,
     },
   };
 }

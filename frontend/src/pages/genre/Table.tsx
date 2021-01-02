@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import genreHttp from '../../util/http/genre-http';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
-import { Genre, ListResponse } from '../../util/models';
+import { Category, Genre, ListResponse } from '../../util/models';
 import DefaultTable, { makeActionStyle, MuiDataTableRefComponent, TableColumn } from '../../components/Table';
 import { useSnackbar } from 'notistack';
 import { IconButton, MuiThemeProvider } from '@material-ui/core';
@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import useFilter from '../../hooks/useFilter';
 import * as yup from '../../util/vendor/yup';
 import { FilterResetButton } from '../../components/Table/FilterResetButton';
+import categoryHttp from '../../util/http/category-http';
 
 
 
@@ -87,6 +88,7 @@ const Table = () => {
     const subscribed = useRef(true);
     const [data, setData] = useState<Genre[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [categories, setCategories] = useState<Category[]>();
     const tableRef = useRef() as React.MutableRefObject<MuiDataTableRefComponent>;
     const {
         columns,
@@ -129,6 +131,37 @@ const Table = () => {
             }
         }
     });
+    const indexColumnCategories = columns.findIndex(c => c.name === 'categories');
+    const columnCategories = columns[indexColumnCategories];
+    const categoriesFilterValue = filterState.extraFilter && filterState.extraFilter.categories;
+    (columnCategories.options as any).filterList = categoriesFilterValue ? categoriesFilterValue : [];
+    const serverSideFilterList = columns.map(column => []);
+    if (categoriesFilterValue) {
+        serverSideFilterList[indexColumnCategories] = categoriesFilterValue;
+    }
+    useEffect(() => {
+        let isSubscribed = true;
+        (async () => {
+            try {
+                const {data} = await categoryHttp.list({queryParams: {all: ''}});
+                if (isSubscribed) {
+                    setCategories(data.data);
+                    console.log('columnsCategories',columnCategories.options);
+                    (columnCategories.options as any).filterOptions.names = data.data.map(category => category.name);
+                }
+            } catch (error) {
+                console.error(error);
+                snackbar.enqueueSnackbar(
+                    'Não foi possível carregar as informações',
+                    {variant: 'error',}
+                )
+            }
+        })();
+
+        return () => {
+            isSubscribed = false;
+        }
+    }, []);
 
     useEffect(() => {
 
@@ -144,7 +177,8 @@ const Table = () => {
         filterManager.cleanSearchText(debouncedFilterState.search),
         debouncedFilterState.pagination.page,
         debouncedFilterState.pagination.per_page,
-        debouncedFilterState.sortOrder,
+        debouncedFilterState.order,
+        JSON.stringify(debouncedFilterState.extraFilter)
     ]);
 
     async function getData() {
@@ -155,8 +189,8 @@ const Table = () => {
                     search: filterManager.cleanSearchText(filterState.search),
                     page: filterState.pagination.page,
                     per_page: filterState.pagination.per_page,
-                    sort: filterState.sortOrder.name,
-                    dir: filterState.sortOrder.direction,
+                    sort: filterState.order.sort,
+                    dir: filterState.order.dir,
                 }
 
             });
@@ -190,13 +224,20 @@ const Table = () => {
                 debouncedSearchTime={debouncedSearchTime}
                 ref={tableRef}
                 options={{
+                    serverSideFilterList,
                     serverSide: true,
-                    responsive: 'standard',
+                    responsive: 'scrollMaxHeight',
                     searchText: filterState.search as string,
                     page: filterState.pagination.page - 1,
                     rowsPerPage: filterState.pagination.per_page,
                     rowsPerPageOptions: rowsPerPageOptions,
                     count: totalRecords,
+                    onFilterChange: (column, filterList, type) => {
+                        const columnIndex = columns.findIndex(c => c.name === column);
+                        filterManager.changeExtraFilter({
+                            [column]: filterList[columnIndex].length ? filterList[columnIndex] : null
+                        })
+                    },
                     customToolbar: () => (
                         <FilterResetButton
                             handleClick={() => filterManager.resetFilter()}
