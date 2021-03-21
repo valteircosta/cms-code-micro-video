@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Video watched 
+name: Base da tela de criação e edição de videos  
+until: 4:00 minutes
 ## Available Scripts
 
 In the project directory, you can run:
