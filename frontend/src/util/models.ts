@@ -44,6 +44,8 @@ export interface Genre extends Timestampable {
   categories: Category[];
 }
 
+// Removing categories from Genre, because
+// categories is not serialized now in this class.
 interface GenreVideo extends Omit<Genre, "categories"> {}
 
 export const VideoFileFieldsMap = {
