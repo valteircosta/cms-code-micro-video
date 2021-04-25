@@ -12,6 +12,7 @@ const listRoutes = {
     'categories.list': 'Categorias',
     'cast-members.list': 'Membros do Elenco',
     'genres.list': 'Gêneros',
+    'videos.list': 'Vídeos',
 };
 const menuRoutes = routes.filter(route => Object.keys(listRoutes).includes(route.name));
 /* cSpell:enable */

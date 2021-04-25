@@ -1,23 +1,38 @@
 // @flow 
-import { Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import * as React from 'react';
+import { Checkbox, FormControlLabel, TextField, Grid, Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
-import categoryHttp from '../../util/http/category-http';
+import videoHttp from '../../util/http/video-http';
 import * as yup from '../../util/vendor/yup';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
-import { Category } from '../../util/models';
+import { Video } from '../../util/models';
 import SubmitActions from '../../components/SubmitActions';
 import { DefaultForm } from '../../components/DefaultForm';
 
 
+/* cSpell:disable */
 const validationSchema = yup.object().shape({
-    name: yup.string()
-        .label('Nome')
+    title: yup.string()
+        .label('Título')
         .required()
         .max(255),
+    description: yup.string()
+        .label('Sinopse')
+        .required(),
+    year_launched: yup.number()
+        .label('Ano de lançamento')
+        .required().min(1),
+    duration: yup.number()
+        .label('Duração')
+        .required().min(1),
+    rating: yup.string()
+        .label('Classificação')
+        .required(),
 });
+/* cSpell:disable */
+
 
 export const Form = () => {
 
@@ -115,7 +130,7 @@ export const Form = () => {
     return (
 
         <DefaultForm
-            GridItemProps={{xs: 12, md: 6 }}
+            GridItemProps={{ xs: 12, md: 6 }}
             onSubmit={handleSubmit(onSubmit)}
         >
             <TextField
