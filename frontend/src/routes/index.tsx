@@ -6,6 +6,9 @@ import GenreList from '../pages/genre/PageList';
 import GenreForm from '../pages/genre/PageForm';
 import CastMemberList from '../pages/cast-member/PageList';
 import CastMemberForm from '../pages/cast-member/PageForm';
+import VideoList from '../pages/video/PageList';
+import VideoForm from '../pages/video/PageForm';
+
 
 // Declaring new interface that extended RouteProps
 export interface MyRouteProps extends RouteProps {
@@ -103,5 +106,33 @@ const routes: MyRouteProps[] = [
         component: GenreForm,
         exact: true
     },
+  {
+        /* cSpell:disable */
+        label: "Listar vídeos",
+        /* cSpell:enable */
+        name: "videos.list",
+        path: "/videos",
+        component: VideoList,
+        exact: true
+    },
+    {
+        /* cSpell:disable */
+        label: "Criar vídeo",
+        /* cSpell:enable */
+        name: "videos.create",
+        path: "/videos/create",
+        component: VideoForm,
+        exact: true
+    },
+    {
+        /* cSpell:disable */
+        label: "Editar vídeo",
+        /* cSpell:enable */
+        name: "videos.edit",
+        path: "/videos/:id/edit",
+        component: VideoForm,
+        exact: true
+    },
+   
 ];
 export default routes;

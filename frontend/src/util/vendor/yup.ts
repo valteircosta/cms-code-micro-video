@@ -1,18 +1,19 @@
 /* eslint-disable no-template-curly-in-string */
-import { LocaleObject, setLocale } from 'yup';
+import { LocaleObject, setLocale } from "yup";
 
 const ptBR: LocaleObject = {
   mixed: {
-    required: '${path} é requerido',
+    required: "${path} é requerido",
+    notType: "${path} é inválido",
   },
   string: {
-    max: '${path} precisa ter no máximo ${max} caracteres',
+    max: "${path} precisa ter no máximo ${max} caracteres",
   },
   number: {
-    min: '${path} precisa ser no mínimo ${min} caracteres',
+    min: "${path} precisa ser no mínimo ${min} caracteres",
   },
 };
 
 setLocale(ptBR);
 
-export * from 'yup';
+export * from "yup";
