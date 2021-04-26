@@ -46,13 +46,20 @@ export const Form = () => {
         watch,
         triggerValidation,
     } = useForm({
-        validationSchema
+        validationSchema,
+        defaultValues: {
+            title: '',
+            description: '',
+            year_launched: '',
+            duration: '',
+            is_Active: true
+        }
     });
 
     const snackbar = useSnackbar();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-    const [category, setCategory] = useState<Category | null>(null);
+    const [video, setVideo] = useState<Video | null>(null);
     //Make state default value false
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -66,9 +73,9 @@ export const Form = () => {
         (async function getCategory() {
             setLoading(true);
             try {
-                const { data } = await categoryHttp.get(id);
+                const { data } = await videoHttp.get(id);
                 if (isSubscribed) {
-                    setCategory(data.data);
+                    setVideo(data.data);
                     reset(data.data);
                 }
 
@@ -86,23 +93,18 @@ export const Form = () => {
         return () => {
             isSubscribed = false;
         }
-    }, [id, reset, snackbar]);
-
-    //Used for make bind between components, in case checkbox
-    useEffect(() => {
-        register({ name: 'is_active' })
-    }, [register]);//Look [register] is dependence passed to hook
+    }, []);
 
 
     async function onSubmit(formData, event) {
         try {
             setLoading(true);
-            const http = !category
-                ? categoryHttp.create(formData)
-                : categoryHttp.update(category.id, formData);
+            const http = !video
+                ? videoHttp.create(formData)
+                : videoHttp.update(video.id, formData);
             const { data } = await http;
             snackbar.enqueueSnackbar(
-                'Categoria salva com sucesso',
+                'Video salva com sucesso',
                 { variant: 'success' }
             );
             setTimeout(() => {
@@ -111,15 +113,15 @@ export const Form = () => {
                     ? (
                         id
                             //Has id is editing else add
-                            ? history.replace(`/categories/${data.data.id}/edit`)
-                            : history.push(`/categories/${data.data.id}/edit`)
+                            ? history.replace(`/videos/${data.data.id}/edit`)
+                            : history.push(`/videos/${data.data.id}/edit`)
                     )
-                    : history.push('/categories')
+                    : history.push('/videos')
             });
         } catch (error) {
             console.log(error);
             snackbar.enqueueSnackbar(
-                'Não foi possível salvar a categoria',
+                'Não foi possível salvar a video',
                 { variant: 'error' }
             );
         } finally {
@@ -133,44 +135,99 @@ export const Form = () => {
             GridItemProps={{ xs: 12, md: 6 }}
             onSubmit={handleSubmit(onSubmit)}
         >
-            <TextField
-                name='name'
-                label='Nome'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                inputRef={register}
-                disabled={loading}
-                error={errors.name !== undefined}
-                helperText={errors.name && errors.name.message}
-                InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-                name='description'
-                label='Descrição'
-                multiline
-                rows='4'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                inputRef={register}
-                disabled={loading}
-                InputLabelProps={{ shrink: true }}
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        name='is_active'
-                        onChange={
-                            () => setValue('is_active', !getValues()['is_active'])
-                        }
-                        checked={watch('is_active')}
+            <Grid container spacing={5}>
+                <Grid item xs={12} md={6}>
+
+                    <TextField
+                        name='title'
+                        label='Título'
+                        fullWidth
+                        variant='outlined'
+                        margin='normal'
+                        inputRef={register}
+                        disabled={loading}
+                        error={errors.title !== undefined}
+                        helperText={errors.title && errors.title.message}
+                        InputLabelProps={{ shrink: true }}
                     />
-                }
-                label={'Ativo?'}
-                labelPlacement={'end'}
-                disabled={loading}
-            />
+                    <TextField
+                        name='description'
+                        label='Sinopse'
+                        multiline
+                        rows='4'
+                        fullWidth
+                        variant='outlined'
+                        margin='normal'
+                        inputRef={register}
+                        disabled={loading}
+                        InputLabelProps={{ shrink: true }}
+                        error={errors.description !== undefined}
+                        helperText={errors.description && errors.description.message}
+                    />
+                    <Grid container spacing={1}>
+                        <Grid item xs={6} >
+                            <TextField
+                                name='year_launched'
+                                label='Ano de lançamento'
+                                type='number'
+                                fullWidth
+                                variant='outlined'
+                                margin='normal'
+                                inputRef={register}
+                                disabled={loading}
+                                InputLabelProps={{ shrink: true }}
+                                error={errors.year_launched !== undefined}
+                                helperText={errors.year_launched && errors.year_launched.message}
+                            />
+                        </Grid>
+                        <Grid item xs={6} >
+                            <TextField
+                                name='duration'
+                                label=''
+                                type='number'
+                                fullWidth
+                                variant='outlined'
+                                margin='normal'
+                                inputRef={register}
+                                disabled={loading}
+                                InputLabelProps={{ shrink: true }}
+                                error={errors.duration !== undefined}
+                                helperText={errors.duration && errors.duration.message}
+                            />
+                        </Grid>
+                    </Grid>
+                    Elenco
+                    <br />
+                    Gêneros e categorias
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                    Classificação
+                    <br />
+                Uploads
+                <br />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name='opened'
+                                color='primary'
+                                onChange={
+                                    () => setValue('opened', !getValues()['opened'])
+                                }
+                                checked={watch('opened')}
+                                disabled={loading}
+                            />
+                        }
+                        label={<Typography color='primary' variant={'subtitle2'} >
+                            Quero que este conteúdo apareça na sessão lançamentos
+                            </Typography>
+
+                        }
+                        labelPlacement={'end'}
+                    />
+
+                </Grid>
+            </Grid >
             <SubmitActions
                 disableButtons={loading}
                 handleSave={() =>
