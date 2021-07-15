@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Category;
+use Bschmitt\Amqp\Message;
 
 class CategoryObserver
 {
@@ -14,7 +15,12 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-        //
+        // When created
+        $message  = new Message(
+            $category->toJson()
+        );
+        // Sent a instance, its is a sincronized method
+        \Amqp::publish('model.category.created', $message);
     }
 
     /**

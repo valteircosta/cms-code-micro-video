@@ -26,7 +26,7 @@ php artisan  make:model --help
 Cria model, factory, migration, seeder e controller
 php artisan make:model Models/Category --all
 
-Cria o Observer 
+Cria o Observer
 php artisan make:observer CategoryObserver --model=Models/Category
 
 Para criar um relacionamento deve se respeitar a ordem alfabetica pois o laravel e rigoroso
@@ -64,6 +64,12 @@ php artisan migrate:refresh --seed
 Usando tinker para consultas
 php artisan tinker
 \App\Models\Category::all();
+
+Usando tinker para criar entidades
+php artisan tinker \App\Models\Category::all();
+bash-5.0$ php artisan tinker -> vai para o shell
+>>> factory(\App\Models\Category::class)->create()
+
 
 -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
 Test com PHP Unit

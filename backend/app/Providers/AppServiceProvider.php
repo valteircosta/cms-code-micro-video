@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Observers\CategoryObserver;
+use Illuminate\Foundation\Console\ObserverMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Adiciona um ou mais oservers na inicialização
+        Category::observe(CategoryObserver::class);
     }
 }
