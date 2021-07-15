@@ -13,7 +13,7 @@ RUN apk add --no-cache openssl \
     libjpeg-turbo-dev \
     libpng-dev
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql bcmath sockets
 
 RUN touch /root/.bashrc | echo "PS1='\w\$ '" >> /root/.bashrc
 

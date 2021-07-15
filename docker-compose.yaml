@@ -10,11 +10,11 @@ services:
     # Passando params para dockerize rodar script entrypoint.sh
     entrypoint: ./.docker/entrypoint.sh
     environment:
-      - CHOKIDAR_USEPOLLING=true 
+      - CHOKIDAR_USEPOLLING=true
       - XDEBUG_CONFIG=xdebug.remote_host=app xdebug.remote_port=9001 xdebug.remote_enable=1 xdebug.remote_autostart=1 xdebug.remote_handler=dbgp xdebug.idekey=VSCODE xdebug.remote_log=/var/log/xdebug/xdebug.log
     ports:
       - "9001:9001"
-      - "3000:3000"
+      - "3090:3000"
       - "35729:35729"
 
     volumes:
@@ -25,6 +25,7 @@ services:
     #Rede a qual pertence o containner
     networks:
       - app-network
+      - cms-code-rabbitmq_codeflix
     # Aqui agora apenas garante a ordem de criação dos serviços
     depends_on:
       - db
@@ -52,6 +53,7 @@ services:
       - ./.docker/nginx/log:/var/log/nginx:rw,cached
     networks:
       - app-network
+      # - rabbitmq_codeflix
     # O nfinx será criado depois do app
     depends_on:
       - app
@@ -94,3 +96,6 @@ networks:
   # Nome e configuração da rede
   app-network:
     driver: bridge
+  # Rede rabbitMq
+  cms-code-rabbitmq_codeflix:
+    external: true
