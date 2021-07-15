@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6ee67c9b4c6026a8e4784b61dafb8c3",
+    "content-hash": "84011b08e8aed97f162024af3cb6783b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -64,16 +64,16 @@
         },
         {
             "name": "bschmitt/laravel-amqp",
-            "version": "2.0.10",
+            "version": "2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bschmitt/laravel-amqp.git",
-                "reference": "7c770b1833cc2b03d7046469909cc9b454c1601f"
+                "reference": "e78d7d389376b28d0aea44f6bedc0af65aafa61e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bschmitt/laravel-amqp/zipball/7c770b1833cc2b03d7046469909cc9b454c1601f",
-                "reference": "7c770b1833cc2b03d7046469909cc9b454c1601f",
+                "url": "https://api.github.com/repos/bschmitt/laravel-amqp/zipball/e78d7d389376b28d0aea44f6bedc0af65aafa61e",
+                "reference": "e78d7d389376b28d0aea44f6bedc0af65aafa61e",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
                 "issues": "https://github.com/bschmitt/laravel-amqp/issues",
                 "source": "https://github.com/bschmitt/laravel-amqp"
             },
-            "time": "2020-10-07T19:11:35+00:00"
+            "time": "2021-03-22T12:04:01+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
