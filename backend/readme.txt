@@ -40,7 +40,7 @@ Exemplo: veja que category está antes de video em ordem alfabetica no singular
     - php artisan model:filter CategoryFilter
     cria na pasta padrão ModelFilters, caso queira pode passar o name space para criação
 1.4 Criar um observer para centralizar a regra de negócios relativos a envio de dados para o RabbitMQ.
-
+    - php artisan make:observer GenreObserver --model=Models\\Genre
 
 
 Adicionando Model ao sistema em desenvolvimento

@@ -31,7 +31,12 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        //
+        // When updated
+        $message  = new Message(
+            $category->toJson()
+        );
+        // Sent a instance, its is a sincronized method
+        \Amqp::publish('model.category.updated', $message);
     }
 
     /**
@@ -42,7 +47,10 @@ class CategoryObserver
      */
     public function deleted(Category $category)
     {
-        //
+         // When deleted
+        $message  = new Message(json_encode(['id'=> $category->id]));
+        // Sent a instance, its is a sincronized method
+        \Amqp::publish('model.category.deleted', $message);
     }
 
     /**
