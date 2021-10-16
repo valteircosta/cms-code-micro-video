@@ -1,5 +1,5 @@
-.docker/database/data
-.docker/database/dump
+.docker/database/mysql/data
+.docker/database/mysql/dump
 .docker/redis
 .docker/nginx/log
 .docker/app/log

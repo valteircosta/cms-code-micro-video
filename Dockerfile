@@ -49,6 +49,7 @@ RUN npm config set cache /var/www/.npm-cache --global
 # Add user in containner
 RUN usermod -u 1000 www-data
 
+
 WORKDIR /var/www
 
 RUN rm -rf /var/www/html
