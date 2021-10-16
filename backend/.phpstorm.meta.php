@@ -1772,11 +1772,11 @@ namespace PHPSTORM_META {
 
     override(\factory(0), map([
         '' => '@FactoryBuilder',
-            'App\Models\Category' => \App\Models\CategoryFactoryBuilder::class,
-            'App\Models\Video' => \App\Models\VideoFactoryBuilder::class,
-            'App\User' => \App\UserFactoryBuilder::class,
             'App\Models\CastMember' => \App\Models\CastMemberFactoryBuilder::class,
+            'App\Models\Category' => \App\Models\CategoryFactoryBuilder::class,
             'App\Models\Genre' => \App\Models\GenreFactoryBuilder::class,
+            'App\User' => \App\UserFactoryBuilder::class,
+            'App\Models\Video' => \App\Models\VideoFactoryBuilder::class,
         ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));
