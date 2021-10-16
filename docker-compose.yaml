@@ -10,11 +10,13 @@ services:
     # Passando params para dockerize rodar script entrypoint.sh
     entrypoint: ./.docker/entrypoint.sh
     environment:
-      - CHOKIDAR_USEPOLLING=true 
+      - CHOKIDAR_USEPOLLING=true
       - XDEBUG_CONFIG=xdebug.remote_host=app xdebug.remote_port=9001 xdebug.remote_enable=1 xdebug.remote_autostart=1 xdebug.remote_handler=dbgp xdebug.idekey=VSCODE xdebug.remote_log=/var/log/xdebug/xdebug.log
+    # Libera a entrada de forma interativa no container (bash e outros,)
+    tty: true
     ports:
       - "9001:9001"
-      - "3000:3000"
+      - "3090:3000"
       - "35729:35729"
 
     volumes:
@@ -25,6 +27,7 @@ services:
     #Rede a qual pertence o containner
     networks:
       - app-network
+      - cms-code-rabbitmq_codeflix
     # Aqui agora apenas garante a ordem de criação dos serviços
     depends_on:
       - db
@@ -52,12 +55,14 @@ services:
       - ./.docker/nginx/log:/var/log/nginx:rw,cached
     networks:
       - app-network
+      # - rabbitmq_codeflix
     # O nfinx será criado depois do app
     depends_on:
       - app
 
   db:
-    image: mysql:5.7
+    # Indica ao caminho do arquivo de construção Dockerfile
+    build: .docker/database/mysql
     # Comando que evita erros (Se não usar é muito choro e ranger de dentes para o programador)
     command: --innodb-use-native-aio=0
     container_name: micro-videos-db
@@ -67,13 +72,13 @@ services:
       - "3306:3306"
     # Volume do banco de dados
     volumes:
-      - ./.docker/database/dumps:/dumps:rw,cached
-      - ./.docker/database/data:/var/lib/mysql:rw,cached
-      - ./.docker/database/config:/etc/mysql/conf.d:rw,cached
-      - ./.docker/database/config:/docker-entrypoint-initdb.d
+      - ./.docker/database/mysql/dumps:/dumps:rw,cached
+      - ./.docker/database/mysql/data:/var/lib/mysql:rw,cached
+      - ./.docker/database/mysql/config:/etc/mysql/conf.d:rw,cached
+      - ./.docker/database/mysql/config:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=root
+      # - MYSQL_USER=code
     networks:
       - app-network
 
@@ -94,3 +99,6 @@ networks:
   # Nome e configuração da rede
   app-network:
     driver: bridge
+  # Rede rabbitMq
+  cms-code-rabbitmq_codeflix:
+    external: true

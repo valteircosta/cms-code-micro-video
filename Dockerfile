@@ -13,7 +13,7 @@ RUN apk add --no-cache openssl \
     libjpeg-turbo-dev \
     libpng-dev
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql bcmath sockets
 
 RUN touch /root/.bashrc | echo "PS1='\w\$ '" >> /root/.bashrc
 
@@ -48,6 +48,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN npm config set cache /var/www/.npm-cache --global
 # Add user in containner
 RUN usermod -u 1000 www-data
+
 
 WORKDIR /var/www
 

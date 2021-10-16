@@ -26,6 +26,9 @@ php artisan  make:model --help
 Cria model, factory, migration, seeder e controller
 php artisan make:model Models/Category --all
 
+Cria o Observer
+php artisan make:observer CategoryObserver --model=Models/Category
+
 Para criar um relacionamento deve se respeitar a ordem alfabetica pois o laravel e rigoroso
 Exemplo: veja que category está antes de video em ordem alfabetica no singular
 1.1) Criar a migrate  php artisan make:migration create_category_video_table
@@ -36,6 +39,8 @@ Exemplo: veja que category está antes de video em ordem alfabetica no singular
 1.3) Criar filtro usando a biblioteca : tucker-eric/eloquentfilter => php artisan model:filter User
     - php artisan model:filter CategoryFilter
     cria na pasta padrão ModelFilters, caso queira pode passar o name space para criação
+1.4 Criar um observer para centralizar a regra de negócios relativos a envio de dados para o RabbitMQ.
+    - php artisan make:observer GenreObserver --model=Models\\Genre
 
 
 Adicionando Model ao sistema em desenvolvimento
@@ -49,7 +54,7 @@ Faz na ordem abaixo:
 - add route api.php
 - add resource
 - add filter
-
+- add Observer utilizado para RabbitMQ
 
 
 Roda seeder
@@ -59,6 +64,12 @@ php artisan migrate:refresh --seed
 Usando tinker para consultas
 php artisan tinker
 \App\Models\Category::all();
+
+Usando tinker para criar entidades
+php artisan tinker \App\Models\Category::all();
+bash-5.0$ php artisan tinker -> vai para o shell
+>>> factory(\App\Models\Category::class)->create()
+
 
 -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
 Test com PHP Unit

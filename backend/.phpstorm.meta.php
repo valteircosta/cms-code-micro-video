@@ -11,7 +11,10 @@ namespace PHPSTORM_META {
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -168,7 +171,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -325,7 +331,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -482,7 +491,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -639,7 +651,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -796,7 +811,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::get(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -953,7 +971,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::make(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1110,7 +1131,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::makeWith(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1267,7 +1291,10 @@ namespace PHPSTORM_META {
         ]));
     override(\app(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1424,7 +1451,10 @@ namespace PHPSTORM_META {
         ]));
     override(\resolve(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1581,7 +1611,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
         '' => '@',
+            'Amqp' => \Bschmitt\Amqp\Amqp::class,
             'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
+            'Bschmitt\Amqp\Consumer' => \Bschmitt\Amqp\Consumer::class,
+            'Bschmitt\Amqp\Publisher' => \Bschmitt\Amqp\Publisher::class,
             'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
             'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
             'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1739,11 +1772,11 @@ namespace PHPSTORM_META {
 
     override(\factory(0), map([
         '' => '@FactoryBuilder',
-            'App\Models\Category' => \App\Models\CategoryFactoryBuilder::class,
-            'App\Models\Video' => \App\Models\VideoFactoryBuilder::class,
-            'App\User' => \App\UserFactoryBuilder::class,
             'App\Models\CastMember' => \App\Models\CastMemberFactoryBuilder::class,
+            'App\Models\Category' => \App\Models\CategoryFactoryBuilder::class,
             'App\Models\Genre' => \App\Models\GenreFactoryBuilder::class,
+            'App\User' => \App\UserFactoryBuilder::class,
+            'App\Models\Video' => \App\Models\VideoFactoryBuilder::class,
         ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));
