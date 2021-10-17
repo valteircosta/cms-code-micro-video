@@ -1,4 +1,4 @@
-FROM php:7.3.6-fpm-alpine3.10
+FROM php:7.3-fpm-alpine3.11
 # Permitie add user
 RUN apk add --no-cache shadow
 # Install open ssl, bash e client mysql

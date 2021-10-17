@@ -4,8 +4,9 @@ namespace App\Observers;
 
 use App\Models\Category;
 use Bschmitt\Amqp\Message;
+use Illuminate\Database\Eloquent\Model;
 
-class CategoryObserver
+class SyncModelObserver
 {
     /**
      * Handle the category "created" event.
@@ -13,7 +14,7 @@ class CategoryObserver
      * @param  \App\Models\Category  $category
      * @return void
      */
-    public function created(Category $category)
+    public function created(Model $category)
     {
         // When created
         $message  = new Message(
@@ -74,4 +75,28 @@ class CategoryObserver
     {
         //
     }
+ protected function getModelName(Model $model)
+ {
+
+ }
+    protected function publish($routingKey,array $Data)
+    {
+        $message  = new Message(
+            json_encode($Data),
+            [
+                'content_type' => 'application/json',
+                'delivery_mode' => 2 // 2=persistent, 1= none-persistent
+            ]
+        );
+           // Sent a instance, its is a sincronized method
+           \Amqp::publish(
+               $routingKey,
+                $message,
+                [
+                'exchange_type' => 'topic',
+                'exchange' => 'amq.topic'
+                ]
+            );
+    }
+
 }
