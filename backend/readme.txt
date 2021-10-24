@@ -1,11 +1,9 @@
 Anotações referente ao projeto/estudos
 
-Parei no video Corrigindo fase de projeto - Implemen... Minuto 15:00
+Parei no video Reportando erro de syncronização Minuto 16:00
 Chamando o arquivo que inicializa o projeto
-sudo ./init_container.sh -> iniciar container
-sudo ./init_container-build.sh -> construir container build com sudo
 
--- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
+-t * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * --
 GPC - Google Plataform Cloud
 1) Adicionar as imagens que não são disponibilizadas por padrão no container registry
 Exemplo execução do trigger default-push-trigger-docker-compose.
