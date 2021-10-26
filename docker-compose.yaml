@@ -55,10 +55,12 @@ services:
       - ./.docker/nginx/log:/var/log/nginx:rw,cached
     networks:
       - app-network
-      # - rabbitmq_codeflix
-    # O nfinx será criado depois do app
+      - cms-code-rabbitmq_codeflix   
     depends_on:
       - app
+      - redis
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
 
   db:
     # Indica ao caminho do arquivo de construção Dockerfile
