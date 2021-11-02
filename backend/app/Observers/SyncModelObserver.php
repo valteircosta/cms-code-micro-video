@@ -2,84 +2,94 @@
 
 namespace App\Observers;
 
-use App\Models\Category;
 use Bschmitt\Amqp\Message;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class SyncModelObserver
 {
-    /**
-     * Handle the category "created" event.
-     *
-     * @param  \App\Models\Category  $category
-     * @return void
-     */
-    public function created(Model $category)
+    public function created(Model $model)
     {
-        // When created
-        $message  = new Message(
-            $category->toJson()
-        );
-        // Sent a instance, its is a sincronized method
-        \Amqp::publish('model.category.created', $message);
+        $modelName = $this->getModelName($model);
+        $data = $model->toArray();
+        //Pegando nome do método (created,update,deleted etc ) com uso da constante mágica __FUNCTION__
+        $action = __FUNCTION__;
+        //Formando routingKey
+        $routingKey = "model.{$modelName}.${action}";
+
+        try {
+            $this->publish($routingKey, $data);
+        } catch (\Exception $exception) {
+            //O laravel pode mandar email  e etc
+            //Vamos usar o helper report que captura e grava o erro no storage/log
+            //Construimos uma nova exception e passamos a anterior como parâmetro no construtor para ser tratada pelo report na cadeia
+            $id = $model->id;
+            $this->reportException([
+                'modelName' => $modelName,
+                'id' => $id,
+                'action' => $action,
+                'exception' => $exception
+            ]);
+        }
     }
 
-    /**
-     * Handle the category "updated" event.
-     *
-     * @param  \App\Models\Category  $category
-     * @return void
-     */
-    public function updated(Category $category)
+    public function updated(Model $model)
     {
-        // When updated
-        $message  = new Message(
-            $category->toJson()
-        );
-        // Sent a instance, its is a sincronized method
-        \Amqp::publish('model.category.updated', $message);
+        $modelName = $this->getModelName($model);
+        $data = $model->toArray();
+        $action = __FUNCTION__;
+        $routingKey = "model.{$modelName}.${action}";
+
+        try {
+            $this->publish($routingKey, $data);
+        } catch (\Exception $exception) {
+            $id = $model->id;
+            $this->reportException([
+                'modelName' => $modelName,
+                'id' => $id,
+                'action' => $action,
+                'exception' => $exception
+            ]);
+        }
     }
 
-    /**
-     * Handle the category "deleted" event.
-     *
-     * @param  \App\Models\Category  $category
-     * @return void
-     */
-    public function deleted(Category $category)
+    public function deleted(Model $model)
     {
-         // When deleted
-        $message  = new Message(json_encode(['id'=> $category->id]));
-        // Sent a instance, its is a sincronized method
-        \Amqp::publish('model.category.deleted', $message);
+        $modelName = $this->getModelName($model);
+        $data = ['id' => $model->id];
+        $action = __FUNCTION__;
+        $routingKey = "model.{$modelName}.${action}";
+
+        try {
+            $this->publish($routingKey, $data);
+        } catch (\Exception $exception) {
+            $id = $model->id;
+            $this->reportException([
+                'modelName' => $modelName,
+                'id' => $id,
+                'action' => $action,
+                'exception' => $exception
+            ]);
+        }
     }
 
-    /**
-     * Handle the category "restored" event.
-     *
-     * @param  \App\Models\Category  $category
-     * @return void
-     */
-    public function restored(Category $category)
+    public function restored(Model $model)
     {
         //
     }
 
-    /**
-     * Handle the category "force deleted" event.
-     *
-     * @param  \App\Models\Category  $category
-     * @return void
-     */
-    public function forceDeleted(Category $category)
+    public function forceDeleted(Model $model)
     {
         //
     }
- protected function getModelName(Model $model)
- {
-
- }
-    protected function publish($routingKey,array $Data)
+    protected function getModelName(Model $model)
+    {
+        //Usando reflection obtem o nome da model
+        $shortName = (new \ReflectionClass($model))->getShortName();
+        //Faz a conversão para o padrão SnakeCase Ex.: CastMember -> cast_member
+        return Str::snake($shortName);
+    }
+    protected function publish($routingKey, array $Data)
     {
         $message  = new Message(
             json_encode($Data),
@@ -88,15 +98,25 @@ class SyncModelObserver
                 'delivery_mode' => 2 // 2=persistent, 1= none-persistent
             ]
         );
-           // Sent a instance, its is a sincronized method
-           \Amqp::publish(
-               $routingKey,
-                $message,
-                [
+        // Sent a instance, its is a sincronized method
+        \Amqp::publish(
+            $routingKey,
+            $message,
+            [
                 'exchange_type' => 'topic',
                 'exchange' => 'amq.topic'
-                ]
-            );
+            ]
+        );
     }
-
+    public function reportException(array $params)
+    {
+        list(
+            'modelName' => $modelName,
+            'id' => $id,
+            'action' => $action,
+            'exception' => $exception
+        ) = $params;
+        $myexception  =  new \Exception("The model $modelName with ID $id not synced on $action", 0, $exception);
+        report($myexception);
+    }
 }
