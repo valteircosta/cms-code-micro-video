@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Traits\SerializeDateToIso8601;
+use App\Models\Traits\UploadFiles;
+use App\Models\Traits\Uuid;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Video extends Model
 {
-    use SoftDeletes, Traits\Uuid, Traits\UploadFiles;
+    use SoftDeletes, Uuid, UploadFiles, SerializeDateToIso8601;
 
     const RATING_LIST = ['L', '10', '12', '14', '16', '18'];
 
@@ -42,6 +45,7 @@ class Video extends Model
     ];
 
     public $incrementing = false;
+    protected $keyType = 'string';
     protected $hidden = ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
     public static $fileFields =  ['video_file', 'thumb_file', 'banner_file', 'trailer_file'];
 
@@ -128,7 +132,8 @@ class Video extends Model
     {
         return $this->belongsToMany(Genre::class)->withTrashed();
     }
-    public function castMembers(){
+    public function castMembers()
+    {
 
         return $this->belongsToMany(CastMember::class)->withTrashed();
     }

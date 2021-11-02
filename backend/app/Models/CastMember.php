@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Models;
+
 use App\ModelFilters\CastMemberFilter;
+use App\Models\Traits\SerializeDateToIso8601;
+use App\Models\Traits\Uuid;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CastMember extends Model
 {
-    use SoftDeletes, Traits\Uuid,Filterable ;
+    use SoftDeletes, Uuid, Filterable, SerializeDateToIso8601;
 
     const TYPE_DIRECTOR = 1;
     const TYPE_ACTOR = 2;
@@ -22,6 +25,7 @@ class CastMember extends Model
     protected $dates = ['deleted_at'];
     protected $casts = ['id' => 'string', 'name' => 'string', 'type' => 'integer'];
     public $incrementing = false;
+    protected $keyType = 'string';
 
     //Do filter in class using Filter
     public function modelFilter()
